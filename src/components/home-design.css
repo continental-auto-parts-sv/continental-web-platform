@@ -1,0 +1,590 @@
+@font-face {
+  font-family: "Volkswagen Text";
+  src: url("/fonts/VWText-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Volkswagen Text";
+  src: url("/fonts/VWText-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Homepage presentation, scoped to preserve the separate promotion pages. */
+.home-page {
+  font-family: "Volkswagen Text", system-ui, sans-serif;
+  --paper: #f5f5f7;
+  --muted: #68686d;
+}
+
+.home-page .container {
+  width: min(1280px, 90%);
+}
+
+.home-page .topbar {
+  background: #f5f5f7;
+  color: #68686d;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+}
+
+.home-page .topbar .container {
+  padding-block: 9px;
+}
+
+.home-page .header {
+  background: #fffffff0;
+  backdrop-filter: blur(24px) saturate(140%);
+  border-bottom: 0;
+  box-shadow: 0 1px 16px #00000005;
+}
+
+.home-page .header-inner {
+  height: 80px;
+}
+
+.home-page .header .continental-logo {
+  width: 190px;
+}
+
+.home-page .navigation {
+  font-size: 0.8125rem;
+  gap: 32px;
+}
+
+.home-page .button {
+  border-radius: 999px;
+  min-height: 48px;
+  padding: 15px 23px;
+  gap: 18px;
+  font-size: 0.875rem;
+}
+
+.home-page .button.small {
+  min-height: 42px;
+  padding: 12px 19px;
+  font-size: 0.75rem;
+}
+
+.home-page .button span {
+  font-size: 18px;
+}
+
+.home-page .button:hover {
+  transform: none;
+}
+
+.home-page .button:active,
+.home-page .category-card:active {
+  transform: scale(0.98);
+  transition: transform 80ms ease-out;
+}
+
+.home-page .hero {
+  min-height: 660px;
+  display: flex;
+  align-items: center;
+}
+
+.home-page .hero-content {
+  padding-block: 85px 95px;
+}
+
+.home-page .hero h1 {
+  font-size: clamp(3.5rem, 6.5vw, 6rem);
+  letter-spacing: -0.055em;
+  line-height: 1.04;
+  max-width: 760px;
+}
+
+.home-page .hero-shade {
+  background:
+    linear-gradient(90deg, #101113f0, #101113a6 37%, #10111308 76%),
+    linear-gradient(0deg, #10111355, transparent 45%);
+}
+
+.home-page .hero-description {
+  max-width: 370px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #d1d1d4;
+  margin-block: 28px 34px;
+}
+
+.home-page .hero-promotion-link {
+  margin-bottom: 34px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.home-page .text-link {
+  font-size: 0.875rem;
+  gap: 12px;
+  min-height: 44px;
+}
+
+.home-page .brands {
+  border-bottom: 0;
+}
+
+.home-page .brands-inner {
+  min-height: 150px;
+}
+
+.home-page .section {
+  padding-block: 100px;
+}
+
+.home-page .categories,
+.home-page .feature-section {
+  background: var(--paper);
+}
+
+.home-page .eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.home-page h2 {
+  font-size: clamp(2rem, 3.7vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+}
+
+.home-page .section-heading {
+  margin-bottom: 42px;
+}
+
+.home-page .section-heading > p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.home-page .category-grid {
+  gap: 16px;
+}
+
+.home-page .category-card {
+  position: relative;
+  padding: 30px 24px 24px;
+  border: 0;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 4px 20px #00000003;
+  transition:
+    transform 240ms ease,
+    box-shadow 240ms ease;
+}
+
+.home-page .category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px #00000009;
+}
+
+.home-page .category-number {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.home-page .category-card svg {
+  width: 120px;
+  height: 110px;
+  margin: 12px auto 30px;
+}
+
+.home-page .category-card h3 {
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.home-page .category-card p {
+  font-size: 0.75rem;
+  min-height: 38px;
+}
+
+.home-page .category-bottom {
+  border: 0;
+  margin-top: 20px;
+  padding-top: 0;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.home-page .category-bottom > span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+}
+
+.home-page .feature-section {
+  padding-bottom: 100px;
+}
+
+.home-page .feature-grid {
+  background: white;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.home-page .feature-copy {
+  padding: 48px;
+}
+
+.home-page .feature-copy h2 {
+  font-size: clamp(2rem, 3vw, 2.75rem);
+}
+
+.home-page .feature-copy > p:not(.eyebrow) {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.home-page .feature-copy .demo-label {
+  font-size: 0.75rem;
+}
+
+.home-page .feature-copy .text-link {
+  border: 0;
+  padding: 0;
+  color: var(--red);
+}
+
+.home-page .promotion-art {
+  min-height: 440px;
+}
+
+.home-page .promotion-badge {
+  border-radius: 999px;
+  padding: 12px 20px;
+  transform: none;
+}
+
+.home-page .inquiry-section {
+  background: #fff;
+  color: var(--ink);
+  padding-block: 100px;
+}
+
+.home-page .inquiry-grid {
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 64px;
+}
+
+.home-page .inquiry-grid > div:first-child {
+  top: 120px;
+}
+
+.home-page .inquiry-grid h2 span {
+  color: var(--muted);
+}
+
+.home-page .inquiry-grid > div > p:last-child,
+.home-page .eyebrow.light {
+  color: var(--muted);
+}
+
+.home-page .inquiry-grid > div > p:last-child {
+  font-size: 0.9375rem;
+}
+
+.home-page .inquiry-form {
+  min-width: 0;
+  padding: 32px;
+  border-radius: 28px;
+  border: 1px solid #e8e8eb;
+  box-shadow: 0 12px 48px #00000004;
+}
+
+.home-page .inquiry-form label,
+.home-page .inquiry-form .field-label,
+.home-page .choice-card .brand {
+  color: var(--ink);
+}
+
+.home-page .visual-fieldset legend,
+.home-page .inquiry-form .field-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.home-page .inquiry-form .choice-card {
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.home-page .inquiry-form .choice-card:hover {
+  border-color: #bcbcc0;
+}
+
+.home-page .inquiry-form .choice-card:has(input:checked) {
+  background: #e5243208;
+  border-color: var(--red);
+  box-shadow: inset 0 0 0 1px var(--red);
+}
+
+.home-page .inquiry-form input,
+.home-page .inquiry-form select {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: #dedee2;
+  border-radius: 12px;
+  min-height: 48px;
+  font-size: 1rem;
+}
+
+.home-page .inquiry-form .choice-card input {
+  min-height: 0;
+}
+
+.home-page .inquiry-form input::placeholder,
+.home-page .vehicle-details small,
+.home-page .year-picker summary {
+  color: var(--muted);
+}
+
+.home-page .year-calendar {
+  background: #fff;
+  border-color: #dedee2;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px #0002;
+}
+
+.home-page .year-calendar button {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: transparent;
+  border-radius: 8px;
+  min-height: 40px;
+}
+
+.home-page .year-grid button:hover,
+.home-page .year-grid button[aria-pressed="true"] {
+  background: var(--red);
+  color: #fff;
+}
+
+.home-page .inquiry-result {
+  background: var(--paper);
+  border-radius: 16px;
+}
+
+.home-page footer {
+  background: var(--paper);
+}
+
+.home-page .footer-bottom {
+  font-size: 0.6875rem;
+}
+
+@media (max-width: 1050px) {
+  .home-page .category-grid {
+    gap: 12px;
+  }
+
+  .home-page .category-card {
+    padding-inline: 16px;
+  }
+
+  .home-page .inquiry-grid {
+    gap: 32px;
+  }
+
+  .home-page .inquiry-form {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-page .header-inner {
+    height: 72px;
+    gap: 12px;
+  }
+
+  .home-page .header .continental-logo {
+    width: 150px;
+  }
+
+  .home-page .header-cta {
+    display: none;
+  }
+
+  .home-page .menu-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    margin-left: auto;
+    color: var(--ink);
+  }
+
+  .home-page .navigation {
+    top: 72px;
+    padding: 20px 5%;
+    gap: 8px;
+  }
+
+  .home-page .hero {
+    min-height: 640px;
+  }
+
+  .home-page .hero-content {
+    padding-block: 64px;
+  }
+
+  .home-page .hero h1 {
+    font-size: clamp(3.25rem, 10vw, 4.75rem);
+  }
+
+  .home-page .hero-shade {
+    background: linear-gradient(90deg, #101113f0, #101113b0 60%, #10111360);
+  }
+
+  .home-page .hero-description {
+    max-width: 310px;
+  }
+
+  .home-page .brands-inner {
+    min-height: 140px;
+  }
+
+  .home-page .section,
+  .home-page .inquiry-section {
+    padding-block: 64px;
+  }
+
+  .home-page .category-card {
+    border-radius: 20px;
+    padding: 22px 18px;
+  }
+
+  .home-page .category-card svg {
+    width: 96px;
+    height: 90px;
+    margin-block: 8px 24px;
+  }
+
+  .home-page .category-card:last-child svg {
+    margin: auto;
+  }
+
+  .home-page .feature-section {
+    padding-bottom: 64px;
+  }
+
+  .home-page .feature-copy {
+    padding: 30px;
+  }
+
+  .home-page .promotion-art {
+    min-height: 320px;
+  }
+
+  .home-page .inquiry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-page .inquiry-form {
+    padding: 24px 16px;
+    border-radius: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .category-card:hover,
+  .home-page .category-card:active,
+  .home-page .button:active {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .home-page .header {
+    background: #fff;
+    backdrop-filter: none;
+  }
+
+  .home-page .hero-promotion-link {
+    background: #202123;
+    color: #fff;
+    border-color: #aaa;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .home-page .category-card,
+  .home-page .inquiry-form .choice-card,
+  .home-page .inquiry-form {
+    border: 1px solid #747477;
+  }
+}
+
+.home-page .navigation a[aria-current="page"] {
+  color: var(--red);
+}
+
+.home-page .page-title {
+  max-width: 900px;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+.home-page .about-description {
+  max-width: 640px;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-block: 28px 56px;
+}
+
+.home-page .about-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.home-page .about-panels article {
+  padding: 40px;
+  border-radius: 24px;
+  background: var(--paper);
+}
+
+.home-page .about-panels h2 {
+  font-size: 1.75rem;
+}
+
+.home-page .about-panels p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-block: 20px;
+}
+
+@media (max-width: 760px) {
+  .home-page .about-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .home-page .about-panels article {
+    padding: 28px;
+  }
+}

@@ -101,3 +101,37 @@ describe("visual vehicle selector", () => {
     expect(screen.queryByRole("status")).toBeNull();
   });
 });
+
+describe("utility strip overscroll", () => {
+  it("stays hidden until an upward wheel attempt at the top", () => {
+    vi.stubGlobal("scrollY", 200);
+    const { container } = render(<HomeExperience hero={<div />} />);
+    const strip = container.querySelector(".topbar")!;
+    expect(strip.getAttribute("aria-hidden")).toBe("true");
+
+    fireEvent.wheel(window, { deltaY: -40 });
+    expect(strip.getAttribute("aria-hidden")).toBe("true");
+    vi.stubGlobal("scrollY", 0);
+    fireEvent.scroll(window);
+    expect(strip.getAttribute("aria-hidden")).toBe("true");
+
+    fireEvent.wheel(window, { deltaY: -40 });
+    expect(strip.getAttribute("aria-hidden")).toBe("false");
+    fireEvent.wheel(window, { deltaY: 40 });
+    expect(strip.getAttribute("aria-hidden")).toBe("true");
+  });
+
+  it("reveals on a downward touch pull at the top and hides after scrolling", () => {
+    vi.stubGlobal("scrollY", 0);
+    const { container } = render(<HomeExperience hero={<div />} />);
+    const strip = container.querySelector(".topbar")!;
+
+    fireEvent.touchStart(window, { touches: [{ clientY: 100 }] });
+    fireEvent.touchMove(window, { touches: [{ clientY: 130 }] });
+    expect(strip.getAttribute("aria-hidden")).toBe("false");
+    fireEvent.touchEnd(window);
+    vi.stubGlobal("scrollY", 50);
+    fireEvent.scroll(window);
+    expect(strip.getAttribute("aria-hidden")).toBe("true");
+  });
+});

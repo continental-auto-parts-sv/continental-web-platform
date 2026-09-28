@@ -1,0 +1,83 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { ContinentalLogo } from "./continental-logo";
+import { siteConfig } from "../lib/site";
+
+import "./site-header.css";
+
+export function SiteHeader() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    function dismiss(event: PointerEvent) {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+
+    function escape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    }
+
+    document.addEventListener("pointerdown", dismiss);
+    document.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("pointerdown", dismiss);
+      document.removeEventListener("keydown", escape);
+    };
+  }, [menuOpen]);
+
+  return (
+    <header className="header site-header" ref={headerRef}>
+      <div className="container header-inner">
+        <ContinentalLogo />
+        <nav
+          id="site-navigation"
+          className={menuOpen ? "navigation open" : "navigation"}
+          aria-label="Navegación principal"
+        >
+          {siteConfig.navigation.map(({ label, href }) => (
+            <Link
+              key={href}
+              href={href}
+              aria-current={
+                pathname === href || pathname?.startsWith(href + "/")
+                  ? "page"
+                  : undefined
+              }
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <Link className="button small header-cta" href="/contacto">
+          Cotizar repuestos <span aria-hidden="true">↗</span>
+        </Link>
+        <button
+          className="menu-toggle"
+          type="button"
+          ref={toggleRef}
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={menuOpen}
+          aria-controls="site-navigation"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span aria-hidden="true">{menuOpen ? "✕" : "☰"}</span>
+        </button>
+      </div>
+    </header>
+  );
+}

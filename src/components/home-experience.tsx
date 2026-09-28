@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 
+import "./home-design.css";
+
+import { SiteHeader } from "./site-header";
 import { ContinentalLogo } from "./continental-logo";
 import { PartIcon } from "./part-icon";
 import { BrandMarquee } from "./brand-marquee";
@@ -25,11 +28,60 @@ function Arrow() {
 export function HomeExperience({
   hero,
   promotion,
+  page = "home",
 }: {
-  hero: ReactNode;
+  hero?: ReactNode;
+  page?: "home" | "products" | "contact";
   promotion?: Promotion;
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [showTopbar, setShowTopbar] = useState(false);
+
+  useEffect(() => {
+    let touchY: number | null = null;
+    let touchStartedAtTop = false;
+
+    function handleScroll() {
+      if (window.scrollY > 0) setShowTopbar(false);
+    }
+
+    function handleWheel(event: WheelEvent) {
+      if (event.ctrlKey || event.deltaY === 0) return;
+      setShowTopbar(window.scrollY <= 0 && event.deltaY < 0);
+    }
+
+    function handleTouchStart(event: TouchEvent) {
+      touchY = event.touches.length === 1 ? event.touches[0].clientY : null;
+      touchStartedAtTop = window.scrollY <= 0;
+    }
+
+    function handleTouchMove(event: TouchEvent) {
+      if (touchY === null || event.touches.length !== 1) return;
+      const distance = event.touches[0].clientY - touchY;
+      if (Math.abs(distance) < 12) return;
+      setShowTopbar(touchStartedAtTop && window.scrollY <= 0 && distance > 0);
+      touchY = event.touches[0].clientY;
+    }
+
+    function handleTouchEnd() {
+      touchY = null;
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("touchcancel", handleTouchEnd);
+    };
+  }, []);
+
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [summary, setSummary] = useState("");
@@ -58,11 +110,14 @@ export function HomeExperience({
   }
 
   return (
-    <>
+    <div
+      className={page === "home" ? "home-page home-landing" : "home-page"}
+      data-topbar-visible={showTopbar}
+    >
       <a className="skip-link" href="#contenido">
         Saltar al contenido
       </a>
-      <div className="topbar">
+      <div className="topbar" aria-hidden={!showTopbar}>
         <div className="container">
           <span>ESPECIALISTAS EN REPUESTOS EUROPEOS</span>
           <span className="location">
@@ -70,120 +125,102 @@ export function HomeExperience({
           </span>
         </div>
       </div>
-      <header className="header">
-        <div className="container header-inner">
-          <ContinentalLogo href="#inicio" />
-          <nav
-            className={menuOpen ? "navigation open" : "navigation"}
-            aria-label="Navegación principal"
-          >
-            {[
-              ["Inicio", "inicio"],
-              ["Categorías", "categorias"],
-              ["Marcas", "marcas"],
-              ["Promociones", "/promociones"],
-            ].map(([label, id]) => (
-              <Link
-                key={id}
-                href={id.startsWith("/") ? id : `#${id}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
-          <a className="button small header-cta" href="#consulta">
-            Cotizar repuestos <Arrow />
-          </a>
-          <button
-            className="menu-toggle"
-            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? "✕" : "☰"}
-          </button>
-        </div>
-      </header>
+      <SiteHeader />
       <main id="contenido">
-        <section className="hero" id="inicio">
-          {hero}
-          <div className="hero-shade" />
-          <div className="container hero-content">
-            <Link className="hero-promotion-link" href="/promociones">
-              <span className="promotion-dot" aria-hidden="true" />
-              <span>Explora nuestras promociones</span>
-              <span className="promotion-chevron" aria-hidden="true">
-                ›
-              </span>
-            </Link>
-            <h1>
-              Tu auto.
-              <br />
-              Siempre <em>listo.</em>
-            </h1>
-            <p className="hero-description">
-              Repuestos para Volkswagen, Audi, SEAT y Porsche. Encuentra la
-              pieza que necesitas.
-            </p>
-            <div className="hero-actions">
-              <a className="button" href="#categorias">
-                Encuentra tu repuesto <Arrow />
-              </a>
-              <a className="text-link light-link" href="#consulta">
-                Hablemos de tu auto <span aria-hidden="true">→</span>
-              </a>
-            </div>
-          </div>
-        </section>
-        <BrandMarquee
-          onChoose={(name) => {
-            setBrand(name);
-            setSummary("");
-          }}
-        />
-        <section className="section categories" id="categorias">
-          <div className="container">
-            <div className="section-heading">
-              <div>
-                <p className="eyebrow">CADA PIEZA CUENTA</p>
-                <h2>La pieza que necesitas.</h2>
-              </div>
-              <p>
-                Del mantenimiento diario al siguiente proyecto.
-                <br />
-                Encuentra el punto de partida.
-              </p>
-            </div>
-            <div className="category-grid">
-              {categories.map((item, index) => (
-                <button
-                  className="category-card"
-                  key={item.name}
-                  onClick={() => chooseCategory(item.name)}
-                >
-                  <span className="category-number">0{index + 1}</span>
-                  <PartIcon kind={item.icon} />
-                  <h3>{item.name}</h3>
-                  <p>{item.detail}</p>
-                  <span className="category-bottom">
-                    Explorar <Arrow />
+        {page === "home" && (
+          <>
+            <section className="hero" id="inicio">
+              {hero}
+              <div className="hero-shade" />
+              <div className="container hero-content">
+                <Link className="hero-promotion-link" href="/promociones">
+                  <span className="promotion-dot" aria-hidden="true" />
+                  <span>Explora nuestras promociones</span>
+                  <span className="promotion-chevron" aria-hidden="true">
+                    ›
                   </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-        {promotion && <PromotionFeature promotion={promotion} />}
+                </Link>
+                <h1>
+                  Tu auto.
+                  <br />
+                  Siempre <em>listo.</em>
+                </h1>
+                <p className="hero-description">
+                  Repuestos para Volkswagen, Audi, SEAT y Porsche. Encuentra la
+                  pieza que necesitas.
+                </p>
+                <div className="hero-actions">
+                  <a className="button" href="#categorias">
+                    Encuentra tu repuesto <Arrow />
+                  </a>
+                  <a className="text-link light-link" href="#consulta">
+                    Hablemos de tu auto <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </section>
+            <BrandMarquee
+              onChoose={(name) => {
+                setBrand(name);
+                setSummary("");
+              }}
+            />
+          </>
+        )}
+        {page !== "contact" && (
+          <>
+            <section className="section categories" id="categorias">
+              <div className="container">
+                <div className="section-heading">
+                  <div>
+                    <p className="eyebrow">CADA PIEZA CUENTA</p>
+                    {page === "products" ? (
+                      <h1 className="page-title">La pieza que necesitas.</h1>
+                    ) : (
+                      <h2>La pieza que necesitas.</h2>
+                    )}
+                  </div>
+                  <p>
+                    Del mantenimiento diario al siguiente proyecto.
+                    <br />
+                    Encuentra el punto de partida.
+                  </p>
+                </div>
+                <div className="category-grid">
+                  {categories.map((item, index) => (
+                    <button
+                      className="category-card"
+                      key={item.name}
+                      onClick={() => chooseCategory(item.name)}
+                    >
+                      <span className="category-number">0{index + 1}</span>
+                      <PartIcon kind={item.icon} />
+                      <h3>{item.name}</h3>
+                      <p>{item.detail}</p>
+                      <span className="category-bottom">
+                        Explorar <Arrow />
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+            {promotion && <PromotionFeature promotion={promotion} />}
+          </>
+        )}
         <section className="inquiry-section" id="consulta">
           <div className="container inquiry-grid">
             <div>
               <p className="eyebrow light">ENCUENTRA TU REPUESTO</p>
-              <h2>
-                Encontremos
-                <br />
-                <span>lo que buscas.</span>
-              </h2>
+              {page === "contact" ? (
+                <h1 className="page-title">Hablemos de tu auto.</h1>
+              ) : (
+                <h2>
+                  Encontremos
+                  <br />
+                  <span>lo que buscas.</span>
+                </h2>
+              )}
               <p>
                 Dinos qué manejas y qué necesitas.
                 <br />
@@ -264,13 +301,16 @@ export function HomeExperience({
       <footer>
         <div className="container">
           <div className="footer-main">
-            <ContinentalLogo href="#inicio" />
+            <ContinentalLogo />
             <p>
               Tu auto nos mueve.
               <br />
               Compromiso contigo.
             </p>
-            <a href="#inicio" className="text-link">
+            <a
+              href={page === "home" ? "#inicio" : "#contenido"}
+              className="text-link"
+            >
               Volver arriba ↑
             </a>
           </div>
@@ -281,6 +321,6 @@ export function HomeExperience({
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { HeroSlideshow } from "@/components/hero-slideshow";
 
 import { HomeExperience } from "@/components/home-experience";
 
@@ -10,16 +10,7 @@ export default async function HomePage() {
   return (
     <HomeExperience
       promotion={featuredPromotion(content)}
-      hero={
-        <Image
-          src="/images/audi-hero.webp"
-          alt="Automóvil europeo plateado en un espacio de arquitectura contemporánea"
-          fill
-          priority
-          sizes="100vw"
-          className="hero-image"
-        />
-      }
+      hero={<HeroSlideshow />}
     />
   );
 }

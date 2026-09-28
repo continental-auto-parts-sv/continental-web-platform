@@ -174,7 +174,12 @@ relación de aspecto. Procedencia:
 | `audi.png`                   | `02 Logos Marcas Autos/AUDI-Logo.png`                                                     |
 | `porsche.png`                | `02 Logos Marcas Autos/Porsche-Logo.png`                                                  |
 
-Pendientes: tipografía (la página aún usa Arial), paleta provisional y resolución
+La portada usa Volkswagen Text Regular/Bold, copiados sin modificar desde
+`01 Logos Continental Auto Parts/Fuentes CAP/` a `public/fonts/`.
+Las páginas de promociones conservan Arial. Formula 1 Display queda pendiente
+para una aplicación editorial específica.
+
+Pendientes: tipografía de promociones, paleta provisional y resolución
 del rojo principal, recurso de SEAT e incorporación del catálogo cuando se trabaje
 la línea de transporte pesado. El uso de logos oficiales no implica que toda la
 página ya cumpla el manual.

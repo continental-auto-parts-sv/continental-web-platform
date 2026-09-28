@@ -1,0 +1,17 @@
+/* Keep direction changes from shifting the document's scroll position. */
+.home-page[data-topbar-visible] > .topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 21;
+  visibility: hidden;
+  transform: translateY(-100%);
+}
+
+.home-page[data-topbar-visible="true"] > .topbar {
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.home-page[data-topbar-visible="true"] > .site-header {
+  top: 32px;
+}

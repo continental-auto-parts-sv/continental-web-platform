@@ -142,3 +142,55 @@ before future design or content work. It documents approved variants, typography
 color discrepancies, source pages, and the remaining differences from the website.
 `resources/brand/manifest.json` records all 46 originals and their SHA-256 hashes.
 These source files are internal project references, not public website downloads.
+
+
+## Hero photographs — source and rights record
+
+The four hero slideshow photographs were supplied by the project owner as JPEG
+attachments on 2026-09-28, with the Unsplash URLs below. These URLs are preserved
+as supplied for future attribution and legal review. The website uses local
+WebP derivatives (maximum width 2200px, quality 85); responsive cropping and
+dark overlays are applied by CSS. Original attachment hashes are recorded below.
+
+| Photo / local derivative | Source supplied by owner | Photographer shown on source page |
+| --- | --- | --- |
+| Audi — `public/images/hero/audi.webp` | [Unsplash](https://unsplash.com/photos/the-interior-of-a-car-with-a-steering-wheel-and-dashboard-FS_xLSg8lKI) | Александр Бендус (@alexandr_bendus) |
+| Volkswagen — `public/images/hero/volkswagen.webp` | [Unsplash](https://unsplash.com/photos/the-interior-of-a-car-with-a-steering-wheel-and-dashboard-FS_xLSg8lKI) | Unresolved: supplied URL duplicates Audi |
+| SEAT — `public/images/hero/seat.webp` | [Unsplash](https://unsplash.com/photos/black-bmw-m-3-parked-near-white-building-J_Xo43mn5tY) | Marcel Strauß (@martzzl) |
+| Porsche — `public/images/hero/porsche.webp` | [Unsplash](https://unsplash.com/photos/a-black-sports-car-parked-in-front-of-a-garage-JUiftQpriyo) | Nejc Soklič |
+
+Source pages checked on 2026-09-28 display the Unsplash License for the Audi,
+SEAT and Porsche links. This is a provenance record, not a determination of all
+usage rights or a claim of endorsement by the vehicle brands. For future review,
+retain the applicable [Unsplash license](https://unsplash.com/license) and any
+permission/release records with the project.
+
+Outstanding source issues:
+- **Volkswagen:** the supplied URL points to the Audi interior, not the attached
+  red Volkswagen. Its correct source and photographer remain unverified.
+- **SEAT:** the supplied page title/slug says “black bmw m 3,” while the attachment
+  shows a SEAT and the page includes a SEAT tag. Preserve the supplied link;
+  the title alone is not reliable vehicle identification.
+- Download dates and separate permission/release records were not supplied.
+
+### Attachment fingerprints
+
+SHA-256 hashes identify the exact input files and the shipped derivatives.
+They do not establish ownership or license permission.
+
+- **Audi**
+  - Input: `codex-clipboard-403f6493-2324-41da-8991-ec9fc493978c.jpg`
+  - Input SHA-256: `2c7535cb096aa09d1ff8e7f822d542c9cbbe193f335d370cbe005b782bdf5ec9`
+  - WebP SHA-256: `1fd305d60679b345bcfb6bc6128bf19ea7ff0285bea2ca8c1c6454c29271ed73`
+- **Volkswagen**
+  - Input: `codex-clipboard-d01cbdc9-bd41-4c75-8c89-9ad9e89b597b.jpg`
+  - Input SHA-256: `03eff896ddd94766cb36015e6bc189ee881a4ee3fecab7aed0292044ee0bb1fd`
+  - WebP SHA-256: `aa98fb491d945432c18c02a22e077876bf1c86ff8661e51c51045b41da720162`
+- **SEAT**
+  - Input: `codex-clipboard-ca332e41-a3ea-4c90-b50f-d6afb68e22f1.jpg`
+  - Input SHA-256: `b42ca819e366148ef96fb1f0592bfc375b5d6ebd168d4df3a7007b3f230562da`
+  - WebP SHA-256: `2a7bd5b63136e86ddbe026e1f53b33dc9f6aaab40ecd07216beb4cb1ba242384`
+- **Porsche**
+  - Input: `codex-clipboard-f6f1984b-d96c-47f9-8827-77bd36ad2fa9.jpg`
+  - Input SHA-256: `5afde994fb82eff9c0b61c189f4cc627826c9f6f3df513a23405e1a29d878e29`
+  - WebP SHA-256: `33700a067a2c9700e667b36801da3da75afc68eb1e4f2ab3882ffb3d47827f3a`
