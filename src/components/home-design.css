@@ -91,6 +91,7 @@
 }
 
 .home-page .hero-content {
+  width: min(1600px, 92%);
   padding-block: 85px 95px;
 }
 
