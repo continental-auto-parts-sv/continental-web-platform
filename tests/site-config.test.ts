@@ -10,11 +10,9 @@ describe("site navigation", () => {
     expect(routes.every((route) => route.startsWith("/"))).toBe(true);
     expect(routes).toEqual(
       expect.arrayContaining([
-        "/",
-        "/nosotros",
-        "/marcas",
-        "/categorias",
-        "/blog",
+        "/promociones",
+        "/quienes-somos",
+        "/productos",
         "/contacto",
       ]),
     );

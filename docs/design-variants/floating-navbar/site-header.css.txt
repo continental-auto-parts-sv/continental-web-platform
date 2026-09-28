@@ -1,0 +1,238 @@
+/* The floating surface owns its material; navigation stays unblurred. */
+.home-page .site-header {
+  top: 12px;
+  width: min(1320px, calc(100% - 32px));
+  margin: 12px auto;
+  border: 1px solid #e5e5e9;
+  border-radius: 24px;
+  background: #fffffff2;
+  backdrop-filter: blur(24px) saturate(140%);
+  box-shadow:
+    0 2px 4px #00000003,
+    0 10px 32px #00000008;
+}
+
+.home-page .site-header .header-inner {
+  width: 100%;
+  height: 78px;
+  padding-inline: 20px;
+  gap: 20px;
+}
+
+.home-page .site-header .continental-logo {
+  width: 176px;
+}
+
+.home-page .site-header .navigation {
+  align-items: center;
+  gap: 4px;
+}
+
+.home-page .site-header .navigation a {
+  position: relative;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  color: #57575c;
+  white-space: nowrap;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.home-page .site-header .navigation a:hover {
+  color: var(--ink);
+  background: #f5f5f7;
+}
+
+.home-page .site-header .navigation a[aria-current="page"] {
+  color: var(--ink);
+  background: #eeeef1;
+  font-weight: 700;
+}
+
+.home-page .site-header .header-cta {
+  gap: 14px;
+  padding: 10px 12px 10px 18px;
+}
+
+.home-page .site-header .header-cta > span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffffff24;
+  font-size: 18px;
+}
+
+.site-header .nav-link-arrow {
+  display: none;
+}
+
+.home-page .site-header :is(a, button):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1000px) {
+  .home-page .site-header {
+    top: 8px;
+    width: calc(100% - 24px);
+    margin-block: 8px;
+    border-radius: 20px;
+  }
+
+  .home-page .site-header .header-inner {
+    height: 70px;
+    padding-inline: 12px;
+  }
+
+  .home-page .site-header .continental-logo {
+    width: 152px;
+  }
+
+  .home-page .site-header .header-cta {
+    display: none;
+  }
+
+  .home-page .site-header .menu-toggle {
+    display: grid;
+    place-items: center;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid #e8e8eb;
+    border-radius: 50%;
+    background: #f5f5f7;
+    color: var(--ink);
+  }
+
+  .site-header .menu-icon {
+    position: relative;
+    width: 18px;
+    height: 14px;
+  }
+
+  .site-header .menu-icon > span {
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 180ms ease;
+  }
+
+  .site-header .menu-icon > span:first-child {
+    top: 3px;
+  }
+
+  .site-header .menu-icon > span:last-child {
+    top: 10px;
+  }
+
+  .site-header [aria-expanded="true"] .menu-icon > span:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .site-header [aria-expanded="true"] .menu-icon > span:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+
+  .home-page .site-header .navigation {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    padding: 10px;
+    border: 1px solid #e5e5e9;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 16px 40px #00000012;
+  }
+
+  .home-page .site-header .navigation.open {
+    display: grid;
+    gap: 4px;
+  }
+
+  .home-page .site-header .navigation a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+
+  .site-header .nav-link-arrow {
+    display: block;
+    color: #747477;
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .home-page .site-header {
+    background: #fff;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .home-page .site-header,
+  .home-page .site-header .navigation.open {
+    border-color: #747477;
+  }
+
+  .home-page .site-header .navigation a[aria-current="page"] {
+    outline: 1px solid currentColor;
+  }
+}
+
+/* Let the hero image continue behind the homepage's sticky navbar. */
+.home-landing {
+  --header-overlap: 104px;
+}
+
+.home-landing > main {
+  margin-top: calc(-1 * var(--header-overlap));
+}
+
+.home-landing .hero {
+  padding-top: var(--header-overlap);
+  min-height: calc(660px + var(--header-overlap));
+}
+
+@media (max-width: 1000px) {
+  .home-landing {
+    --header-overlap: 88px;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-landing .hero {
+    min-height: calc(640px + var(--header-overlap));
+  }
+}
+
+/* Keep direction changes from shifting the document's scroll position. */
+.home-page[data-topbar-visible] > .topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 21;
+  visibility: hidden;
+  transform: translateY(-100%);
+}
+
+.home-page[data-topbar-visible="true"] > .topbar {
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.home-page[data-topbar-visible="true"] > .site-header {
+  top: 44px;
+}

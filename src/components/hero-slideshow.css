@@ -1,0 +1,113 @@
+.hero-slides {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background: #101113;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hero-slide[data-active="true"] {
+  opacity: 1;
+}
+
+.hero-slide-image {
+  object-fit: cover;
+  object-position: center 60%;
+}
+
+.hero-slide-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 5%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 14px;
+  min-height: 36px;
+  gap: 6px;
+  border: 1px solid #ffffff35;
+  border-radius: 999px;
+  background: #101113cc;
+}
+
+.hero-slide-controls button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.hero-slide-indicator {
+  position: relative;
+  display: block;
+  width: 64px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ffffff55;
+}
+
+.hero-slide-progress {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  border-radius: inherit;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.hero-slide-controls .hero-slide-toggle > span {
+  width: auto;
+  height: auto;
+  background: none;
+  font-size: 12px;
+}
+
+.hero-slide-controls button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+
+@media (max-width: 760px) {
+  .hero-slide-volkswagen {
+    object-position: 65% center;
+  }
+
+  .hero-slide-seat,
+  .hero-slide-porsche {
+    object-position: 60% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide {
+    transition: none;
+  }
+
+  .hero-slide-controls .hero-slide-indicator {
+    background: #fff;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-slide-controls {
+    opacity: 0.15;
+    transition: opacity 220ms ease;
+  }
+
+  .hero-slide-controls[data-near="true"],
+  .hero-slide-controls:hover,
+  .hero-slide-controls:focus-within {
+    opacity: 1;
+  }
+}

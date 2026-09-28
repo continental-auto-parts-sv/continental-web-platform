@@ -1,13 +1,16 @@
-export default function HomePage() {
+import { HeroSlideshow } from "@/components/hero-slideshow";
+
+import { HomeExperience } from "@/components/home-experience";
+
+import { getPromotionContent } from "@/lib/promotion-content";
+import { featuredPromotion } from "@/lib/promotions";
+
+export default async function HomePage() {
+  const content = await getPromotionContent();
   return (
-    <main>
-      <section className="welcome" aria-labelledby="welcome-title">
-        <p className="eyebrow">Sitio oficial</p>
-        <h1 id="welcome-title">Continental Auto Parts SV</h1>
-        <p className="summary">
-          La nueva experiencia digital está en construcción.
-        </p>
-      </section>
-    </main>
+    <HomeExperience
+      promotion={featuredPromotion(content)}
+      hero={<HeroSlideshow />}
+    />
   );
 }

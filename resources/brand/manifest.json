@@ -1,0 +1,388 @@
+{
+  "source": "/Users/carlosgonzalez/Desktop/Projects/Continental Auto Parts/Recursos Oficiales",
+  "importedOn": "2026-09-27",
+  "files": [
+    {
+      "path": "01 Logos Continental Auto Parts/Fuentes CAP/Formula1-Bold_web.ttf",
+      "bytes": 69536,
+      "sha256": "1e205a75c9d035833c7204fd84fe2ad780ebedcee98a0432b15a2791b3ae50f6"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/Fuentes CAP/VWText-Bold.otf",
+      "bytes": 86924,
+      "sha256": "ec54826cf6e641e55bf3b1126eb975c1bb2c044c590e255b3eb6a6285e0d5fb3"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/Fuentes CAP/VWText-Regular.otf",
+      "bytes": 83324,
+      "sha256": "5aff591553be085b811255f7275c09cab65c97c87e3086d10088c32105e1af26"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/Isotipo.png",
+      "bytes": 17884,
+      "sha256": "7defb1c1e38848dc455b64b2137e0dd5c510571c6458e404818e33c383b3680b",
+      "format": "PNG",
+      "width": 515,
+      "height": 515,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-horizontal1.png",
+      "bytes": 38108,
+      "sha256": "bffcf9855e8a55ee491eb7f4fbe0e21eed6ce5f5d3b036f8402049118d52797d",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-horizontal2.png",
+      "bytes": 38620,
+      "sha256": "e77723c4a22b43d7b3f4cb0eb3108cede6f51b3790cfefe94e5ed357ffad9ce8",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-horizontal3.png",
+      "bytes": 36751,
+      "sha256": "b3d3a9924bd1ced660896b24c196390cfd33b6322aa0b8e387cbd1298c031c19",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-horizontal4.png",
+      "bytes": 37507,
+      "sha256": "bfd55723b8400d9b5f9d6ced7445c1a2cb392a95c224ca1865ae156e184d48a7",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-vertical1.png",
+      "bytes": 59452,
+      "sha256": "b897bee90d3225753705f0975b96468a202f617fd174f4384f8fe4048aebb35f",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-vertical2.png",
+      "bytes": 60607,
+      "sha256": "f7bccfcee223b4244df624da3acc24f0e0dc1e9eb0f1fa01d886ec79055f42e5",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-vertical3.png",
+      "bytes": 57141,
+      "sha256": "b437dcb7f671af11bbb1a3c1d667717c5aa7d2e52daeafed2885353232bc9904",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/JPG LOGO CAP/logo-continental-autoparts-vertical4.png",
+      "bytes": 58125,
+      "sha256": "54b30732e9817aef51e5b685952b7024d00e15dada80b447c2989d25a63650a8",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGB"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/Isotipo-blanco.png",
+      "bytes": 14283,
+      "sha256": "53422cc859529dbd82b32f1192ec4d655e591ad71a1e24b3d488de2a37436367",
+      "format": "PNG",
+      "width": 515,
+      "height": 515,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/Isotipo.png",
+      "bytes": 16276,
+      "sha256": "11dfff673e2c25ceb2c0de80bf8dd45691019356b720c3e64d9abf2e0fdf7084",
+      "format": "PNG",
+      "width": 515,
+      "height": 515,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-horizontal1.png",
+      "bytes": 35487,
+      "sha256": "5349dcc8a59aaa1bebf2a7b887d3c1f71093b4f4bd77cb71cfe980d29f417267",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-horizontal2.png",
+      "bytes": 34149,
+      "sha256": "1e8c3c10913cb2e76209479d44dd5939e036dc9e51e92c6d62b9e53e69ffda3e",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-horizontal3.png",
+      "bytes": 34812,
+      "sha256": "f210446892818a0f43feea2642c737dabc02fb5b67574711050a9f0b3b19a9a9",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-horizontal4.png",
+      "bytes": 33642,
+      "sha256": "85d5b759b8b3840ba32be8561573269eed3d5753b2228d12af499dbe12364819",
+      "format": "PNG",
+      "width": 1744,
+      "height": 587,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-vertical1.png",
+      "bytes": 56186,
+      "sha256": "3a4c4f0cad3f1497aefb2775a162b96a4059d5dd0bce2af0732fbeb5048e0786",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-vertical2.png",
+      "bytes": 54828,
+      "sha256": "08bd7cc7eeb5e28000f2cb820ff067986669a1cfa80a76c29866ea49ea69fc43",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-vertical3.png",
+      "bytes": 55110,
+      "sha256": "2090428f61d41e0ee1cf467126cf3a760c0a2ccdba22ec9beb5e1ed252adaf3f",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/PNG LOGO CAP/logo-continental-autoparts-vertical4.png",
+      "bytes": 53542,
+      "sha256": "3cd62aa56838283bfa9f553b4d655c9707a6f14cad55f4f4c00dc1b4755e6190",
+      "format": "PNG",
+      "width": 1744,
+      "height": 1348,
+      "mode": "RGBA"
+    },
+    {
+      "path": "01 Logos Continental Auto Parts/logo continental autoparts.ai",
+      "bytes": 691782,
+      "sha256": "2d0df1b4d8e0bf94e36b75afab82d70f6900eee12e0cf8d62e7d2b027c85e8f9"
+    },
+    {
+      "path": "02 Logos Marcas Autos/AUDI-Logo.png",
+      "bytes": 400795,
+      "sha256": "d55a7affb3dd97ee880b85eba55c33f4b4315b2a4ccb93a65dc009b4f15b04e1",
+      "format": "PNG",
+      "width": 3051,
+      "height": 1081,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02 Logos Marcas Autos/BMW-Logo.png",
+      "bytes": 532297,
+      "sha256": "31dfa4b85d6c5f094aa556c68052b6f02f5308a30c592d6ad590bfb8cf70b9d5",
+      "format": "PNG",
+      "width": 2500,
+      "height": 2500,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02 Logos Marcas Autos/Logos Marcas de Autos.ai",
+      "bytes": 4478462,
+      "sha256": "cc5058de07597050d21c76e8375959b40510231b6dd20abc2f5bd57baada1cf3"
+    },
+    {
+      "path": "02 Logos Marcas Autos/Mercedes-Logo.png",
+      "bytes": 312925,
+      "sha256": "543bf6ecfe9c6b0dea789eff41454f3706eda39f1d25c193ccb036e04370c71d",
+      "format": "PNG",
+      "width": 1200,
+      "height": 1200,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02 Logos Marcas Autos/Porsche-Logo.png",
+      "bytes": 1421804,
+      "sha256": "bd6670c69e6a3f3cf8a0f59617da38c09116d696d1fae985b7c3c14906ef0dde",
+      "format": "PNG",
+      "width": 2500,
+      "height": 2500,
+      "mode": "RGBA"
+    },
+    {
+      "path": "02 Logos Marcas Autos/Volkswagen-Logo.png",
+      "bytes": 564918,
+      "sha256": "68c81633da62ae014652994190894dfa7c4f72296673ba7888bd3f4e2cbe9920",
+      "format": "PNG",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/Blue Print.png",
+      "bytes": 1128201,
+      "sha256": "da0036a5c6a8768913201d0cbbb694d29360b96f3a913f0b5bf80572e221e096",
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/Bosch.png",
+      "bytes": 43486,
+      "sha256": "ae1cdf936df7f92390ea3044e8cfd5a18378758ea0f5dac187328035eb38b8f3",
+      "format": "PNG",
+      "width": 800,
+      "height": 189,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/Febi Blistein.png",
+      "bytes": 63117,
+      "sha256": "3363b435de2f797b1a40318c13254478eff04d5b0600e0c37bbd1c128012452e",
+      "format": "PNG",
+      "width": 2000,
+      "height": 1746,
+      "mode": "P"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/Kolbenschmidt.webp",
+      "bytes": 12892,
+      "sha256": "5ccc0b66fe0c1d21f62234ac3d2ddae4b919b529b040046c28f047d45d4d5c54",
+      "format": "WEBP",
+      "width": 824,
+      "height": 236,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/Mercedes Benz.png",
+      "bytes": 98073,
+      "sha256": "acb52ee22be7f276a6946b9af0d91570899da2ca0cac7b879da7e69c57e3794c",
+      "format": "PNG",
+      "width": 960,
+      "height": 695,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/TRW.png",
+      "bytes": 7575,
+      "sha256": "8506ab91e286546eef862c7cc0f69c2fbaf1387c25f30ec0ee2e622fcd97a4c9",
+      "format": "PNG",
+      "width": 796,
+      "height": 309,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/Valeo.webp",
+      "bytes": 53306,
+      "sha256": "81ba0270c4a04c2caf469799f2ef7a1074f67965532b1aa84285dd30855c2c02",
+      "format": "WEBP",
+      "width": 3840,
+      "height": 1825,
+      "mode": "RGBA"
+    },
+    {
+      "path": "03 Logos Marcas Línea Pesados/WABCO.png",
+      "bytes": 15990,
+      "sha256": "4c42b990b0e90570e97545b582032b1d153a4ed946ddc0ed120fa060cd4df77c",
+      "format": "PNG",
+      "width": 1500,
+      "height": 309,
+      "mode": "RGBA"
+    },
+    {
+      "path": "04 Logos Marcas Línea Livianos/Bosch.png",
+      "bytes": 43486,
+      "sha256": "ae1cdf936df7f92390ea3044e8cfd5a18378758ea0f5dac187328035eb38b8f3",
+      "format": "PNG",
+      "width": 800,
+      "height": 189,
+      "mode": "RGBA"
+    },
+    {
+      "path": "04 Logos Marcas Línea Livianos/EMPI.png",
+      "bytes": 11824,
+      "sha256": "636f9660e59a9f389ab36f4a3d2c62fa9cf4758f2faf0eb06a1020d84ec09e38",
+      "format": "PNG",
+      "width": 300,
+      "height": 207,
+      "mode": "P"
+    },
+    {
+      "path": "04 Logos Marcas Línea Livianos/Febi Blistein.png",
+      "bytes": 63117,
+      "sha256": "3363b435de2f797b1a40318c13254478eff04d5b0600e0c37bbd1c128012452e",
+      "format": "PNG",
+      "width": 2000,
+      "height": 1746,
+      "mode": "P"
+    },
+    {
+      "path": "04 Logos Marcas Línea Livianos/TRW.png",
+      "bytes": 7575,
+      "sha256": "8506ab91e286546eef862c7cc0f69c2fbaf1387c25f30ec0ee2e622fcd97a4c9",
+      "format": "PNG",
+      "width": 796,
+      "height": 309,
+      "mode": "RGBA"
+    },
+    {
+      "path": "04 Logos Marcas Línea Livianos/ZF.png",
+      "bytes": 6411,
+      "sha256": "771a4bbb9ca983d741a780ce829e3c15562007a5399fd14718012fcec25055ff",
+      "format": "PNG",
+      "width": 325,
+      "height": 309,
+      "mode": "RGBA"
+    },
+    {
+      "path": "04 Logos Marcas Línea Livianos/jp-group-automotive.webp",
+      "bytes": 29744,
+      "sha256": "f5a7c71e0f1e391a12c6dcd0c5c7247e64e823f681a6ac5f992343a360bd582d",
+      "format": "WEBP",
+      "width": 2014,
+      "height": 355,
+      "mode": "RGBA"
+    },
+    {
+      "path": "05 Catálogo Marcas Transporte Pesado/CATÁLOGO DE MARCAS-TRANSPORTE PESADO.pdf",
+      "bytes": 6742111,
+      "sha256": "e885da1b9bf2611636f04dbfbc9f691d41b4dc5f77703064144222e8894352e3"
+    },
+    {
+      "path": "05 Catálogo Marcas Transporte Pesado/CATÁLOGO DE MARCAS.ai",
+      "bytes": 13160541,
+      "sha256": "64b6031e10e6ca1ed84e1c474d40fe489ed8fb03c0412718fccad1dc962e19cd"
+    },
+    {
+      "path": "MANUAL DE MARCA CONTINENTAL AUTOPARTS.pdf",
+      "bytes": 9548845,
+      "sha256": "3a56aaa701a669d08f5f0652f9959ba61422b469049d3e6bce9fdbf4ffd5faff"
+    }
+  ]
+}
