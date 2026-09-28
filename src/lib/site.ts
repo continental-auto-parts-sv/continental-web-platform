@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Continental Auto Parts SV",
   description:
-    "Repuestos automotrices y soluciones para el mercado salvadoreño.",
+    "Repuestos para Volkswagen, Audi, SEAT y Porsche en El Salvador. Encuentra la pieza correcta con Continental Auto Parts.",
   navigation: [
     { label: "Inicio", href: "/" },
     { label: "Nosotros", href: "/nosotros" },

@@ -81,3 +81,64 @@ Shopify integration is explicitly outside Phase 1.
 ## Ownership
 
 Production services and accounts (GitHub, Vercel, Sanity, Resend, Search Console, and Analytics) should be owned by Continental Auto Parts or FREMARCA, with developer access granted as needed.
+
+## Homepage design preview
+
+The homepage uses original generated automotive imagery and the supplied official
+Continental logo. Volkswagen, Audi, and Porsche also use supplied official artwork;
+SEAT remains a text label until its artwork is provided. The reference
+mockup informs the visual direction; its offers, phone numbers, and service claims are
+not treated as verified business information.
+
+Brand and category shortcuts prefill the inquiry builder. Set
+`NEXT_PUBLIC_WHATSAPP_NUMBER` to the verified business number (international format,
+digits only) to enable the WhatsApp handoff. Until configured, visitors can copy their
+prepared inquiry; no message is sent and no form data is stored. Live inventory is not connected. Promotions currently use clearly labeled sample data;
+Sanity account setup is deferred.
+
+The original hero asset is stored locally at `public/images/audi-hero.webp` and
+served through Next.js image optimization.
+
+## Promotions
+
+`/promociones` lists active promotions; `/promociones/[slug]` shows each offer and
+its conditions. The homepage displays only the promotion referenced by the fixed
+`promotionSettings` document. Inactive, scheduled, expired, and unpublished offers
+are excluded. Clearing the reference hides the homepage promotion.
+
+Without a Sanity project ID, three labeled examples are served from
+`src/lib/promotions.ts`. Once configured, an empty CMS stays empty and a CMS error
+shows an unavailable state; fictional discounts never replace live content.
+
+Sanity setup is intentionally deferred. When ready:
+
+1. Create the project/dataset and set the public Sanity variables in `.env.local`.
+2. Set `SANITY_STUDIO_PROJECT_ID` and `SANITY_STUDIO_DATASET` to the same values
+   in `sanity-studio/.env` or the shell environment used by Studio.
+3. Run `npm install --prefix sanity-studio`, then `npm run dev --prefix sanity-studio`.
+   Create, activate, and publish promotions.
+4. Open **Promoción de portada**, select one promotion, and publish.
+
+For a private dataset, configure a read-only `SANITY_API_TOKEN` on the Next.js
+server. The token is used only for server-side requests. The website queries the
+[published perspective](https://www.sanity.io/docs/http-reference/query) on each
+request so activation and scheduling apply without rebuilding. No remote CMS
+project or documents were created as part of the local demo.
+
+Brand movement uses a slow, seamless CSS transform loop, pauses on hover or keyboard
+focus, has a pause control, and respects reduced-motion preferences. The inquiry
+builder supports visual brand/part selection, editable model suggestions, and a
+year calendar with manual entry.
+
+Studio is an isolated package in `sanity-studio/`; its dependencies are intentionally
+not installed with the website. Review and update those dependencies when setting
+up the CMS. The site uses the Sanity HTTP API and needs no Studio runtime.
+
+## Official brand resources
+
+The supplied brand manual, official logos, fonts, and heavy-transport catalog are
+preserved in `resources/brand/official/`. Read [the brand reference](docs/brand-resources.md)
+before future design or content work. It documents approved variants, typography,
+color discrepancies, source pages, and the remaining differences from the website.
+`resources/brand/manifest.json` records all 46 originals and their SHA-256 hashes.
+These source files are internal project references, not public website downloads.
