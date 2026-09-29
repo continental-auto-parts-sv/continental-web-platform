@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { ContinentalLogo } from "./continental-logo";
+import { ThemeToggle } from "./theme-toggle";
 import { siteConfig } from "../lib/site";
 
 import "./site-header.css";
@@ -63,9 +64,12 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link className="button small header-cta" href="/contacto">
-          Cotizar repuestos <span aria-hidden="true">↗</span>
-        </Link>
+        <div className="header-actions">
+          <Link className="button small header-cta" href="/contacto">
+            Cotizar repuestos <span aria-hidden="true">↗</span>
+          </Link>
+          <ThemeToggle />
+        </div>
         <button
           className="menu-toggle"
           type="button"

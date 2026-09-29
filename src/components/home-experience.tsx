@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 import "./home-design.css";
 
 import { SiteHeader } from "./site-header";
-import { ContinentalLogo } from "./continental-logo";
+import { SiteFooter } from "./site-footer";
 import { PartIcon } from "./part-icon";
 import { BrandMarquee } from "./brand-marquee";
+import { ServiceHighlights } from "./service-highlights";
 import { VehicleFields } from "./vehicle-fields";
 import { PromotionFeature } from "./promotion-feature";
 import type { Promotion } from "@/lib/promotions";
@@ -21,8 +23,48 @@ const categories = [
   { name: "Lubricantes", detail: "Rendimiento en movimiento.", icon: "oil" },
 ];
 
+const categoryArtworkNames: Record<string, string> = {
+  engine: "engine",
+  brake: "brake",
+  spring: "suspension",
+  filter: "filter-v2",
+  oil: "lubricant",
+};
+
+const wheelOverscrollThreshold = 96;
+const touchPullThreshold = 56;
+
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
+}
+
+function CategoryArtwork({ kind }: { kind: string }) {
+  const artworkName = categoryArtworkNames[kind];
+
+  if (!artworkName) {
+    return <PartIcon kind={kind} />;
+  }
+
+  return (
+    <span className="category-product-art" aria-hidden="true">
+      <Image
+        className="category-product-image category-product-image-dark"
+        src={`/images/categories/${artworkName}-dark.webp`}
+        alt=""
+        width={1024}
+        height={1024}
+        sizes="160px"
+      />
+      <Image
+        className="category-product-image category-product-image-light"
+        src={`/images/categories/${artworkName}-light.webp`}
+        alt=""
+        width={1024}
+        height={1024}
+        sizes="160px"
+      />
+    </span>
+  );
 }
 
 export function HomeExperience({
@@ -37,33 +79,76 @@ export function HomeExperience({
   const [showTopbar, setShowTopbar] = useState(false);
 
   useEffect(() => {
-    let touchY: number | null = null;
+    let touchStartY: number | null = null;
     let touchStartedAtTop = false;
+    let wheelOverscroll = 0;
+    let lastScrollY = window.scrollY;
 
     function handleScroll() {
-      if (window.scrollY > 0) setShowTopbar(false);
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 0 || lastScrollY > 0) {
+        wheelOverscroll = 0;
+        setShowTopbar(false);
+      }
+
+      lastScrollY = currentScrollY;
     }
 
     function handleWheel(event: WheelEvent) {
       if (event.ctrlKey || event.deltaY === 0) return;
-      setShowTopbar(window.scrollY <= 0 && event.deltaY < 0);
+
+      if (event.deltaY > 0) {
+        wheelOverscroll = 0;
+        setShowTopbar(false);
+        return;
+      }
+
+      if (window.scrollY > 0 || lastScrollY > 0) {
+        wheelOverscroll = 0;
+        return;
+      }
+
+      const deltaScale =
+        event.deltaMode === 1
+          ? 16
+          : event.deltaMode === 2
+            ? window.innerHeight
+            : 1;
+      wheelOverscroll += Math.abs(event.deltaY) * deltaScale;
+
+      if (wheelOverscroll >= wheelOverscrollThreshold) {
+        setShowTopbar(true);
+      }
     }
 
     function handleTouchStart(event: TouchEvent) {
-      touchY = event.touches.length === 1 ? event.touches[0].clientY : null;
+      touchStartY =
+        event.touches.length === 1 ? event.touches[0].clientY : null;
       touchStartedAtTop = window.scrollY <= 0;
     }
 
     function handleTouchMove(event: TouchEvent) {
-      if (touchY === null || event.touches.length !== 1) return;
-      const distance = event.touches[0].clientY - touchY;
-      if (Math.abs(distance) < 12) return;
-      setShowTopbar(touchStartedAtTop && window.scrollY <= 0 && distance > 0);
-      touchY = event.touches[0].clientY;
+      if (touchStartY === null || event.touches.length !== 1) return;
+
+      const pullDistance = event.touches[0].clientY - touchStartY;
+      if (pullDistance < 0) {
+        setShowTopbar(false);
+        return;
+      }
+
+      if (
+        touchStartedAtTop &&
+        window.scrollY <= 0 &&
+        pullDistance >= touchPullThreshold
+      ) {
+        setShowTopbar(true);
+      }
     }
 
     function handleTouchEnd() {
-      touchY = null;
+      touchStartY = null;
+      touchStartedAtTop = false;
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -165,6 +250,7 @@ export function HomeExperience({
                 setSummary("");
               }}
             />
+            <ServiceHighlights />
           </>
         )}
         {page !== "contact" && (
@@ -173,18 +259,13 @@ export function HomeExperience({
               <div className="container">
                 <div className="section-heading">
                   <div>
-                    <p className="eyebrow">CADA PIEZA CUENTA</p>
                     {page === "products" ? (
                       <h1 className="page-title">La pieza que necesitas.</h1>
                     ) : (
                       <h2>La pieza que necesitas.</h2>
                     )}
                   </div>
-                  <p>
-                    Del mantenimiento diario al siguiente proyecto.
-                    <br />
-                    Encuentra el punto de partida.
-                  </p>
+                  <p>Todo lo que tu europeo necesita, en un solo lugar.</p>
                 </div>
                 <div className="category-grid">
                   {categories.map((item, index) => (
@@ -194,7 +275,7 @@ export function HomeExperience({
                       onClick={() => chooseCategory(item.name)}
                     >
                       <span className="category-number">0{index + 1}</span>
-                      <PartIcon kind={item.icon} />
+                      <CategoryArtwork kind={item.icon} />
                       <h3>{item.name}</h3>
                       <p>{item.detail}</p>
                       <span className="category-bottom">
@@ -211,7 +292,6 @@ export function HomeExperience({
         <section className="inquiry-section" id="consulta">
           <div className="container inquiry-grid">
             <div>
-              <p className="eyebrow light">ENCUENTRA TU REPUESTO</p>
               {page === "contact" ? (
                 <h1 className="page-title">Hablemos de tu auto.</h1>
               ) : (
@@ -298,29 +378,7 @@ export function HomeExperience({
           </div>
         </section>
       </main>
-      <footer>
-        <div className="container">
-          <div className="footer-main">
-            <ContinentalLogo />
-            <p>
-              Tu auto nos mueve.
-              <br />
-              Compromiso contigo.
-            </p>
-            <a
-              href={page === "home" ? "#inicio" : "#contenido"}
-              className="text-link"
-            >
-              Volver arriba ↑
-            </a>
-          </div>
-          <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} Continental Auto Parts SV.</span>
-            <span>Volkswagen · Audi · SEAT · Porsche</span>
-            <span>Hecho para seguir adelante.</span>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter topHref={page === "home" ? "#inicio" : "#contenido"} />
     </div>
   );
 }

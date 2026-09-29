@@ -5,8 +5,36 @@ import { HomeExperience } from "../src/components/home-experience";
 
 afterEach(() => {
   cleanup();
+  delete document.documentElement.dataset.theme;
+  document.documentElement.style.removeProperty("color-scheme");
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+});
+
+describe("theme control", () => {
+  it("switches theme and persists the choice", () => {
+    const storage = new Map<string, string>();
+
+    vi.stubGlobal("matchMedia", () => ({ matches: false }));
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => storage.get(key) ?? null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+    });
+    render(<HomeExperience hero={<div />} />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Activar modo oscuro" }),
+    );
+
+    expect(document.documentElement.dataset.theme).toBe("dark");
+    expect(document.documentElement.style.colorScheme).toBe("dark");
+    expect(localStorage.getItem("continental-theme")).toBe("dark");
+    expect(
+      screen
+        .getByRole("button", { name: "Activar modo claro" })
+        .getAttribute("aria-pressed"),
+    ).toBe("true");
+  });
 });
 
 describe("homepage inquiries", () => {
@@ -103,7 +131,7 @@ describe("visual vehicle selector", () => {
 });
 
 describe("utility strip overscroll", () => {
-  it("stays hidden until an upward wheel attempt at the top", () => {
+  it("stays hidden on arrival and reveals after intentional wheel overscroll", () => {
     vi.stubGlobal("scrollY", 200);
     const { container } = render(<HomeExperience hero={<div />} />);
     const strip = container.querySelector(".topbar")!;
@@ -116,18 +144,22 @@ describe("utility strip overscroll", () => {
     expect(strip.getAttribute("aria-hidden")).toBe("true");
 
     fireEvent.wheel(window, { deltaY: -40 });
+    expect(strip.getAttribute("aria-hidden")).toBe("true");
+    fireEvent.wheel(window, { deltaY: -60 });
     expect(strip.getAttribute("aria-hidden")).toBe("false");
     fireEvent.wheel(window, { deltaY: 40 });
     expect(strip.getAttribute("aria-hidden")).toBe("true");
   });
 
-  it("reveals on a downward touch pull at the top and hides after scrolling", () => {
+  it("requires a deliberate touch pull at the top and hides after scrolling", () => {
     vi.stubGlobal("scrollY", 0);
     const { container } = render(<HomeExperience hero={<div />} />);
     const strip = container.querySelector(".topbar")!;
 
     fireEvent.touchStart(window, { touches: [{ clientY: 100 }] });
     fireEvent.touchMove(window, { touches: [{ clientY: 130 }] });
+    expect(strip.getAttribute("aria-hidden")).toBe("true");
+    fireEvent.touchMove(window, { touches: [{ clientY: 160 }] });
     expect(strip.getAttribute("aria-hidden")).toBe("false");
     fireEvent.touchEnd(window);
     vi.stubGlobal("scrollY", 50);

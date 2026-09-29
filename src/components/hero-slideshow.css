@@ -21,6 +21,63 @@
   object-position: center 60%;
 }
 
+.wallpaper-open {
+  position: absolute;
+  top: 18px;
+  right: 5%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 14px;
+  gap: 8px;
+  border: 1px solid #ffffff38;
+  border-radius: 999px;
+  background: #0b0d0fb8;
+  color: #fff;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(18px) saturate(130%);
+  box-shadow: 0 10px 30px #0005;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.wallpaper-open svg,
+.wallpaper-close svg,
+.wallpaper-arrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wallpaper-open:hover {
+  border-color: #ffffff80;
+  background: #171a1dd9;
+  transform: translateY(-1px);
+}
+
+.wallpaper-open:active {
+  transform: scale(0.96);
+}
+
+.wallpaper-open:focus-visible,
+.wallpaper-viewer button:focus-visible,
+.wallpaper-viewer a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 .hero-slide-controls {
   position: absolute;
   bottom: 20px;
@@ -78,6 +135,301 @@
   outline-offset: -3px;
 }
 
+.wallpaper-viewer {
+  --wallpaper-target-top: 0px;
+  --wallpaper-target-right: 0px;
+  --wallpaper-target-bottom: 0px;
+  --wallpaper-target-left: 0px;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden;
+  background: #090a0b;
+  color: #fff;
+  animation: wallpaper-materialize 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transform-origin: calc(100% - 6vw) 6vh;
+  will-change: background-color;
+}
+
+.wallpaper-viewer[data-exiting="true"] {
+  pointer-events: none;
+  animation: wallpaper-clear-shell 840ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.wallpaper-stage,
+.wallpaper-slide,
+.wallpaper-vignette {
+  position: absolute;
+  inset: 0;
+}
+
+.wallpaper-stage {
+  overflow: hidden;
+  background: #090a0b;
+}
+
+.wallpaper-viewer[data-exiting="true"] .wallpaper-stage {
+  animation: wallpaper-stage-to-hero 840ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  will-change: inset, border-radius, opacity;
+}
+
+.wallpaper-viewer[data-exiting="true"] .wallpaper-topbar,
+.wallpaper-viewer[data-exiting="true"] .wallpaper-arrow,
+.wallpaper-viewer[data-exiting="true"] .wallpaper-footer {
+  animation: wallpaper-chrome-away 180ms ease-out both;
+}
+
+.wallpaper-slide {
+  opacity: 0;
+  transform: scale(1.025);
+  transition:
+    opacity 900ms ease,
+    transform 7s linear;
+}
+
+.wallpaper-slide[data-active="true"] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.wallpaper-image {
+  object-fit: cover;
+  object-position: center 60%;
+}
+
+.wallpaper-vignette {
+  background:
+    linear-gradient(180deg, #050608b8 0%, transparent 34%, #05060899 100%),
+    linear-gradient(90deg, #050608a6 0%, transparent 42%);
+  pointer-events: none;
+}
+
+.wallpaper-topbar {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  padding: clamp(24px, 4vw, 58px);
+  gap: 28px;
+}
+
+.wallpaper-identity {
+  justify-self: start;
+}
+
+.wallpaper-logo {
+  width: clamp(148px, 14vw, 226px);
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.wallpaper-clock {
+  display: flex;
+  flex-direction: column;
+  margin-top: clamp(22px, 4vh, 42px);
+  gap: 4px;
+  text-shadow: 0 2px 20px #000b;
+}
+
+.wallpaper-clock time {
+  font-size: clamp(2.8rem, 5.5vw, 5.8rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.wallpaper-clock span {
+  color: #ffffffc7;
+  font-size: clamp(0.76rem, 1vw, 0.95rem);
+}
+
+.wallpaper-clock span::first-letter {
+  text-transform: uppercase;
+}
+
+.wallpaper-close {
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #ffffff38;
+  border-radius: 50%;
+  background: #101317a8;
+  color: #fff;
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition:
+    opacity 220ms ease,
+    visibility 220ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.wallpaper-close:hover,
+.wallpaper-arrow:hover {
+  background: #ffffff22;
+  transform: scale(1.04);
+}
+
+.wallpaper-close:active,
+.wallpaper-arrow:active {
+  transform: scale(0.94);
+}
+
+.wallpaper-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #ffffff38;
+  border-radius: 50%;
+  background: #10131794;
+  color: #fff;
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    opacity 220ms ease,
+    visibility 220ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.wallpaper-arrow:hover {
+  transform: translateY(-50%) scale(1.04);
+}
+
+.wallpaper-arrow:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+.wallpaper-arrow-previous {
+  left: clamp(20px, 4vw, 58px);
+}
+
+.wallpaper-arrow-next {
+  right: clamp(20px, 4vw, 58px);
+}
+
+.wallpaper-footer {
+  position: absolute;
+  right: clamp(24px, 4vw, 58px);
+  bottom: clamp(24px, 4vw, 52px);
+  left: clamp(24px, 4vw, 58px);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+}
+
+.wallpaper-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-shadow: 0 2px 14px #000b;
+}
+
+.wallpaper-caption span {
+  color: #ffffffa8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.wallpaper-caption strong {
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+}
+
+.wallpaper-pause {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  min-height: 42px;
+  padding: 0 16px;
+  gap: 8px;
+  border: 1px solid #ffffff2e;
+  border-radius: 999px;
+  background: #10131799;
+  color: #fff;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition:
+    opacity 220ms ease,
+    visibility 220ms ease,
+    background-color 180ms ease;
+}
+
+.wallpaper-viewer[data-controls-visible="false"] .wallpaper-close,
+.wallpaper-viewer[data-controls-visible="false"] .wallpaper-arrow,
+.wallpaper-viewer[data-controls-visible="false"] .wallpaper-pause {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes wallpaper-materialize {
+  from {
+    opacity: 0;
+    transform: scale(0.975);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wallpaper-clear-shell {
+  0% {
+    background-color: #090a0b;
+  }
+
+  38%,
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes wallpaper-stage-to-hero {
+  0% {
+    inset: 0;
+    border-radius: 0;
+    opacity: 1;
+  }
+
+  68% {
+    inset: var(--wallpaper-target-top) var(--wallpaper-target-right)
+      var(--wallpaper-target-bottom) var(--wallpaper-target-left);
+    border-radius: 0;
+    opacity: 1;
+  }
+
+  100% {
+    inset: var(--wallpaper-target-top) var(--wallpaper-target-right)
+      var(--wallpaper-target-bottom) var(--wallpaper-target-left);
+    border-radius: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes wallpaper-chrome-away {
+  to {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
 @media (max-width: 760px) {
   .hero-slide-volkswagen {
     object-position: 65% center;
@@ -86,6 +438,60 @@
   .hero-slide-seat,
   .hero-slide-porsche {
     object-position: 60% center;
+  }
+
+  .wallpaper-open {
+    top: 12px;
+    right: 16px;
+    padding: 0 12px;
+  }
+
+  .wallpaper-open span {
+    display: none;
+  }
+
+  .wallpaper-topbar {
+    grid-template-columns: 1fr auto;
+    padding: 22px 20px;
+  }
+
+  .wallpaper-clock {
+    margin-top: 24px;
+  }
+
+  .wallpaper-arrow {
+    top: auto;
+    bottom: 94px;
+    width: 44px;
+    height: 44px;
+    transform: none;
+  }
+
+  .wallpaper-arrow:hover {
+    transform: scale(1.04);
+  }
+
+  .wallpaper-arrow:active {
+    transform: scale(0.94);
+  }
+
+  .wallpaper-arrow-previous {
+    left: 20px;
+  }
+
+  .wallpaper-arrow-next {
+    right: 20px;
+  }
+
+  .wallpaper-footer {
+    right: 20px;
+    bottom: 24px;
+    left: 20px;
+    grid-template-columns: 1fr auto;
+  }
+
+  .wallpaper-pause {
+    grid-column: 2;
   }
 }
 
@@ -96,6 +502,55 @@
 
   .hero-slide-controls .hero-slide-indicator {
     background: #fff;
+  }
+
+  .wallpaper-viewer {
+    animation: none;
+  }
+
+  .wallpaper-viewer[data-exiting="true"] {
+    animation: wallpaper-reveal-home-reduced 180ms ease-out both;
+  }
+
+  .wallpaper-viewer[data-exiting="true"] .wallpaper-stage {
+    animation: wallpaper-reveal-home-reduced 180ms ease-out both;
+  }
+
+  .wallpaper-slide,
+  .wallpaper-open,
+  .wallpaper-close,
+  .wallpaper-arrow,
+  .wallpaper-pause {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .wallpaper-open,
+  .wallpaper-close,
+  .wallpaper-arrow,
+  .wallpaper-pause {
+    background: #101214;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .wallpaper-open,
+  .wallpaper-close,
+  .wallpaper-arrow,
+  .wallpaper-pause {
+    border-color: #fff;
+  }
+}
+
+@keyframes wallpaper-reveal-home-reduced {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 

@@ -1,17 +1,178 @@
-/* Keep direction changes from shifting the document's scroll position. */
-.home-page[data-topbar-visible] > .topbar {
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 21;
+/* Wallpaper mode owns the full viewport while it is active. */
+body.wallpaper-viewer-open .home-page > .site-header,
+body.wallpaper-viewer-open .home-page > .topbar {
   visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.wallpaper-viewer-open.wallpaper-viewer-exiting .home-page > .site-header,
+body.wallpaper-viewer-open.wallpaper-viewer-exiting .home-page > .topbar {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: none;
+  animation: wallpaper-navbar-return 560ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+body.wallpaper-viewer-exiting .home-page .hero-content > * {
+  animation: wallpaper-title-return 420ms cubic-bezier(0.22, 0.8, 0.22, 1) both;
+}
+
+body.wallpaper-viewer-exiting .home-page .hero-content > :nth-child(1) {
+  animation-delay: 250ms;
+}
+
+body.wallpaper-viewer-exiting .home-page .hero-content > :nth-child(2) {
+  animation-delay: 300ms;
+}
+
+body.wallpaper-viewer-exiting .home-page .hero-content > :nth-child(3) {
+  animation-delay: 350ms;
+}
+
+body.wallpaper-viewer-exiting .home-page .hero-content > :nth-child(4) {
+  animation-delay: 400ms;
+}
+
+body.wallpaper-viewer-exiting .home-page main > :not(.hero) {
+  animation: wallpaper-page-return 680ms cubic-bezier(0.32, 0.72, 0, 1) 120ms
+    both;
+}
+
+@keyframes wallpaper-navbar-return {
+  from {
+    opacity: 0;
+    transform: translateY(-110%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wallpaper-title-return {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes wallpaper-page-return {
+  from {
+    opacity: 0;
+    transform: translateY(70px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-page[data-topbar-visible] > .topbar {
+  position: relative;
+  z-index: 21;
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
   transform: translateY(-100%);
+  transition:
+    max-height 360ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 180ms ease,
+    transform 360ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 360ms;
 }
 
 .home-page[data-topbar-visible="true"] > .topbar {
+  max-height: 40px;
   visibility: visible;
+  opacity: 1;
   transform: translateY(0);
+  transition-delay: 0s;
 }
 
-.home-page[data-topbar-visible="true"] > .site-header {
-  top: 32px;
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.theme-toggle {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--theme-control-border);
+  border-radius: 50%;
+  background: var(--theme-control-background);
+  color: var(--ink);
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 100ms ease-out;
+}
+
+.theme-toggle:hover {
+  border-color: rgb(229 36 50 / 42%);
+  background: rgb(229 36 50 / 8%);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .header-actions {
+    margin-left: auto;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.wallpaper-viewer-open.wallpaper-viewer-exiting .home-page > .site-header,
+  body.wallpaper-viewer-open.wallpaper-viewer-exiting .home-page > .topbar,
+  body.wallpaper-viewer-exiting .home-page .hero-content > *,
+  body.wallpaper-viewer-exiting .home-page main > :not(.hero) {
+    animation: none;
+  }
+
+  .theme-toggle {
+    transition: none;
+  }
 }

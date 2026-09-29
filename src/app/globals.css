@@ -4,6 +4,23 @@
   --ink: #202123;
   --muted: #747477;
   --paper: #f7f7f5;
+  --surface: #fff;
+  --surface-elevated: #fff;
+  --border: #dedee2;
+  --theme-control-background: rgb(255 255 255 / 46%);
+  --theme-control-border: rgb(32 33 35 / 12%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #f4f4f6;
+  --muted: #aaaab1;
+  --paper: #191a1d;
+  --surface: #101113;
+  --surface-elevated: #222327;
+  --border: #38393e;
+  --theme-control-background: rgb(255 255 255 / 8%);
+  --theme-control-border: rgb(255 255 255 / 14%);
 }
 
 * {
@@ -12,6 +29,7 @@
 
 html {
   min-width: 320px;
+  overscroll-behavior-y: none;
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
@@ -19,7 +37,7 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background: #fff;
+  background: var(--surface);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -82,11 +100,11 @@ select:focus-visible {
 }
 
 .header {
-  background: #fff;
+  background: var(--surface);
   position: sticky;
   top: 0;
   z-index: 20;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
 }
 
 .header-inner {
@@ -230,7 +248,7 @@ h1 em {
 }
 
 .brands {
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 0;
 }
 
@@ -243,14 +261,14 @@ h1 em {
 
 .brands strong {
   font-weight: 400;
-  color: #242424;
+  color: var(--ink);
 }
 
 .brand {
   display: flex;
   align-items: center;
   flex-direction: column;
-  color: #333;
+  color: var(--ink);
   transition: opacity 0.2s;
 }
 
@@ -313,7 +331,7 @@ h2 {
 }
 
 .category-card:hover {
-  background: white;
+  background: var(--surface-elevated);
   border-color: var(--red);
 }
 
@@ -349,7 +367,7 @@ h2 {
   display: flex;
   justify-content: space-between;
   font-size: 10px;
-  border-top: 1px solid #dededc;
+  border-top: 1px solid var(--border);
   padding-top: 15px;
   margin-top: 22px;
 }
@@ -384,7 +402,7 @@ h2 {
 
 .feature-copy .text-link {
   padding-bottom: 8px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border);
 }
 
 .feature-copy .text-link span {
@@ -486,7 +504,7 @@ footer {
 }
 
 .footer-bottom {
-  border-top: 1px solid #e9e9e9;
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -499,7 +517,7 @@ footer {
   position: fixed;
   top: -100px;
   left: 20px;
-  background: #fff;
+  background: var(--surface-elevated);
   padding: 15px;
   z-index: 100;
 }
@@ -897,6 +915,9 @@ footer {
   min-width: 0;
   flex: 1;
   overflow: hidden;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   mask-image: linear-gradient(
     90deg,
     transparent,
@@ -981,6 +1002,33 @@ footer {
   box-shadow:
     0 0 0 35px #ffffff03,
     0 0 0 70px #ffffff03;
+}
+
+.promotion-art-photo {
+  background: #151719;
+}
+
+.promotion-art-photo::before {
+  inset: 0;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(10 12 14 / 58%) 0%,
+    transparent 38%,
+    rgb(10 12 14 / 22%) 66%,
+    rgb(10 12 14 / 72%) 100%
+  );
+  box-shadow: none;
+}
+
+.promotion-art-image {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 52% center;
+  transform: scale(1.01);
 }
 
 .promotion-art-oil {
@@ -1099,14 +1147,6 @@ footer {
 }
 .promotion-card-copy .text-link {
   margin-top: 14px;
-}
-.promotion-footer {
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  padding-block: 30px;
-  font-size: 12px;
-  gap: 25px;
 }
 .promotion-detail {
   padding-block: 45px 80px;
@@ -1397,9 +1437,6 @@ footer {
     position: static;
     padding: 0;
   }
-  .promotion-footer {
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 500px) {
@@ -1462,6 +1499,18 @@ footer {
   height: auto;
 }
 
+.continental-logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .continental-logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .continental-logo-dark {
+  display: block;
+}
+
 .vehicle-brand-logo {
   display: block;
   width: 60px;
@@ -1482,10 +1531,6 @@ footer {
   width: 72px;
 }
 
-.promotion-footer {
-  align-items: center;
-}
-
 @media (max-width: 760px) {
   .continental-logo {
     width: 175px;
@@ -1496,9 +1541,6 @@ footer {
   }
   .brand-audi .vehicle-brand-logo {
     width: 90px;
-  }
-  .promotion-footer {
-    align-items: flex-start;
   }
 }
 

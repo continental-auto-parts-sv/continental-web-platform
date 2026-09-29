@@ -1,9 +1,8 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import "./home-design.css";
 import { SiteHeader } from "./site-header";
-import { ContinentalLogo } from "./continental-logo";
+import { SiteFooter } from "./site-footer";
 
 export function PromotionShell({ children }: { children: ReactNode }) {
   return (
@@ -13,10 +12,7 @@ export function PromotionShell({ children }: { children: ReactNode }) {
       </a>
       <SiteHeader />
       <main id="contenido">{children}</main>
-      <footer className="promotion-footer container">
-        <ContinentalLogo />
-        <Link href="/contacto">¿Buscas otra pieza? Hablemos ↗</Link>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

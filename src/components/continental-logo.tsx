@@ -10,11 +10,19 @@ export function ContinentalLogo({ href = "/" }: { href?: string }) {
     >
       <Image
         src="/images/brands/continental-horizontal.png"
-        alt="Continental Auto Parts"
+        alt=""
         width={1744}
         height={587}
         sizes="(max-width: 760px) 175px, 230px"
-        className="continental-logo"
+        className="continental-logo continental-logo-light"
+      />
+      <Image
+        src="/images/brands/continental-horizontal-dark.png"
+        alt=""
+        width={1744}
+        height={587}
+        sizes="(max-width: 760px) 175px, 230px"
+        className="continental-logo continental-logo-dark"
       />
     </Link>
   );

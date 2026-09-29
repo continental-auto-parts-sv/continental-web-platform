@@ -57,11 +57,11 @@ export function BrandMarquee({
         <p>
           Entendemos tu auto.
           <br />
-          <strong>Compartimos tu pasión.</strong>
+          <strong>Nuestras marcas.</strong>
         </p>
         <div
           className="brand-marquee"
-          onMouseEnter={() => setPlaybackRate(0.25)}
+          onMouseEnter={() => setPlaybackRate(0)}
           onMouseLeave={() => setPlaybackRate(1)}
         >
           <div className="brand-track" ref={trackRef}>
