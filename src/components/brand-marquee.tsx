@@ -10,6 +10,7 @@ export const brands = [
   "Porsche",
   "Mercedes",
   "BMW",
+  "MINI",
 ] as const;
 
 export type BrandName = (typeof brands)[number];
@@ -45,6 +46,11 @@ const officialLogos: Partial<Record<BrandName, Logo>> = {
     src: "/images/brands/bmw.png",
     width: 2500,
     height: 2500,
+  },
+  MINI: {
+    src: "/images/brands/mini.png",
+    width: 3840,
+    height: 2160,
   },
 };
 

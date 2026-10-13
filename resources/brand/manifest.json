@@ -226,6 +226,15 @@
       "mode": "RGBA"
     },
     {
+      "path": "02 Logos Marcas Autos/MINI-logo.png",
+      "bytes": 36116,
+      "sha256": "b70a8116e954ef88c69329fea01ebc907bf0d39a653cc764ee2744d56d585502",
+      "format": "PNG",
+      "width": 3840,
+      "height": 2160,
+      "mode": "P"
+    },
+    {
       "path": "02 Logos Marcas Autos/Porsche-Logo.png",
       "bytes": 1421804,
       "sha256": "bd6670c69e6a3f3cf8a0f59617da38c09116d696d1fae985b7c3c14906ef0dde",

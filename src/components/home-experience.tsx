@@ -43,12 +43,39 @@ function Arrow() {
   return <span aria-hidden="true">↗</span>;
 }
 
+// Lucide car-front and truck icons (ISC license).
+function ProductLineIcon({ type }: { type: "livianos" | "pesados" }) {
+  if (type === "pesados") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10 17h4V5H2v12h3" />
+        <path d="M14 9h4l4 4v4h-3" />
+        <circle cx="7.5" cy="17.5" r="2.5" />
+        <circle cx="16.5" cy="17.5" r="2.5" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.65 5h-7.3A2 2 0 0 0 6.5 6.3L5 10 3 8" />
+      <path d="M7 14h.01" />
+      <path d="M17 14h.01" />
+      <rect width="18" height="8" x="3" y="10" rx="2" />
+      <path d="M5 18v2" />
+      <path d="M19 18v2" />
+    </svg>
+  );
+}
+
 function CategoryArtwork({ kind }: { kind: string }) {
   const artworkName = categoryArtworkNames[kind];
 
   if (!artworkName) {
     return <PartIcon kind={kind} />;
   }
+
+  const shouldBypassOptimizer = artworkName === "filter-v2";
 
   return (
     <span className="category-product-art" aria-hidden="true">
@@ -59,6 +86,7 @@ function CategoryArtwork({ kind }: { kind: string }) {
         width={1024}
         height={1024}
         sizes="160px"
+        unoptimized={shouldBypassOptimizer}
       />
       <Image
         className="category-product-image category-product-image-light"
@@ -67,6 +95,7 @@ function CategoryArtwork({ kind }: { kind: string }) {
         width={1024}
         height={1024}
         sizes="160px"
+        unoptimized={shouldBypassOptimizer}
       />
     </span>
   );
@@ -310,9 +339,9 @@ export function HomeExperience({
                   pieza que necesitas.
                 </p>
                 <div className="hero-actions">
-                  <a className="button" href="#categorias">
+                  <Link className="button" href="/productos">
                     Encuentra tu repuesto <Arrow />
-                  </a>
+                  </Link>
                   <a className="text-link light-link" href="#consulta">
                     Hablemos de tu auto <span aria-hidden="true">→</span>
                   </a>
@@ -342,6 +371,47 @@ export function HomeExperience({
                   </div>
                   <p>Todo lo que tu europeo necesita, en un solo lugar.</p>
                 </div>
+                {page === "home" && (
+                  <nav
+                    className="home-product-lines"
+                    aria-label="Explorar líneas de productos"
+                  >
+                    <Link
+                      className="home-product-line"
+                      href="/productos#livianos"
+                      aria-label="Explorar Línea de Livianos"
+                    >
+                      <span className="home-product-line-icon">
+                        <ProductLineIcon type="livianos" />
+                      </span>
+                      <span className="home-product-line-copy">
+                        <strong>Línea de Livianos</strong>
+                        <small>Automóviles y SUV</small>
+                      </span>
+                      <span className="home-product-line-action" aria-hidden>
+                        <span>Ver línea</span>
+                        <Arrow />
+                      </span>
+                    </Link>
+                    <Link
+                      className="home-product-line home-product-line-heavy"
+                      href="/productos#pesados"
+                      aria-label="Explorar Línea de Pesados"
+                    >
+                      <span className="home-product-line-icon">
+                        <ProductLineIcon type="pesados" />
+                      </span>
+                      <span className="home-product-line-copy">
+                        <strong>Línea de Pesados</strong>
+                        <small>Camiones, buses y transporte</small>
+                      </span>
+                      <span className="home-product-line-action" aria-hidden>
+                        <span>Ver línea</span>
+                        <Arrow />
+                      </span>
+                    </Link>
+                  </nav>
+                )}
                 <div className="category-grid">
                   {categories.map((item, index) => (
                     <button

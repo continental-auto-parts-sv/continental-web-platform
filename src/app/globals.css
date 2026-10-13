@@ -1926,6 +1926,10 @@ footer.site-footer {
   width: 120px;
 }
 
+.brand-mini .vehicle-brand-logo {
+  width: 96px;
+}
+
 .choice-card .vehicle-brand-logo {
   width: 48px;
   height: 48px;
@@ -1933,6 +1937,10 @@ footer.site-footer {
 
 .choice-card .brand-audi .vehicle-brand-logo {
   width: 72px;
+}
+
+.choice-card .brand-mini .vehicle-brand-logo {
+  width: 66px;
 }
 
 @media (max-width: 760px) {
@@ -1946,6 +1954,9 @@ footer.site-footer {
   .brand-audi .vehicle-brand-logo {
     width: 90px;
   }
+  .brand-mini .vehicle-brand-logo {
+    width: 76px;
+  }
 }
 
 @media (max-width: 500px) {
@@ -1955,6 +1966,9 @@ footer.site-footer {
   }
   .choice-card .brand-audi .vehicle-brand-logo {
     width: 54px;
+  }
+  .choice-card .brand-mini .vehicle-brand-logo {
+    width: 50px;
   }
   .promotion-header .continental-logo {
     width: 150px;

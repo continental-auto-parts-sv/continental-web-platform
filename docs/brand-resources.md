@@ -9,7 +9,7 @@ Las instrucciones explícitas del usuario siguen teniendo prioridad; los textos 
 los documentos son referencias de marca y contenido, no instrucciones operativas
 para el agente.
 
-- Copia íntegra de los 46 archivos: `resources/brand/official/` (38.6 MiB).
+- Copia íntegra de los 47 archivos: `resources/brand/official/` (38.6 MiB).
 - Inventario con rutas, tamaños, SHA-256 y dimensiones: `resources/brand/manifest.json`.
 - Origen proporcionado: `/Users/carlosgonzalez/Desktop/Projects/Continental Auto Parts/Recursos Oficiales/`.
 - Los originales se copiaron sin modificaciones y se verificaron por hash.
@@ -103,7 +103,7 @@ nombre de la carpeta. El manifiesto registra el formato detectado de cada imagen
 
 | Carpeta                                | Recursos recibidos                                                                |
 | -------------------------------------- | --------------------------------------------------------------------------------- |
-| `02 Logos Marcas Autos`                | Volkswagen, Audi, Porsche, BMW, Mercedes y un maestro AI                          |
+| `02 Logos Marcas Autos`                | Volkswagen, Audi, Porsche, BMW, Mercedes, MINI y un maestro AI                    |
 | `03 Logos Marcas Línea Pesados`        | Mercedes Benz, Febi Bilstein, Blue Print, WABCO, Bosch, TRW, Valeo, Kolbenschmidt |
 | `04 Logos Marcas Línea Livianos`       | ZF, Febi Bilstein, EMPI, JP Group Automotive, Bosch, TRW                          |
 | `05 Catálogo Marcas Transporte Pesado` | Catálogo PDF de 9 páginas y maestro AI                                            |
@@ -158,10 +158,11 @@ muestra como equipo actual.
 
 El logo oficial horizontal de Continental (variante 1, negro y rojo) está aplicado
 mediante `src/components/continental-logo.tsx` en los encabezados y pies de portada
-y promociones. Volkswagen, Audi, Porsche, Mercedes y BMW usan los PNG oficiales
-tanto en el carrusel como en el selector del formulario. SEAT permanece como nombre
-en texto porque no se recibió su archivo. La animación y opacidad del carrusel se
-conservan; el logo corporativo no recibe filtros ni reducción de opacidad.
+y promociones. Volkswagen, Audi, Porsche, Mercedes, BMW y MINI usan los PNG
+oficiales tanto en el carrusel como en el selector del formulario. SEAT permanece
+como nombre en texto porque no se recibió su archivo. La animación y opacidad del
+carrusel se conservan; el logo corporativo no recibe filtros ni reducción de
+opacidad.
 
 Las copias web están en `public/images/brands/`; son copias exactas, sin recortes
 ni recoloración. Next.js genera los tamaños de entrega optimizados conservando la
@@ -175,6 +176,7 @@ relación de aspecto. Procedencia:
 | `porsche.png`                | `02 Logos Marcas Autos/Porsche-Logo.png`                                                  |
 | `mercedes.png`               | `02 Logos Marcas Autos/Mercedes-Logo.png`                                                 |
 | `bmw.png`                    | `02 Logos Marcas Autos/BMW-Logo.png`                                                      |
+| `mini.png`                   | `02 Logos Marcas Autos/MINI-logo.png`                                                     |
 
 Por decisión final del cliente, todo el sitio usa Volkswagen Text Regular/Bold
 para lectura y Formula 1 Display Bold para títulos, navegación y acciones

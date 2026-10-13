@@ -45,7 +45,7 @@
   padding-top: clamp(32px, 5vw, 64px);
 }
 
-.products-final-cta p:first-child {
+.products-final-cta-inner > div:first-child > p:first-child {
   margin: 0 0 12px;
   color: var(--red);
   font-size: 0.78rem;
@@ -492,8 +492,12 @@
 .products-final-cta-inner > div:last-child > p {
   margin: 0 0 28px;
   color: var(--muted);
+  font-family: "Volkswagen Text", system-ui, sans-serif;
   font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: normal;
   line-height: 1.65;
+  text-transform: none;
 }
 
 @media (max-width: 1080px) {

@@ -56,6 +56,37 @@ describe("footer legal navigation", () => {
   });
 });
 
+describe("homepage product lines", () => {
+  it("links the compact overview to both product catalog sections", () => {
+    render(<HomeExperience hero={<div />} />);
+
+    expect(
+      screen
+        .getByRole("link", { name: "Explorar Línea de Livianos" })
+        .getAttribute("href"),
+    ).toBe("/productos#livianos");
+    expect(
+      screen
+        .getByRole("link", { name: "Explorar Línea de Pesados" })
+        .getAttribute("href"),
+    ).toBe("/productos#pesados");
+  });
+});
+
+describe("homepage vehicle brands", () => {
+  it("includes the official MINI logo in the brands overview", () => {
+    render(<HomeExperience hero={<div />} />);
+
+    const miniLink = screen.getByRole("link", { name: "MINI" });
+    const miniLogo = miniLink.querySelector("img");
+
+    expect(miniLink.getAttribute("href")).toBe("#consulta");
+    expect(decodeURIComponent(miniLogo?.getAttribute("src") ?? "")).toContain(
+      "/images/brands/mini.png",
+    );
+  });
+});
+
 describe("development controls", () => {
   it("persists page scale and accessibility previews", () => {
     const storage = new Map<string, string>();

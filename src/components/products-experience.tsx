@@ -64,17 +64,17 @@ const productLines: ProductLine[] = [
       {
         name: "Sistema eléctrico",
         description: "Energía y funcionamiento confiable.",
-        icon: "other",
+        artwork: "electrical-system",
       },
       {
         name: "Transmisión",
         description: "Entrega de potencia suave y precisa.",
-        icon: "other",
+        artwork: "transmission",
       },
       {
         name: "Accesorios",
         description: "Soluciones para completar tu vehículo.",
-        icon: "other",
+        artwork: "accessories",
       },
     ],
     brands: [
@@ -130,17 +130,17 @@ const productLines: ProductLine[] = [
       {
         name: "Embrague",
         description: "Acople confiable para cada jornada.",
-        icon: "other",
+        artwork: "clutch-heavy",
       },
       {
         name: "Transmisión",
         description: "Potencia constante para trabajo exigente.",
-        icon: "other",
+        artwork: "transmission",
       },
       {
         name: "Sistema eléctrico",
         description: "Energía y funcionamiento confiable.",
-        icon: "other",
+        artwork: "electrical-system",
       },
       {
         name: "Lubricantes",
@@ -150,7 +150,7 @@ const productLines: ProductLine[] = [
       {
         name: "Dirección",
         description: "Control preciso para vehículos de carga.",
-        icon: "other",
+        artwork: "steering-heavy",
       },
     ],
     brands: [
@@ -469,13 +469,13 @@ export function ProductsExperience() {
         >
           <div className="container products-final-cta-inner">
             <div>
-              <p>Asesoría especializada</p>
               <h2 id="products-cta-title">¿No encuentras tu repuesto?</h2>
             </div>
             <div>
               <p>
-                Comparte la marca, el modelo, el año y, si lo tienes, el chasis
-                o VIN. Te ayudaremos a preparar tu consulta.
+                Cuéntanos qué repuesto necesitas y los datos de tu vehículo. Con
+                la marca, el modelo, el año o el VIN, te ayudamos a encontrar la
+                opción adecuada.
               </p>
               <Link className="button" href="/contacto">
                 Hablemos de tu vehículo <span aria-hidden="true">↗</span>
