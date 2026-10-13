@@ -90,6 +90,12 @@ body.wallpaper-viewer-exiting .home-page main > :not(.hero) {
     visibility 0s linear 360ms;
 }
 
+.home-page[data-topbar-visible] > .topbar .container {
+  min-height: 40px;
+  align-items: center;
+  padding-block: 0;
+}
+
 .home-page[data-topbar-visible="true"] > .topbar {
   max-height: 40px;
   visibility: visible;

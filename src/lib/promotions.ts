@@ -23,9 +23,9 @@ export const demoPromotions: Promotion[] = [
   {
     _id: "demo-brakes",
     slug: "frenos-a-punto",
-    title: "Frenos a punto. Sigue con confianza.",
+    title: "Kit de frenos",
     description:
-      "Renueva discos y pastillas con un 15% de descuento en el kit de frenos.",
+      "Obtén 15% de descuento en el kit de discos y pastillas para renovar tus frenos.",
     badge: "15% OFF",
     category: "Frenos",
     icon: "brake",
@@ -37,9 +37,9 @@ export const demoPromotions: Promotion[] = [
   {
     _id: "demo-oil",
     slug: "mantenimiento-esencial",
-    title: "Un nuevo comienzo para tu motor.",
+    title: "Mantenimiento esencial",
     description:
-      "Aceite y filtro juntos: un 10% de descuento para tu próximo mantenimiento.",
+      "Obtén 10% de descuento al comprar juntos el aceite y el filtro para tu próximo mantenimiento.",
     badge: "10% OFF",
     category: "Lubricantes",
     icon: "oil",
@@ -51,9 +51,9 @@ export const demoPromotions: Promotion[] = [
   {
     _id: "demo-filters",
     slug: "respira-mejor",
-    title: "Aire limpio. Mejor rendimiento.",
+    title: "Filtros de aire",
     description:
-      "Combina filtro de aire y de cabina con un 20% de descuento en el segundo filtro.",
+      "Combina el filtro de aire y el de cabina y recibe 20% de descuento en el segundo filtro.",
     badge: "20% OFF",
     category: "Filtros",
     icon: "filter",

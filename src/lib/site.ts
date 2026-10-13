@@ -8,6 +8,7 @@ export const siteConfig = {
     { label: "Quiénes somos", href: "/quienes-somos" },
     { label: "Productos", href: "/productos" },
     { label: "Contacto", href: "/contacto" },
+    { label: "Pedidos Especiales", href: "/pedidos-especiales" },
     { label: "Blog", href: "/blog" },
   ],
 } as const;

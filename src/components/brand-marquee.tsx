@@ -1,24 +1,54 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
+import { type CSSProperties, useRef } from "react";
 
-export const brands = ["Volkswagen", "Audi", "SEAT", "Porsche"];
+export const brands = [
+  "Volkswagen",
+  "Audi",
+  "SEAT",
+  "Porsche",
+  "Mercedes",
+  "BMW",
+] as const;
 
-const officialLogos: Record<
-  string,
-  { src: string; width: number; height: number }
-> = {
+export type BrandName = (typeof brands)[number];
+
+type Logo = {
+  src: string;
+  width: number;
+  height: number;
+};
+
+const officialLogos: Partial<Record<BrandName, Logo>> = {
   Volkswagen: {
     src: "/images/brands/volkswagen.png",
     width: 2048,
     height: 2048,
   },
-  Audi: { src: "/images/brands/audi.png", width: 3051, height: 1081 },
-  Porsche: { src: "/images/brands/porsche.png", width: 2500, height: 2500 },
+  Audi: {
+    src: "/images/brands/audi.png",
+    width: 3051,
+    height: 1081,
+  },
+  Porsche: {
+    src: "/images/brands/porsche.png",
+    width: 2500,
+    height: 2500,
+  },
+  Mercedes: {
+    src: "/images/brands/mercedes.png",
+    width: 1200,
+    height: 1200,
+  },
+  BMW: {
+    src: "/images/brands/bmw.png",
+    width: 2500,
+    height: 2500,
+  },
 };
 
-export function BrandLogo({ name }: { name: string }) {
+export function BrandLogo({ name }: { name: BrandName }) {
   const logo = officialLogos[name];
 
   return (
@@ -41,7 +71,7 @@ export function BrandLogo({ name }: { name: string }) {
 export function BrandMarquee({
   onChoose,
 }: {
-  onChoose: (name: string) => void;
+  onChoose: (name: BrandName) => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -61,6 +91,7 @@ export function BrandMarquee({
         </p>
         <div
           className="brand-marquee"
+          style={{ "--brand-count": brands.length } as CSSProperties}
           onMouseEnter={() => setPlaybackRate(0)}
           onMouseLeave={() => setPlaybackRate(1)}
         >

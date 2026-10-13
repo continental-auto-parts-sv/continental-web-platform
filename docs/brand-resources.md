@@ -158,10 +158,10 @@ muestra como equipo actual.
 
 El logo oficial horizontal de Continental (variante 1, negro y rojo) está aplicado
 mediante `src/components/continental-logo.tsx` en los encabezados y pies de portada
-y promociones. Volkswagen, Audi y Porsche usan los PNG oficiales tanto en el
-carrusel como en el selector del formulario. SEAT permanece como nombre en texto
-porque no se recibió su archivo. La animación y opacidad del carrusel se conservan;
-el logo corporativo no recibe filtros ni reducción de opacidad.
+y promociones. Volkswagen, Audi, Porsche, Mercedes y BMW usan los PNG oficiales
+tanto en el carrusel como en el selector del formulario. SEAT permanece como nombre
+en texto porque no se recibió su archivo. La animación y opacidad del carrusel se
+conservan; el logo corporativo no recibe filtros ni reducción de opacidad.
 
 Las copias web están en `public/images/brands/`; son copias exactas, sin recortes
 ni recoloración. Next.js genera los tamaños de entrega optimizados conservando la
@@ -173,16 +173,24 @@ relación de aspecto. Procedencia:
 | `volkswagen.png`             | `02 Logos Marcas Autos/Volkswagen-Logo.png`                                               |
 | `audi.png`                   | `02 Logos Marcas Autos/AUDI-Logo.png`                                                     |
 | `porsche.png`                | `02 Logos Marcas Autos/Porsche-Logo.png`                                                  |
+| `mercedes.png`               | `02 Logos Marcas Autos/Mercedes-Logo.png`                                                 |
+| `bmw.png`                    | `02 Logos Marcas Autos/BMW-Logo.png`                                                      |
 
-La portada usa Volkswagen Text Regular/Bold, copiados sin modificar desde
+Por decisión final del cliente, todo el sitio usa Volkswagen Text Regular/Bold
+para lectura y Formula 1 Display Bold para títulos, navegación y acciones
+destacadas. Las tres fuentes se copiaron sin modificar desde
 `01 Logos Continental Auto Parts/Fuentes CAP/` a `public/fonts/`.
-Las páginas de promociones conservan Arial. Formula 1 Display queda pendiente
-para una aplicación editorial específica.
 
-Pendientes: tipografía de promociones, paleta provisional y resolución
-del rojo principal, recurso de SEAT e incorporación del catálogo cuando se trabaje
-la línea de transporte pesado. El uso de logos oficiales no implica que toda la
-página ya cumpla el manual.
+La dirección visual aprobada es el diseño actual del sitio. La variante
+experimental `Identidad CAP` y su selector tipográfico fueron retirados del menú
+de desarrollo para evitar que puedan activarse por error. Los recursos oficiales
+de marca siguen siendo la fuente de los logos y del contenido comercial, pero no
+determinan la composición visual de la interfaz.
+
+Pendientes: resolución del rojo principal con la marca, recurso de SEAT e
+incorporación del catálogo cuando se trabaje la línea de transporte pesado. El
+uso de logos oficiales y la vista comparativa no implican una certificación
+formal de cumplimiento del manual.
 
 Los derivados web deben tener nombres claros y registrar su procedencia. No
 sobrescribir los originales ni copiar el paquete completo a `public/`.

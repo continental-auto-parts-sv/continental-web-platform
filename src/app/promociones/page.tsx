@@ -8,17 +8,18 @@ import { getPromotionContent } from "@/lib/promotion-content";
 export const metadata: Metadata = { title: "Promociones" };
 
 export default async function PromotionsPage() {
-  const { promotions, unavailable } = await getPromotionContent();
-  const [featuredPromotion, ...morePromotions] = promotions;
+  const { promotions, featuredId, unavailable } = await getPromotionContent();
+  const orderedPromotions = [...promotions].sort(
+    (first, second) =>
+      Number(second._id === featuredId) - Number(first._id === featuredId),
+  );
 
   return (
     <PromotionShell>
       <div className="promotions-page">
         <section className="promotions-intro container">
           <div className="promotions-intro-copy">
-            <h1>
-              Cuida tu auto.
-              <br />
+            <h1 className="page-display-title">
               <em>Aprovecha</em> el momento.
             </h1>
           </div>
@@ -38,54 +39,51 @@ export default async function PromotionsPage() {
           id="promociones-disponibles"
           aria-label="Promociones disponibles"
         >
-          {featuredPromotion && (
-            <article className="promotion-lead">
-              <Link
-                className="promotion-lead-link"
-                href={`/promociones/${featuredPromotion.slug}`}
-                aria-label={`Ver promoción: ${featuredPromotion.title}`}
-              >
-                <PromotionArtwork
-                  photoSrc="/images/promotions/featured-brake-service.webp"
-                  promotion={featuredPromotion}
-                />
-                <div className="promotion-lead-copy">
-                  <div>
-                    <p className="eyebrow">
-                      DESTACADA · {featuredPromotion.category}
-                    </p>
-                    <h2>{featuredPromotion.title}</h2>
-                    <p>{featuredPromotion.description}</p>
-                  </div>
-                  <span className="promotion-arrow" aria-hidden="true">
-                    ↗
-                  </span>
-                </div>
-              </Link>
-            </article>
+          {orderedPromotions.length > 0 && (
+            <div className="promotion-showcase-header">
+              <h2>Promociones activas</h2>
+            </div>
           )}
 
-          {morePromotions.length > 0 && (
+          {orderedPromotions.length > 0 && (
             <div className="promotion-cards">
-              {morePromotions.map((promotion) => (
-                <article className="promotion-card" key={promotion._id}>
-                  <Link
-                    className="promotion-card-link"
-                    href={`/promociones/${promotion.slug}`}
-                    aria-label={`Ver promoción: ${promotion.title}`}
+              {orderedPromotions.map((promotion) => {
+                const isFeatured = promotion._id === featuredId;
+
+                return (
+                  <article
+                    className={`promotion-card${
+                      isFeatured ? " promotion-card-featured" : ""
+                    }`}
+                    key={promotion._id}
                   >
-                    <PromotionArtwork promotion={promotion} />
-                    <div className="promotion-card-copy">
-                      <p className="eyebrow">{promotion.category}</p>
-                      <h2>{promotion.title}</h2>
-                      <p>{promotion.description}</p>
-                      <span className="text-link">
-                        Ver detalles <span aria-hidden="true">↗</span>
-                      </span>
-                    </div>
-                  </Link>
-                </article>
-              ))}
+                    <Link
+                      className="promotion-card-link"
+                      href={`/promociones/${promotion.slug}`}
+                      aria-label={`Ver promoción: ${promotion.title}`}
+                    >
+                      <PromotionArtwork
+                        photoSrc={
+                          isFeatured
+                            ? "/images/promotions/featured-brake-service.webp"
+                            : undefined
+                        }
+                        promotion={promotion}
+                      />
+                      <div className="promotion-card-copy">
+                        <p className="eyebrow">
+                          <span>{promotion.category}</span>
+                        </p>
+                        <h3>{promotion.title}</h3>
+                        <p>{promotion.description}</p>
+                        <span className="text-link">
+                          Ver detalles <span aria-hidden="true">↗</span>
+                        </span>
+                      </div>
+                    </Link>
+                  </article>
+                );
+              })}
             </div>
           )}
 
@@ -107,24 +105,6 @@ export default async function PromotionsPage() {
             </div>
           )}
         </section>
-
-        {promotions.length > 0 && (
-          <section className="promotion-support" aria-label="Asesoría">
-            <div className="container promotion-support-inner">
-              <div>
-                <p className="eyebrow">ANTES DE COMPRAR</p>
-                <h2>La promoción correcta empieza por la pieza correcta.</h2>
-              </div>
-              <p>
-                Compártenos marca, modelo y año. Te ayudamos a revisar la
-                compatibilidad antes de preparar tu cotización.
-              </p>
-              <Link className="button" href="/#consulta">
-                Consultar mi vehículo <span aria-hidden="true">↗</span>
-              </Link>
-            </div>
-          </section>
-        )}
       </div>
     </PromotionShell>
   );

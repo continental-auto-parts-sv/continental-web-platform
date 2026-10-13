@@ -1,0 +1,258 @@
+.dev-settings {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 900;
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  color: #f4f4f6;
+  font-family: system-ui, sans-serif;
+}
+
+.dev-settings button {
+  color: inherit;
+  font: inherit;
+}
+
+.dev-settings-trigger {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  gap: 8px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 999px;
+  background: rgb(17 18 20 / 94%);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 24%);
+  font-size: 0.75rem;
+  font-weight: 700;
+  backdrop-filter: blur(18px);
+}
+
+.dev-settings-trigger span {
+  font-size: 1rem;
+}
+
+.dev-settings-panel {
+  width: min(330px, calc(100vw - 40px));
+  max-height: calc(100vh - 86px);
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 18px;
+  background: rgb(17 18 20 / 96%);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 34%);
+  backdrop-filter: blur(24px) saturate(140%);
+}
+
+.dev-settings-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.dev-settings-heading > div,
+.dev-settings-options button {
+  display: grid;
+  gap: 4px;
+}
+
+.dev-settings-heading strong,
+.dev-settings-options strong {
+  font-size: 0.8125rem;
+}
+
+.dev-settings-heading span,
+.dev-settings-options span {
+  color: #aaaab1;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
+.dev-settings-heading button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 8%);
+  font-size: 1.2rem;
+}
+
+.dev-settings-options {
+  display: grid;
+  gap: 8px;
+}
+
+.dev-settings-section + .dev-settings-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.dev-settings-section > p,
+.dev-settings-section-heading p {
+  margin: 0 0 8px;
+  color: #aaaab1;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dev-settings-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dev-settings-section-heading output {
+  color: #f4f4f6;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.dev-settings-options button {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 5%);
+  text-align: left;
+}
+
+.dev-settings-options button[aria-pressed="true"] {
+  border-color: rgb(229 36 50 / 72%);
+  background: rgb(229 36 50 / 16%);
+}
+
+.dev-settings-options button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.dev-settings-scale {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 4%);
+}
+
+.dev-settings-scale button {
+  min-width: 0;
+  min-height: 38px;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid rgb(255 255 255 / 10%);
+  background: transparent;
+  color: #aaaab1;
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.dev-settings-scale button:last-child {
+  border-right: 0;
+}
+
+.dev-settings-scale button[aria-pressed="true"] {
+  background: rgb(229 36 50 / 18%);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(229 36 50 / 72%);
+}
+
+.dev-settings-scale-note {
+  display: block;
+  margin-top: 8px;
+  color: #85858b;
+  font-size: 0.625rem;
+  line-height: 1.4;
+}
+
+.dev-settings-accessibility {
+  display: grid;
+  gap: 8px;
+}
+
+.dev-settings-accessibility button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 5%);
+  text-align: left;
+}
+
+.dev-settings-accessibility button > span {
+  display: grid;
+  gap: 3px;
+}
+
+.dev-settings-accessibility strong {
+  font-size: 0.75rem;
+}
+
+.dev-settings-accessibility small {
+  color: #aaaab1;
+  font-size: 0.625rem;
+  line-height: 1.35;
+}
+
+.dev-settings-accessibility i {
+  position: relative;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 19px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 14%);
+  transition: background-color 160ms ease;
+}
+
+.dev-settings-accessibility i::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #aaaab1;
+  content: "";
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.dev-settings-accessibility button[aria-pressed="true"] {
+  border-color: rgb(229 36 50 / 54%);
+  background: rgb(229 36 50 / 10%);
+}
+
+.dev-settings-accessibility button[aria-pressed="true"] i {
+  background: var(--red);
+}
+
+.dev-settings-accessibility button[aria-pressed="true"] i::after {
+  background: #fff;
+  transform: translateX(13px);
+}
+
+.dev-settings button:focus-visible {
+  outline: 2px solid #f17824;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .dev-settings {
+    right: 12px;
+    bottom: 12px;
+  }
+}

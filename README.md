@@ -155,19 +155,21 @@ dark overlays are applied by CSS. Original attachment hashes are recorded below.
 | Photo / local derivative | Source supplied by owner | Photographer shown on source page |
 | --- | --- | --- |
 | Audi — `public/images/hero/audi.webp` | [Unsplash](https://unsplash.com/photos/the-interior-of-a-car-with-a-steering-wheel-and-dashboard-FS_xLSg8lKI) | Александр Бендус (@alexandr_bendus) |
-| Volkswagen — `public/images/hero/volkswagen.webp` | [Unsplash](https://unsplash.com/photos/the-interior-of-a-car-with-a-steering-wheel-and-dashboard-FS_xLSg8lKI) | Unresolved: supplied URL duplicates Audi |
+| Volkswagen — `public/images/hero/volkswagen.webp` | [Unsplash](https://unsplash.com/photos/red-honda-car-on-green-grass-field-during-daytime-sk3sHkDsscI) | Muhammed Akthar (@aktharnavas) |
 | SEAT — `public/images/hero/seat.webp` | [Unsplash](https://unsplash.com/photos/black-bmw-m-3-parked-near-white-building-J_Xo43mn5tY) | Marcel Strauß (@martzzl) |
 | Porsche — `public/images/hero/porsche.webp` | [Unsplash](https://unsplash.com/photos/a-black-sports-car-parked-in-front-of-a-garage-JUiftQpriyo) | Nejc Soklič |
 
-Source pages checked on 2026-09-28 display the Unsplash License for the Audi,
-SEAT and Porsche links. This is a provenance record, not a determination of all
+The Audi, SEAT, and Porsche source pages were checked on 2026-09-28. The corrected
+Volkswagen source was supplied and checked on 2026-10-01. All four pages display
+the Unsplash License. This is a provenance record, not a determination of all
 usage rights or a claim of endorsement by the vehicle brands. For future review,
 retain the applicable [Unsplash license](https://unsplash.com/license) and any
 permission/release records with the project.
 
 Outstanding source issues:
-- **Volkswagen:** the supplied URL points to the Audi interior, not the attached
-  red Volkswagen. Its correct source and photographer remain unverified.
+- **Volkswagen:** the source page title describes a “red honda car,” while its
+  tags identify a Volkswagen Polo and the supplied attachment shows a Volkswagen.
+  Preserve the source URL and this discrepancy in the provenance record.
 - **SEAT:** the supplied page title/slug says “black bmw m 3,” while the attachment
   shows a SEAT and the page includes a SEAT tag. Preserve the supplied link;
   the title alone is not reliable vehicle identification.

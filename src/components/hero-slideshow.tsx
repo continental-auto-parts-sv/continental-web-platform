@@ -37,6 +37,8 @@ const dateFormatter = new Intl.DateTimeFormat("es-SV", {
   month: "long",
 });
 
+const accessibilityChangeEvent = "continental-dev-accessibility-change";
+
 export function HeroSlideshow() {
   const controlsRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(0);
@@ -192,17 +194,26 @@ export function HeroSlideshow() {
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMotion = () => {
-      reducedMotionRef.current = media.matches;
-      setReducedMotion(media.matches);
+    const updateMotion = (event?: Event) => {
+      const previewEnabled =
+        event instanceof CustomEvent && typeof event.detail === "number"
+          ? Boolean(event.detail & 1)
+          : document.querySelector<HTMLElement>(".home-page")?.dataset
+              .reducedMotion === "true";
+      const shouldReduceMotion = media.matches || previewEnabled;
+
+      reducedMotionRef.current = shouldReduceMotion;
+      setReducedMotion(shouldReduceMotion);
     };
     const updateVisibility = () => setVisible(!document.hidden);
     updateMotion();
     updateVisibility();
     media.addEventListener("change", updateMotion);
+    window.addEventListener(accessibilityChangeEvent, updateMotion);
     document.addEventListener("visibilitychange", updateVisibility);
     return () => {
       media.removeEventListener("change", updateMotion);
+      window.removeEventListener(accessibilityChangeEvent, updateMotion);
       document.removeEventListener("visibilitychange", updateVisibility);
     };
   }, []);

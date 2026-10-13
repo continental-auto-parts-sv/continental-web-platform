@@ -1,0 +1,440 @@
+.story-page {
+  overflow: clip;
+  background: var(--surface);
+}
+
+.story-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: max(720px, calc(100svh - 80px));
+  overflow: hidden;
+  background: #0b0c0e;
+  color: #fff;
+}
+
+.story-hero-image {
+  z-index: -3;
+  object-fit: cover;
+  object-position: 62% center;
+  will-change: transform;
+}
+
+.story-hero-shade {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(7 8 10 / 94%) 0%,
+      rgb(7 8 10 / 68%) 43%,
+      transparent 74%
+    ),
+    linear-gradient(0deg, rgb(7 8 10 / 74%), transparent 48%);
+}
+
+.story-hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(76px, 9vw, 128px);
+}
+
+.story-hero-kicker {
+  margin: 0 0 clamp(32px, 5vw, 64px);
+  color: rgb(255 255 255 / 64%);
+  font-size: 0.825rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.story-hero-kicker span,
+.story-period {
+  color: var(--red);
+}
+
+.story-hero-title {
+  max-width: 940px;
+  margin: 0;
+  color: #fff;
+  font-size: var(--page-title-size);
+  font-weight: 700;
+  letter-spacing: var(--page-title-tracking);
+  line-height: var(--page-title-leading);
+}
+
+.story-hero-title > span,
+.story-manifesto-line {
+  display: block;
+}
+
+.story-hero-summary {
+  max-width: 500px;
+  margin: clamp(36px, 5vw, 60px) 0 0;
+  color: rgb(255 255 255 / 72%);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.story-scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 48px;
+  margin-top: 30px;
+  gap: 12px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.story-scroll-cue span {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+}
+
+.story-hero-side-note {
+  position: absolute;
+  right: 3%;
+  bottom: 42px;
+  margin: 0;
+  color: rgb(255 255 255 / 48%);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.story-journey {
+  padding-block: clamp(96px, 12vw, 176px);
+}
+
+.story-journey-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(40px, 6vw, 88px);
+}
+
+.story-instrument-wrap {
+  position: sticky;
+  top: 130px;
+  display: grid;
+  place-items: center;
+  min-height: 560px;
+}
+
+.story-instrument {
+  position: relative;
+  width: min(100%, 560px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #141517;
+  box-shadow: 0 28px 80px rgb(20 21 23 / 16%);
+}
+
+.story-product-stage,
+.story-product-media,
+.story-instrument-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.story-product-stage {
+  z-index: 1;
+  will-change: transform;
+}
+
+.story-product-media {
+  opacity: 0;
+  transform: scale(0.94) translateY(12px) rotate(2deg);
+  will-change: transform, opacity;
+}
+
+.story-product-media:first-child {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.story-product-image {
+  padding: 13%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 24px rgb(0 0 0 / 42%));
+}
+
+.story-instrument-shade {
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle,
+      transparent 48%,
+      rgb(10 11 13 / 4%) 66%,
+      rgb(10 11 13 / 42%) 100%
+    ),
+    linear-gradient(135deg, rgb(229 36 50 / 8%), transparent 50%);
+}
+
+.story-ring {
+  position: absolute;
+  z-index: 3;
+  inset: 7%;
+  border: 1px dashed rgb(255 255 255 / 20%);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.story-journey-copy > .eyebrow {
+  margin-bottom: 20px;
+}
+
+.story-journey-copy > h2 {
+  max-width: 690px;
+  margin: 0;
+  font-size: clamp(3.2rem, 5.8vw, 6rem);
+  letter-spacing: -0.06em;
+  line-height: 0.94;
+}
+
+.story-about-copy {
+  max-width: 650px;
+  margin: 34px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.story-journey-steps {
+  position: relative;
+  margin-top: clamp(48px, 6vw, 82px);
+  padding-left: 50px;
+}
+
+.story-progress {
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 8px;
+  width: 2px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.story-progress-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform: scaleY(0);
+  transform-origin: top;
+  will-change: transform;
+}
+
+.story-step {
+  padding-block: 32px 56px;
+  border-top: 1px solid var(--border);
+  will-change: opacity;
+}
+
+.story-step h3 {
+  margin: 0;
+  font-size: clamp(1.7rem, 2.45vw, 2.7rem);
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.story-step p {
+  max-width: 470px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.story-manifesto {
+  overflow: hidden;
+  background: #101113;
+  color: #fff;
+}
+
+.story-word-ribbon {
+  padding-block: 10px;
+  overflow: hidden;
+  border-block: 1px solid rgb(255 255 255 / 12%);
+  color: rgb(255 255 255 / 24%);
+  white-space: nowrap;
+}
+
+.story-word-track {
+  position: relative;
+  left: 50%;
+  width: max-content;
+  font-size: clamp(1rem, 1.6vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  transform: translateX(-50%);
+}
+
+.story-manifesto-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 64px;
+  padding-block: clamp(100px, 12vw, 176px);
+}
+
+.story-manifesto-copy h2 {
+  max-width: 1050px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(3rem, 6.4vw, 6.8rem);
+  letter-spacing: -0.06em;
+  line-height: 0.94;
+}
+
+.story-manifesto-copy h2 em {
+  color: #f13c47;
+}
+
+.story-manifesto-copy > p {
+  max-width: 550px;
+  margin: 42px 0 0;
+  color: rgb(255 255 255 / 60%);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.story-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  width: min(100%, 330px);
+  min-height: 110px;
+  padding: 22px 24px;
+  gap: 24px;
+  border-top: 1px solid rgb(255 255 255 / 28%);
+  border-bottom: 1px solid rgb(255 255 255 / 28%);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.story-cta strong {
+  font-size: 1.8rem;
+  transition: transform 180ms ease;
+}
+
+.story-cta:hover {
+  border-color: var(--red);
+  color: #f27a83;
+}
+
+.story-cta:hover strong {
+  transform: translate(4px, -4px);
+}
+
+@media (max-width: 900px) {
+  .story-journey-layout,
+  .story-manifesto-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .story-instrument-wrap {
+    position: relative;
+    top: auto;
+    min-height: 0;
+  }
+
+  .story-instrument {
+    width: min(76vw, 520px);
+    margin-inline: auto;
+  }
+
+  .story-manifesto-layout {
+    align-items: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .story-hero {
+    min-height: 680px;
+  }
+
+  .story-hero-image {
+    object-position: 67% center;
+  }
+
+  .story-hero-shade {
+    background:
+      linear-gradient(90deg, rgb(7 8 10 / 88%), rgb(7 8 10 / 32%)),
+      linear-gradient(0deg, rgb(7 8 10 / 84%), transparent 64%);
+  }
+
+  .story-hero-title {
+    font-size: var(--page-title-size);
+  }
+
+  .story-hero-summary {
+    max-width: 360px;
+  }
+
+  .story-hero-side-note {
+    display: none;
+  }
+
+  .story-journey-layout {
+    gap: 70px;
+  }
+
+  .story-journey-copy > h2 {
+    font-size: clamp(3rem, 14vw, 4.8rem);
+  }
+
+  .story-journey-steps {
+    padding-left: 30px;
+  }
+
+  .story-manifesto-copy h2 {
+    font-size: clamp(2.8rem, 13vw, 4.6rem);
+  }
+
+  .story-cta {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-hero-image,
+  .story-product-stage,
+  .story-ring,
+  .story-progress-fill,
+  .story-step,
+  .story-word-track,
+  .story-manifesto-line {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .story-product-media {
+    transform: none !important;
+    opacity: 0 !important;
+  }
+
+  .story-product-media:first-child {
+    opacity: 1 !important;
+  }
+
+  .story-cta strong {
+    transition: none;
+  }
+}

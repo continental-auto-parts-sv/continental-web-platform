@@ -12,9 +12,21 @@ import "./site-header.css";
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hasGlass, setHasGlass] = useState(false);
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    function updateHeaderMaterial() {
+      setHasGlass(window.scrollY > 8);
+    }
+
+    updateHeaderMaterial();
+    window.addEventListener("scroll", updateHeaderMaterial, { passive: true });
+
+    return () => window.removeEventListener("scroll", updateHeaderMaterial);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -41,7 +53,11 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   return (
-    <header className="header site-header" ref={headerRef}>
+    <header
+      className="header site-header"
+      ref={headerRef}
+      data-glass={hasGlass}
+    >
       <div className="container header-inner">
         <ContinentalLogo />
         <nav

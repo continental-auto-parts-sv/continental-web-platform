@@ -11,8 +11,13 @@ import { SiteFooter } from "./site-footer";
 import { PartIcon } from "./part-icon";
 import { BrandMarquee } from "./brand-marquee";
 import { ServiceHighlights } from "./service-highlights";
-import { VehicleFields } from "./vehicle-fields";
+import {
+  VehicleFields,
+  type InquiryErrors,
+  type InquiryField,
+} from "./vehicle-fields";
 import { PromotionFeature } from "./promotion-feature";
+import { DevSettings, useDevSettingsState } from "./dev-settings";
 import type { Promotion } from "@/lib/promotions";
 
 const categories = [
@@ -77,6 +82,17 @@ export function HomeExperience({
   promotion?: Promotion;
 }) {
   const [showTopbar, setShowTopbar] = useState(false);
+  const {
+    accessibilityPreview,
+    heroLayout,
+    increasedContrast,
+    pageScale,
+    reducedMotion,
+    reducedTransparency,
+    setAccessibilityPreview,
+    setHeroLayout,
+    setPageScale,
+  } = useDevSettingsState();
 
   useEffect(() => {
     let touchStartY: number | null = null;
@@ -172,23 +188,77 @@ export function HomeExperience({
   const [summary, setSummary] = useState("");
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
+  const [formErrors, setFormErrors] = useState<InquiryErrors>({});
+  const [validationAttempted, setValidationAttempted] = useState(false);
   const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "");
+
+  function clearInquiryFeedback() {
+    setSummary("");
+    setCopied(false);
+    setCopyError(false);
+    setFormErrors({});
+    setValidationAttempted(false);
+  }
 
   function chooseCategory(name: string) {
     setCategory(name);
     setSummary("");
     document.getElementById("consulta")?.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "instant"
-        : "smooth",
+      behavior:
+        reducedMotion ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
     });
   }
 
   function submitInquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const model = String(data.get("model") ?? "").trim();
+    const year = String(data.get("year") ?? "").trim();
+    const vin = String(data.get("vin") ?? "")
+      .trim()
+      .toUpperCase();
+    const currentYear = new Date().getFullYear() + 1;
+    const errors: InquiryErrors = {};
+
+    if (!brand) errors.brand = "Selecciona la marca de tu vehículo.";
+    if (!category) errors.category = "Selecciona el repuesto que necesitas.";
+    if (!model) errors.model = "Escribe el modelo de tu vehículo.";
+
+    if (!year) {
+      errors.year = "Ingresa el año de tu vehículo.";
+    } else if (
+      !Number.isInteger(Number(year)) ||
+      Number(year) < 1950 ||
+      Number(year) > currentYear
+    ) {
+      errors.year = `Ingresa un año entre 1950 y ${currentYear}.`;
+    }
+
+    if (vin && (vin.length < 5 || !/^[A-Z0-9 -]+$/.test(vin))) {
+      errors.vin =
+        "Usa al menos 5 caracteres: letras, números, espacios o guiones.";
+    }
+
+    const firstError = Object.keys(errors)[0] as InquiryField | undefined;
+    setFormErrors(errors);
+    setValidationAttempted(true);
+
+    if (firstError) {
+      setSummary("");
+      requestAnimationFrame(() => {
+        form.querySelector<HTMLElement>(`[name="${firstError}"]`)?.focus();
+      });
+      return;
+    }
+
+    const vehicleIdentity = vin ? `, chasis o VIN ${vin}` : "";
+
     setSummary(
-      `Hola, Continental Auto Parts. Busco ${category.toLowerCase()} para mi ${brand}, modelo ${data.get("model")}, año ${data.get("year")}. ¿Me pueden ayudar a confirmar compatibilidad y disponibilidad?`,
+      `Hola, Continental Auto Parts. Busco ${category.toLowerCase()} para mi ${brand}, modelo ${model}, año ${year}${vehicleIdentity}. ¿Me pueden ayudar a confirmar compatibilidad y disponibilidad?`,
     );
     setCopied(false);
     setCopyError(false);
@@ -198,6 +268,11 @@ export function HomeExperience({
     <div
       className={page === "home" ? "home-page home-landing" : "home-page"}
       data-topbar-visible={showTopbar}
+      data-hero-layout={heroLayout}
+      data-page-scale={pageScale}
+      data-reduced-motion={reducedMotion}
+      data-reduced-transparency={reducedTransparency}
+      data-increased-contrast={increasedContrast}
     >
       <a className="skip-link" href="#contenido">
         Saltar al contenido
@@ -213,7 +288,7 @@ export function HomeExperience({
       <SiteHeader />
       <main id="contenido">
         {page === "home" && (
-          <>
+          <div className="hero-main-view">
             <section className="hero" id="inicio">
               {hero}
               <div className="hero-shade" />
@@ -225,10 +300,10 @@ export function HomeExperience({
                     ›
                   </span>
                 </Link>
-                <h1>
-                  Tu auto.
+                <h1 className="page-display-title">
+                  ¡Tu auto,
                   <br />
-                  Siempre <em>listo.</em>
+                  Siempre <em>listo!</em>
                 </h1>
                 <p className="hero-description">
                   Repuestos para Volkswagen, Audi, SEAT y Porsche. Encuentra la
@@ -251,7 +326,7 @@ export function HomeExperience({
               }}
             />
             <ServiceHighlights />
-          </>
+          </div>
         )}
         {page !== "contact" && (
           <>
@@ -304,28 +379,23 @@ export function HomeExperience({
               <p>
                 Dinos qué manejas y qué necesitas.
                 <br />
-                Selecciona tu vehículo. Nosotros te orientamos.
+                Nosotros te orientamos.
               </p>
             </div>
             <form
               className="inquiry-form"
+              noValidate
               onSubmit={submitInquiry}
-              onChange={() => {
-                setSummary("");
-                setCopied(false);
-                setCopyError(false);
-              }}
+              onChange={clearInquiryFeedback}
             >
               <VehicleFields
                 brand={brand}
                 category={category}
+                errors={formErrors}
+                validationAttempted={validationAttempted}
                 onBrandChange={setBrand}
                 onCategoryChange={setCategory}
-                onEdit={() => {
-                  setSummary("");
-                  setCopied(false);
-                  setCopyError(false);
-                }}
+                onEdit={clearInquiryFeedback}
               />
               <button className="button inquiry-submit" type="submit">
                 Preparar mi consulta <Arrow />
@@ -378,6 +448,15 @@ export function HomeExperience({
           </div>
         </section>
       </main>
+      <DevSettings
+        heroLayout={heroLayout}
+        pageScale={pageScale}
+        accessibilityPreview={accessibilityPreview}
+        onHeroLayoutChange={setHeroLayout}
+        onPageScaleChange={setPageScale}
+        onAccessibilityPreviewChange={setAccessibilityPreview}
+        showHeroControls={page === "home"}
+      />
       <SiteFooter topHref={page === "home" ? "#inicio" : "#contenido"} />
     </div>
   );
