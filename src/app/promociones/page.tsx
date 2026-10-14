@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 import { PromotionArtwork } from "@/components/promotion-feature";
 import { PromotionShell } from "@/components/promotion-shell";
+import { StoreCta } from "@/components/store-cta";
 import { getPromotionContent } from "@/lib/promotion-content";
 
 export const metadata: Metadata = { title: "Promociones" };
@@ -69,6 +70,8 @@ export default async function PromotionsPage() {
                             : undefined
                         }
                         promotion={promotion}
+                        showFooter={false}
+                        showLabel={false}
                       />
                       <div className="promotion-card-copy">
                         <p className="eyebrow">
@@ -105,6 +108,7 @@ export default async function PromotionsPage() {
             </div>
           )}
         </section>
+        <StoreCta />
       </div>
     </PromotionShell>
   );

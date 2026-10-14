@@ -8,6 +8,7 @@ import "./home-design.css";
 
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
+import { StoreCta } from "./store-cta";
 import { PartIcon } from "./part-icon";
 import { BrandMarquee } from "./brand-marquee";
 import { ServiceHighlights } from "./service-highlights";
@@ -517,6 +518,7 @@ export function HomeExperience({
             </form>
           </div>
         </section>
+        {page === "home" && <StoreCta />}
       </main>
       <DevSettings
         heroLayout={heroLayout}

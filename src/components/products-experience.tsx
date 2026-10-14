@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { PartIcon } from "./part-icon";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { StoreCta } from "./store-cta";
 
 import "./home-design.css";
 import "./products-experience.css";
@@ -483,6 +484,7 @@ export function ProductsExperience() {
             </div>
           </div>
         </section>
+        <StoreCta products />
       </main>
       <SiteFooter topHref="#contenido" />
     </div>

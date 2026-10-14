@@ -9,6 +9,21 @@ afterEach(() => {
 });
 
 describe("products catalog", () => {
+  it("explains the future store integration and exposes its temporary link", () => {
+    render(<ProductsExperience />);
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Compra nuestros productos en línea.",
+      }),
+    ).toBeTruthy();
+    expect(
+      screen
+        .getByRole("link", { name: "Visitar la tienda" })
+        .getAttribute("href"),
+    ).toBe("https://www.shopify.com/");
+  });
+
   it("lists every light and heavy category", () => {
     render(<ProductsExperience />);
 

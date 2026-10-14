@@ -15,28 +15,51 @@ if (typeof window !== "undefined") {
 
 const journey = [
   {
-    verb: "Conocemos tu necesidad",
+    number: "01",
+    title: "Entendemos lo que necesitas",
     detail:
-      "Partimos de tu vehículo, lo que necesitas y el resultado que esperas.",
+      "Nos cuentas qué vehículo tienes y qué repuesto buscas. Revisamos contigo los detalles para orientarte hacia la pieza adecuada.",
+    image: "/images/about/store-reception.webp",
+    imageAlt: "Área de atención de Continental Auto Parts",
   },
   {
-    verb: "Asesoramos con experiencia",
+    number: "02",
+    title: "Te asesoramos con experiencia",
     detail:
-      "Nuestro equipo aplica su conocimiento para recomendarte opciones de calidad.",
+      "Aplicamos nuestro conocimiento en repuestos europeos para explicarte las opciones y ayudarte a elegir con confianza.",
+    image: "/images/about/journey-guidance.webp",
+    imageAlt: "Exhibición de marcas europeas en Continental Auto Parts",
   },
   {
-    verb: "Resolvemos contigo",
+    number: "03",
+    title: "Damos seguimiento a tu compra",
     detail:
-      "Acompañamos tu decisión y damos seguimiento hasta completar la entrega.",
+      "Te acompañamos desde la consulta hasta la entrega, resolviendo tus dudas y manteniéndote informado.",
+    image: "/images/about/journey-followup.webp",
+    imageAlt: "Recepción de Continental Auto Parts",
   },
 ];
 
-const productStages = [
-  { name: "Motor", image: "/images/categories/engine-dark.webp" },
-  { name: "Frenos", image: "/images/categories/brake-dark.webp" },
+const values = [
   {
-    name: "Suspensión",
-    image: "/images/categories/suspension-dark.webp",
+    title: "Integridad",
+    detail:
+      "Te brindamos información clara y honesta para que tomes decisiones con confianza.",
+  },
+  {
+    title: "Nuestra gente",
+    detail:
+      "Valoramos a nuestro equipo y promovemos su aprendizaje para atenderte cada día mejor.",
+  },
+  {
+    title: "Excelencia",
+    detail:
+      "Cuidamos los detalles de nuestra atención y buscamos mejorar en cada consulta.",
+  },
+  {
+    title: "Pasión",
+    detail:
+      "Nos apasiona el mundo automotriz y ponemos ese interés al servicio de tu vehículo.",
   },
 ];
 
@@ -47,136 +70,328 @@ export function AboutExperience() {
     () => {
       const motion = gsap.matchMedia();
 
-      motion.add("(prefers-reduced-motion: no-preference)", () => {
-        const productMedia = gsap.utils.toArray<HTMLElement>(
-          ".story-product-media",
-        );
-        const journeySteps = gsap.utils.toArray<HTMLElement>(".story-step");
+      motion.add(
+        {
+          desktop: "(min-width: 901px)",
+          mobile: "(max-width: 900px)",
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+        },
+        (context) => {
+          const { desktop, mobile, reduceMotion } = context.conditions as {
+            desktop: boolean;
+            mobile: boolean;
+            reduceMotion: boolean;
+          };
 
-        gsap.set(journeySteps, { opacity: 0.28 });
+          if (reduceMotion) return;
 
-        gsap
-          .timeline({ defaults: { ease: "power3.out" } })
-          .from(".story-hero-kicker", { opacity: 0, y: 18, duration: 0.5 })
-          .from(
-            ".story-hero-title > span",
-            { opacity: 0, yPercent: 75, stagger: 0.1, duration: 0.85 },
-            "-=0.25",
-          )
-          .from(
-            ".story-hero-summary, .story-scroll-cue",
-            { opacity: 0, y: 24, stagger: 0.08, duration: 0.55 },
-            "-=0.4",
-          );
+          gsap
+            .timeline({ defaults: { ease: "power3.out" } })
+            .from(".story-hero-title-line", {
+              autoAlpha: 0,
+              yPercent: 90,
+              stagger: 0.08,
+              duration: 0.85,
+            })
+            .from(
+              ".story-hero-summary, .story-scroll-cue",
+              { autoAlpha: 0, y: 24, stagger: 0.08, duration: 0.55 },
+              "-=0.42",
+            );
 
-        gsap.fromTo(
-          ".story-hero-image",
-          { scale: 1.03, yPercent: 0 },
-          {
-            scale: 1.08,
-            yPercent: 10,
+          gsap.to(".story-hero-image", {
+            scale: 1.09,
+            yPercent: 7,
             ease: "none",
             scrollTrigger: {
               trigger: ".story-hero",
               start: "top top",
               end: "bottom top",
-              scrub: 1.2,
+              scrub: 1,
             },
-          },
-        );
+          });
 
-        gsap.to(".story-progress-fill", {
-          scaleY: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".story-journey-steps",
-            start: "top 68%",
-            end: "bottom 42%",
-            scrub: 1,
-          },
-        });
-
-        const productTimeline = gsap.timeline({
-          defaults: {
-            duration: 0.5,
-            ease: "power1.inOut",
-          },
-          scrollTrigger: {
-            trigger: ".story-journey-steps",
-            start: "top 62%",
-            end: "bottom 62%",
-            scrub: 0.85,
-          },
-        });
-
-        productTimeline
-          .to(
-            productMedia[0],
-            { autoAlpha: 0, scale: 0.96, y: -10, rotation: -1.5 },
-            0.45,
-          )
-          .to(
-            productMedia[1],
-            { autoAlpha: 1, scale: 1, y: 0, rotation: 0 },
-            0.45,
-          )
-          .to(
-            productMedia[1],
-            { autoAlpha: 0, scale: 0.96, y: -10, rotation: -1.5 },
-            1.55,
-          )
-          .to(
-            productMedia[2],
-            { autoAlpha: 1, scale: 1, y: 0, rotation: 0 },
-            1.55,
-          )
-          .to(productMedia[2], { autoAlpha: 1, duration: 0.65 }, 2.05);
-
-        journeySteps.forEach((step) => {
-          gsap.to(step, {
-            opacity: 1,
-            duration: 0.55,
-            ease: "power2.out",
+          gsap.to(".story-hero-copy", {
+            yPercent: -12,
+            autoAlpha: 0.25,
+            ease: "none",
             scrollTrigger: {
-              trigger: step,
-              start: "top 68%",
+              trigger: ".story-hero",
+              start: "45% center",
+              end: "bottom top",
+              scrub: 1,
+            },
+          });
+
+          const introPoints =
+            gsap.utils.toArray<HTMLElement>(".story-intro-point");
+
+          if (desktop) {
+            const introMarkers = gsap.utils.toArray<HTMLElement>(
+              ".story-intro-marker",
+            );
+
+            gsap.set(introPoints.slice(1), { autoAlpha: 0, y: 44 });
+
+            const introTimeline = gsap.timeline({
+              defaults: { ease: "none" },
+              scrollTrigger: {
+                trigger: ".story-intro",
+                start: "top top",
+                end: () => `+=${window.innerHeight * 1.8}`,
+                pin: ".story-intro-layout",
+                scrub: 0.45,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              },
+            });
+
+            introTimeline.to({}, { duration: 0.5 });
+
+            introPoints.slice(1).forEach((point, index) => {
+              const previous = index;
+              const current = index + 1;
+              const at = 0.65 + index * 1.15;
+
+              introTimeline
+                .to(
+                  introPoints[previous],
+                  { autoAlpha: 0, y: -36, duration: 0.4 },
+                  at,
+                )
+                .fromTo(
+                  point,
+                  { autoAlpha: 0, y: 44 },
+                  { autoAlpha: 1, y: 0, duration: 0.52 },
+                  at + 0.12,
+                )
+                .to(
+                  introMarkers[previous],
+                  { opacity: 0.35, scale: 0.72, duration: 0.35 },
+                  at,
+                )
+                .to(
+                  introMarkers[current],
+                  { opacity: 1, scale: 1, duration: 0.42 },
+                  at + 0.12,
+                )
+                .to(
+                  ".story-intro-progress-fill",
+                  {
+                    scaleY: (current + 1) / introPoints.length,
+                    duration: 0.52,
+                  },
+                  at + 0.12,
+                );
+            });
+
+            introTimeline.to({}, { duration: 0.5 });
+          }
+
+          if (mobile) {
+            introPoints.forEach((point) => {
+              gsap.from(point, {
+                autoAlpha: 0,
+                y: 40,
+                duration: 0.72,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: point,
+                  start: "top 84%",
+                  toggleActions: "play none none reverse",
+                },
+              });
+            });
+          }
+
+          gsap.utils
+            .toArray<HTMLElement>(".story-copy-reveal")
+            .forEach((element) => {
+              gsap.from(element, {
+                autoAlpha: 0,
+                y: 54,
+                duration: 0.85,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: element,
+                  start: "top 84%",
+                  toggleActions: "play none none reverse",
+                },
+              });
+            });
+
+          if (desktop) {
+            const panels = gsap.utils.toArray<HTMLElement>(
+              ".story-journey-panel",
+            );
+            const scenes = gsap.utils.toArray<HTMLElement>(
+              ".story-journey-scene",
+            );
+
+            gsap.set(panels.slice(1), { autoAlpha: 0, y: 46 });
+            gsap.set(scenes.slice(1), { autoAlpha: 0, scale: 1.04 });
+
+            const journeyTimeline = gsap.timeline({
+              defaults: { ease: "power2.inOut", duration: 0.55 },
+              scrollTrigger: {
+                trigger: ".story-journey",
+                start: "top top",
+                end: () => `+=${window.innerHeight * 2.6}`,
+                pin: ".story-journey-stage",
+                scrub: 0.55,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              },
+            });
+
+            journeyTimeline.to({}, { duration: 0.55 });
+
+            panels.slice(1).forEach((panel, index) => {
+              const previous = index;
+              const current = index + 1;
+              const at = 0.8 + index * 1.15;
+
+              journeyTimeline
+                .to(
+                  panels[previous],
+                  { autoAlpha: 0, y: -40, duration: 0.42 },
+                  at,
+                )
+                .to(
+                  scenes[previous],
+                  { autoAlpha: 0, scale: 0.96, duration: 0.48 },
+                  at,
+                )
+                .fromTo(
+                  panel,
+                  { autoAlpha: 0, y: 44 },
+                  { autoAlpha: 1, y: 0, duration: 0.55 },
+                  at + 0.16,
+                )
+                .fromTo(
+                  scenes[current],
+                  { autoAlpha: 0, scale: 1.05 },
+                  { autoAlpha: 1, scale: 1, duration: 0.62 },
+                  at + 0.12,
+                )
+                .to(
+                  ".story-journey-progress-fill",
+                  { scaleX: (current + 1) / panels.length, duration: 0.62 },
+                  at + 0.12,
+                );
+            });
+
+            journeyTimeline.to({}, { duration: 0.65 });
+          }
+
+          gsap.from(".story-commitment-line", {
+            autoAlpha: 0,
+            yPercent: 70,
+            stagger: 0.1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".story-commitment-title",
+              start: "top 76%",
               toggleActions: "play none none reverse",
             },
           });
-        });
 
-        gsap.to(".story-product-stage", {
-          y: -8,
-          duration: 3.8,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-        });
+          const valueCards = gsap.utils.toArray<HTMLElement>(".story-value");
 
-        gsap.to(".story-ring", {
-          rotation: 360,
-          duration: 36,
-          ease: "none",
-          repeat: -1,
-        });
+          if (desktop) {
+            const valuesViewport = document.querySelector<HTMLElement>(
+              ".story-values-viewport",
+            );
+            const valuesTrack =
+              document.querySelector<HTMLElement>(".story-values-list");
 
-        gsap.from(".story-manifesto-line", {
-          opacity: 0,
-          yPercent: 55,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".story-manifesto-copy",
-            start: "top 72%",
-            toggleActions: "play none none reverse",
-          },
-        });
+            if (valuesViewport && valuesTrack) {
+              const horizontalDistance = () =>
+                Math.max(
+                  0,
+                  valuesTrack.scrollWidth - valuesViewport.clientWidth,
+                );
 
+              const valuesTimeline = gsap.timeline({
+                defaults: { ease: "none" },
+                scrollTrigger: {
+                  trigger: ".story-values",
+                  start: "top 80px",
+                  end: () =>
+                    `+=${Math.max(
+                      horizontalDistance(),
+                      window.innerHeight * 0.75,
+                    )}`,
+                  pin: ".story-values-stage",
+                  scrub: 0.55,
+                  anticipatePin: 1,
+                  invalidateOnRefresh: true,
+                },
+              });
+
+              valuesTimeline
+                .to(valuesTrack, { x: () => -horizontalDistance() }, 0)
+                .to(".story-values-progress-fill", { scaleX: 1 }, 0);
+
+              valueCards.forEach((card) => {
+                gsap.fromTo(
+                  card,
+                  { opacity: 0.58, scale: 0.94 },
+                  {
+                    opacity: 1,
+                    scale: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                      containerAnimation: valuesTimeline,
+                      trigger: card,
+                      start: "left 88%",
+                      end: "center 62%",
+                      scrub: true,
+                    },
+                  },
+                );
+              });
+            }
+          }
+
+          if (mobile) {
+            gsap.from(valueCards, {
+              autoAlpha: 0,
+              x: 48,
+              stagger: 0.08,
+              duration: 0.68,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: ".story-values-list",
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+              },
+            });
+          }
+        },
+      );
+
+      let scrollFrame = 0;
+      const resetScrollPosition = () => {
+        const root = document.documentElement;
+        const previousScrollBehavior = root.style.scrollBehavior;
+
+        root.style.scrollBehavior = "auto";
+        window.scrollTo(0, 0);
+        root.style.scrollBehavior = previousScrollBehavior;
         ScrollTrigger.refresh();
+      };
+
+      const refreshFrame = window.requestAnimationFrame(() => {
+        scrollFrame = window.requestAnimationFrame(resetScrollPosition);
       });
 
-      return () => motion.revert();
+      return () => {
+        window.cancelAnimationFrame(refreshFrame);
+        window.cancelAnimationFrame(scrollFrame);
+        motion.revert();
+      };
     },
     { scope: pageRef },
   );
@@ -184,114 +399,205 @@ export function AboutExperience() {
   return (
     <article className="story-page" ref={pageRef}>
       <section className="story-hero">
-        <Image
-          className="story-hero-image"
-          src="/images/hero/porsche.webp"
-          alt="Porsche negro frente a un taller"
-          fill
-          priority
-          sizes="100vw"
-        />
-        <div className="story-hero-shade" />
-        <div className="container story-hero-content">
-          <h1 className="story-hero-title page-display-title">
-            <span>Tu auto tiene</span>
-            <span>camino por</span>
-            <span>
-              delante<span className="story-period">.</span>
-            </span>
-          </h1>
-          <p className="story-hero-summary">
-            Especialistas en repuestos europeos de alta calidad para Volkswagen,
-            Audi, SEAT y Porsche.
-          </p>
-          <a className="story-scroll-cue" href="#como-trabajamos">
-            <span aria-hidden="true">↓</span> Así lo hacemos
-          </a>
+        <figure className="story-hero-frame">
+          <Image
+            className="story-hero-image"
+            src="/images/about/store-reception.webp"
+            alt="Área de atención de Continental Auto Parts"
+            fill
+            loading="eager"
+            priority
+            sizes="100vw"
+          />
+          <span className="story-hero-scrim" />
+        </figure>
+
+        <div className="story-hero-glow" aria-hidden="true" />
+        <div className="container story-hero-shell">
+          <div className="story-hero-copy">
+            <h1 className="story-hero-title">
+              <span className="story-hero-title-line">Repuestos europeos.</span>
+              <span className="story-hero-title-line story-hero-title-accent">
+                Personas de confianza.
+              </span>
+            </h1>
+            <p className="story-hero-summary">
+              Conocimiento técnico y atención cercana para ayudarte a encontrar
+              la pieza adecuada para tu vehículo.
+            </p>
+            <a className="story-scroll-cue" href="#nuestra-historia">
+              <span aria-hidden="true">↓</span>
+              <span>Descubre nuestra historia</span>
+            </a>
+          </div>
         </div>
-        <p className="story-hero-side-note" aria-hidden="true">
-          Volkswagen · Audi · SEAT · Porsche
-        </p>
       </section>
 
-      <section className="story-journey" id="como-trabajamos">
-        <div className="container story-journey-layout">
-          <div className="story-instrument-wrap">
-            <div className="story-instrument" aria-hidden="true">
-              <div className="story-product-stage">
-                {productStages.map((product, index) => (
-                  <div
-                    className="story-product-media"
-                    data-product-index={index}
-                    key={product.name}
-                  >
+      <section className="story-intro" id="nuestra-historia">
+        <div className="container story-intro-layout">
+          <div className="story-intro-stage">
+            <div className="story-intro-progress" aria-hidden="true">
+              <span className="story-intro-progress-fill" />
+              <i className="story-intro-marker" />
+              <i className="story-intro-marker" />
+              <i className="story-intro-marker" />
+            </div>
+
+            <div className="story-intro-copy">
+              <p className="story-intro-point story-intro-lead">
+                En Continental Auto Parts nos especializamos en la venta de
+                repuestos de alta calidad para Volkswagen, Audi, SEAT, BMW,
+                Mercedes Benz, Mini Cooper y Porsche.
+              </p>
+              <p className="story-intro-point">
+                Combinamos conocimiento técnico y atención cercana para ayudarte
+                a encontrar la pieza adecuada para tu vehículo.
+              </p>
+              <p className="story-intro-point">
+                Sabemos que cada consulta merece tiempo y atención. Por eso,
+                escuchamos lo que necesitas, te orientamos con claridad y te
+                acompañamos durante tu compra.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="story-journey" id="como-te-acompanamos">
+        <div className="story-journey-stage">
+          <div className="container story-journey-shell">
+            <header className="story-journey-header">
+              <h2>Así te acompañamos</h2>
+            </header>
+
+            <div className="story-journey-visual" aria-hidden="true">
+              <div className="story-journey-scene story-scene-vehicle">
+                <Image
+                  src="/images/about/store-reception.webp"
+                  alt=""
+                  fill
+                  sizes="(max-width: 900px) 90vw, 44vw"
+                />
+                <div className="story-scene-shade" />
+                <span className="story-focus-ring" />
+              </div>
+
+              <div className="story-journey-scene story-scene-guidance">
+                <Image
+                  src="/images/about/journey-guidance.webp"
+                  alt=""
+                  fill
+                  sizes="(max-width: 900px) 90vw, 44vw"
+                />
+                <div className="story-scene-shade" />
+              </div>
+
+              <div className="story-journey-scene story-scene-followup">
+                <Image
+                  src="/images/about/journey-followup.webp"
+                  alt=""
+                  fill
+                  sizes="(max-width: 900px) 90vw, 44vw"
+                />
+                <div className="story-scene-shade" />
+              </div>
+            </div>
+
+            <div className="story-journey-copy">
+              {journey.map((item) => (
+                <article className="story-journey-panel" key={item.number}>
+                  <div className="story-panel-media">
                     <Image
-                      className="story-product-image"
-                      src={product.image}
-                      alt=""
+                      src={item.image}
+                      alt={item.imageAlt}
                       fill
-                      sizes="(max-width: 900px) 80vw, 38vw"
+                      sizes="(max-width: 900px) calc(100vw - 48px), 1px"
                     />
                   </div>
-                ))}
-              </div>
-              <div className="story-instrument-shade" />
-              <span className="story-ring" />
-            </div>
-          </div>
-
-          <div className="story-journey-copy">
-            <p className="eyebrow">SOBRE NOSOTROS</p>
-            <h2>Repuestos europeos. Personas de confianza.</h2>
-            <p className="story-about-copy">
-              Somos especialistas en la venta de repuestos de alta calidad para
-              las marcas Volkswagen, Audi, SEAT y Porsche. Queremos que cada
-              cliente sienta la confianza y la comodidad de nuestro servicio,
-              brindándole la mejor atención y asesoría al solicitar o cotizar su
-              pieza. Nos preparamos constantemente para darle la atención que se
-              merece.
-            </p>
-            <div className="story-journey-steps">
-              <span className="story-progress" aria-hidden="true">
-                <span className="story-progress-fill" />
-              </span>
-              {journey.map((item) => (
-                <div className="story-step" key={item.verb}>
-                  <h3>{item.verb}</h3>
+                  <h3>{item.title}</h3>
                   <p>{item.detail}</p>
-                </div>
+                </article>
               ))}
+            </div>
+
+            <div className="story-journey-progress" aria-hidden="true">
+              <span className="story-journey-progress-fill" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="story-manifesto">
-        <div className="story-word-ribbon" aria-hidden="true">
-          <div className="story-word-track">
-            Integridad · Nuestra gente · Excelencia · Pasión
+      <section className="story-commitment">
+        <div className="container story-commitment-layout">
+          <h2 className="story-commitment-title">
+            <span className="story-commitment-line">Nuestra especialidad</span>
+            <span className="story-commitment-line">es europea.</span>
+            <span className="story-commitment-line story-commitment-accent">
+              Nuestro compromiso es contigo.
+            </span>
+          </h2>
+          <p className="story-commitment-copy story-copy-reveal">
+            Trabajamos para que encontrar el repuesto que necesitas sea una
+            experiencia clara y sencilla. Nos preparamos constantemente para
+            brindarte una asesoría útil y un servicio en el que puedas confiar.
+          </p>
+        </div>
+      </section>
+
+      <section className="story-values">
+        <div className="story-values-stage">
+          <div className="container story-values-layout">
+            <div className="story-values-heading">
+              <h2>Nuestros valores</h2>
+            </div>
+
+            <div className="story-values-viewport">
+              <div
+                className="story-values-list"
+                aria-label="Valores de Continental Auto Parts"
+                role="list"
+                tabIndex={0}
+              >
+                {values.map((value) => (
+                  <article
+                    className="story-value"
+                    key={value.title}
+                    role="listitem"
+                  >
+                    {/*<span className="story-value-letter" aria-hidden="true">*/}
+                    {/*  {value.title.charAt(0)}*/}
+                    {/*</span>*/}
+                    <div className="story-value-copy">
+                      <h3>{value.title}</h3>
+                      <p>{value.detail}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="story-values-progress" aria-hidden="true">
+              <span className="story-values-progress-fill" />
+            </div>
           </div>
         </div>
-        <div className="container story-manifesto-layout">
-          <div className="story-manifesto-copy">
-            <h2>
-              <span className="story-manifesto-line">Sabemos de europeos.</span>
-              <span className="story-manifesto-line">Tu confianza</span>
-              <span className="story-manifesto-line">
-                es lo <em>primero</em>
-              </span>
-            </h2>
-            <p>
-              Nos apasiona el mundo de los repuestos europeos con altos
-              estándares de calidad. Trabajamos para superar las expectativas de
-              nuestros clientes con un servicio integral y un equipo capacitado,
-              enfocado y motivado para ser líderes en la región.
-            </p>
+      </section>
+
+      <section className="story-closing">
+        <div className="story-closing-card story-copy-reveal">
+          <div className="container story-closing-inner">
+            <div className="story-closing-copy">
+              <h2>¿Buscas un repuesto para tu vehículo?</h2>
+              <p>
+                Cuéntanos la marca, el modelo, el año y la pieza que necesitas.
+                Nuestro equipo te ayudará a encontrar una opción adecuada.
+              </p>
+            </div>
+            <Link className="story-cta" href="/contacto">
+              <span>Cotizar mi repuesto</span>
+              <strong aria-hidden="true">↗</strong>
+            </Link>
           </div>
-          <Link className="story-cta" href="/contacto">
-            <span>Cuéntanos qué manejas</span>
-            <strong aria-hidden="true">↗</strong>
-          </Link>
         </div>
       </section>
     </article>

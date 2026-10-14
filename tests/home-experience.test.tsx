@@ -73,6 +73,20 @@ describe("homepage product lines", () => {
   });
 });
 
+describe("homepage store handoff", () => {
+  it("links the online store callout to its configured destination", () => {
+    render(<HomeExperience hero={<div />} />);
+
+    const storeLink = screen.getByRole("link", {
+      name: "Visitar la tienda",
+    });
+
+    expect(storeLink.getAttribute("href")).toBe("https://www.shopify.com/");
+    expect(storeLink.getAttribute("target")).toBe("_blank");
+    expect(storeLink.getAttribute("rel")).toContain("noopener");
+  });
+});
+
 describe("homepage vehicle brands", () => {
   it("includes the official MINI logo in the brands overview", () => {
     render(<HomeExperience hero={<div />} />);

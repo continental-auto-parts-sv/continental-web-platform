@@ -2371,6 +2371,15 @@
   min-height: 260px;
 }
 
+.home-page .promotion-card .promotion-badge {
+  top: 16px;
+  right: auto;
+  left: 16px;
+  padding: 9px 14px;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
 .home-page .promotion-card .promotion-art-label {
   max-width: 180px;
 }

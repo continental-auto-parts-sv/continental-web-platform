@@ -7,9 +7,13 @@ import { PartIcon } from "./part-icon";
 export function PromotionArtwork({
   promotion,
   photoSrc,
+  showLabel = true,
+  showFooter = true,
 }: {
   promotion: Promotion;
   photoSrc?: string;
+  showLabel?: boolean;
+  showFooter?: boolean;
 }) {
   let footerLabel = promotion.demo
     ? "PROMOCIÓN DE PRUEBA"
@@ -34,7 +38,7 @@ export function PromotionArtwork({
           src={photoSrc}
         />
       )}
-      {!photoSrc && (
+      {!photoSrc && showLabel && (
         <span className="promotion-art-label">
           CONTINENTAL / {promotion.category.toUpperCase()}
         </span>
@@ -45,9 +49,11 @@ export function PromotionArtwork({
         </div>
       )}
       <span className="promotion-badge">{promotion.badge}</span>
-      <span className="promotion-art-footer">
-        {footerLabel} <span aria-hidden="true">↗</span>
-      </span>
+      {showFooter && (
+        <span className="promotion-art-footer">
+          {footerLabel} <span aria-hidden="true">↗</span>
+        </span>
+      )}
     </div>
   );
 }
