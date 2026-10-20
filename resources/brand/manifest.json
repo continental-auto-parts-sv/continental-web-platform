@@ -1,6 +1,23 @@
 {
   "source": "/Users/carlosgonzalez/Desktop/Projects/Continental Auto Parts/Recursos Oficiales",
   "importedOn": "2026-09-27",
+  "additionalImports": [
+    {
+      "source": "/Users/carlosgonzalez/Downloads/LOGO-LINEACOMERCIAL",
+      "importedOn": "2026-10-19",
+      "destination": "06 Logo Linea Comercial"
+    },
+    {
+      "source": "User-provided Codex image attachments",
+      "importedOn": "2026-10-19",
+      "destination": "07 Logo Linea Liviana"
+    },
+    {
+      "source": "User-provided Codex image attachments",
+      "importedOn": "2026-10-19",
+      "destination": "08 Logo Mercadito Continental"
+    }
+  ],
   "files": [
     {
       "path": "01 Logos Continental Auto Parts/Fuentes CAP/Formula1-Bold_web.ttf",
@@ -387,6 +404,60 @@
       "path": "05 Catálogo Marcas Transporte Pesado/CATÁLOGO DE MARCAS.ai",
       "bytes": 13160541,
       "sha256": "64b6031e10e6ca1ed84e1c474d40fe489ed8fb03c0412718fccad1dc962e19cd"
+    },
+    {
+      "path": "06 Logo Linea Comercial/LOGO-LINEACOMERCIAL-PNG.png",
+      "bytes": 50856,
+      "sha256": "3693cfbed7fa1a5774047eae7bf9c001abbf54338d151296e64c3d4ef764ad08",
+      "format": "PNG",
+      "width": 1537,
+      "height": 516,
+      "mode": "RGBA"
+    },
+    {
+      "path": "06 Logo Linea Comercial/LOGO-LINEACOMERCIAL-VERSION-BLANCO.png",
+      "bytes": 48997,
+      "sha256": "f75864dd61ea41c066190d4350404eb5687954959470e31c101147801ffd7c02",
+      "format": "PNG",
+      "width": 1537,
+      "height": 516,
+      "mode": "RGBA"
+    },
+    {
+      "path": "07 Logo Linea Liviana/LOGO-LINEA-LIVIANA.png",
+      "bytes": 16276,
+      "sha256": "11dfff673e2c25ceb2c0de80bf8dd45691019356b720c3e64d9abf2e0fdf7084",
+      "format": "PNG",
+      "width": 515,
+      "height": 515,
+      "mode": "RGBA"
+    },
+    {
+      "path": "07 Logo Linea Liviana/LOGO-LINEA-LIVIANA-BLANCO.png",
+      "bytes": 14283,
+      "sha256": "53422cc859529dbd82b32f1192ec4d655e591ad71a1e24b3d488de2a37436367",
+      "format": "PNG",
+      "width": 515,
+      "height": 515,
+      "mode": "RGBA"
+    },
+    {
+      "path": "08 Logo Mercadito Continental/MERCADITO-CONTINENTAL.png",
+      "bytes": 23623,
+      "sha256": "83781341e1f1ea8ea16556251869ee4fd7171938d5564f77133e11adcefcbdf9",
+      "format": "PNG",
+      "width": 1518,
+      "height": 356,
+      "mode": "RGBA"
+    },
+    {
+      "path": "08 Logo Mercadito Continental/MERCADITO-CONTINENTAL-BLANCO.png",
+      "bytes": 19235,
+      "sha256": "dad66f307e7ebbfade6bf2f7914895378afd7f7a6e1116abc6bda7d99b5c7732",
+      "format": "PNG",
+      "width": 1518,
+      "height": 356,
+      "mode": "RGBA"
     },
     {
       "path": "MANUAL DE MARCA CONTINENTAL AUTOPARTS.pdf",

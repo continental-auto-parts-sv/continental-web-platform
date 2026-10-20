@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { siteConfig } from "../lib/site";
 
 import "./store-cta.css";
@@ -10,10 +12,26 @@ export function StoreCta({ products = false }: { products?: boolean }) {
       aria-labelledby={products ? "products-store-title" : "store-title"}
     >
       <div className="container store-cta-inner">
+        <span className="store-cta-brand" aria-label="Mercadito Continental">
+          <Image
+            className="store-cta-logo store-cta-logo-light"
+            src="/images/brands/mercadito-continental.png"
+            alt=""
+            width={1518}
+            height={356}
+            sizes="(max-width: 720px) 82vw, 340px"
+          />
+          <Image
+            className="store-cta-logo store-cta-logo-dark"
+            src="/images/brands/mercadito-continental-dark.png"
+            alt=""
+            width={1518}
+            height={356}
+            sizes="(max-width: 720px) 82vw, 340px"
+          />
+        </span>
         <h2 id={products ? "products-store-title" : "store-title"}>
-          {products
-            ? "Compra nuestros productos en línea."
-            : "Compra tus repuestos en línea."}
+          Aprovecha nuestras promociones.
         </h2>
         <a
           className="store-cta-link"

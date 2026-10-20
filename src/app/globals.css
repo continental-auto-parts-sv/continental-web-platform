@@ -641,6 +641,67 @@ footer.site-footer {
   line-height: 1.55;
 }
 
+.footer-social-block {
+  margin-top: 28px;
+}
+
+.site-footer .footer-social-block h2 {
+  margin: 0 0 14px;
+  color: #fff;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+.footer-socials {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.footer-socials a {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 50%;
+  color: rgb(255 255 255 / 78%);
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.footer-socials a:hover {
+  border-color: var(--red);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-socials a:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+.footer-socials svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.footer-socials a:first-child svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.footer-socials .social-dot {
+  fill: currentColor;
+  stroke: none;
+}
+
 .footer-column h2 {
   margin: 0 0 22px;
   color: #fff;
@@ -1048,7 +1109,8 @@ footer.site-footer {
 
   .footer-main {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 0;
+    padding-bottom: 0;
   }
 
   .footer-brand,
@@ -1056,25 +1118,42 @@ footer.site-footer {
     padding-inline: 0;
   }
 
+  .footer-brand {
+    padding-bottom: 32px;
+  }
+
   .footer-column {
     border-top: 1px solid rgb(255 255 255 / 18%);
     border-left: 0;
-    padding-top: 32px;
+    padding-block: 30px;
+  }
+
+  .footer-contact-link {
+    max-width: none;
+  }
+
+  .footer-social-block {
+    margin-top: 24px;
+  }
+
+  .footer-column:last-child {
+    padding-bottom: 36px;
   }
 
   .footer-bottom {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 14px;
+    padding-block: 22px 76px;
   }
 
   .footer-legal {
     flex-wrap: wrap;
-    margin-top: 4px;
+    margin-top: 0;
   }
 
   .footer-top-link {
     justify-self: start;
-    margin-top: 8px;
+    margin-top: 4px;
   }
 
   .form-grid {

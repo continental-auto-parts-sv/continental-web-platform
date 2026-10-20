@@ -42,7 +42,7 @@ export default async function PromotionPage({
                 .
               </p>
             )}
-            <Link className="button" href="/#consulta">
+            <Link className="button" href="/contacto">
               Consultar compatibilidad ↗
             </Link>
           </div>

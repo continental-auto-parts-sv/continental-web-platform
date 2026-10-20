@@ -7,6 +7,7 @@ import "./dev-settings.css";
 export type HeroLayout = "complete" | "slideshow";
 export type PageScale = 80 | 90 | 100 | 110 | 120;
 export type AccessibilityPreview = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type CategoryTitleFont = "primary" | "secondary";
 
 const pageScales: PageScale[] = [80, 90, 100, 110, 120];
 const heroLayoutStorageKey = "continental-dev-hero-layout";
@@ -15,9 +16,13 @@ const pageScaleStorageKey = "continental-dev-page-scale";
 const pageScaleChangeEvent = "continental-dev-page-scale-change";
 const accessibilityStorageKey = "continental-dev-accessibility";
 const accessibilityChangeEvent = "continental-dev-accessibility-change";
+const categoryTitleFontStorageKey = "continental-dev-category-title-font";
+const categoryTitleFontChangeEvent =
+  "continental-dev-category-title-font-change";
 let sessionHeroLayout: HeroLayout = "complete";
 let sessionPageScale: PageScale = 100;
 let sessionAccessibilityPreview: AccessibilityPreview = 0;
+let sessionCategoryTitleFont: CategoryTitleFont = "primary";
 
 const accessibilityOptions = [
   {
@@ -125,6 +130,34 @@ function subscribeToAccessibility(onChange: () => void) {
   };
 }
 
+function getCategoryTitleFontSnapshot(): CategoryTitleFont {
+  if (process.env.NODE_ENV !== "development" || typeof window === "undefined") {
+    return "primary";
+  }
+
+  try {
+    const savedFont = window.localStorage?.getItem?.(
+      categoryTitleFontStorageKey,
+    );
+
+    return savedFont === "primary" || savedFont === "secondary"
+      ? savedFont
+      : sessionCategoryTitleFont;
+  } catch {
+    return sessionCategoryTitleFont;
+  }
+}
+
+function subscribeToCategoryTitleFont(onChange: () => void) {
+  window.addEventListener(categoryTitleFontChangeEvent, onChange);
+  window.addEventListener("storage", onChange);
+
+  return () => {
+    window.removeEventListener(categoryTitleFontChangeEvent, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
 export function useDevSettingsState() {
   const heroLayout = useSyncExternalStore(
     subscribeToHeroLayout,
@@ -140,6 +173,11 @@ export function useDevSettingsState() {
     subscribeToAccessibility,
     getAccessibilitySnapshot,
     (): AccessibilityPreview => 0,
+  );
+  const categoryTitleFont = useSyncExternalStore(
+    subscribeToCategoryTitleFont,
+    getCategoryTitleFontSnapshot,
+    (): CategoryTitleFont => "primary",
   );
   const reducedMotion = Boolean(accessibilityPreview & 1);
   const reducedTransparency = Boolean(accessibilityPreview & 2);
@@ -197,14 +235,28 @@ export function useDevSettingsState() {
     );
   }
 
+  function setCategoryTitleFont(font: CategoryTitleFont) {
+    sessionCategoryTitleFont = font;
+
+    try {
+      window.localStorage?.setItem?.(categoryTitleFontStorageKey, font);
+    } catch {
+      // The setting still applies for this session.
+    }
+
+    window.dispatchEvent(new Event(categoryTitleFontChangeEvent));
+  }
+
   return {
     accessibilityPreview,
+    categoryTitleFont,
     heroLayout,
     increasedContrast,
     pageScale,
     reducedMotion,
     reducedTransparency,
     setAccessibilityPreview,
+    setCategoryTitleFont,
     setHeroLayout,
     setPageScale,
   };
@@ -217,7 +269,10 @@ export function DevSettings({
   onPageScaleChange,
   accessibilityPreview,
   onAccessibilityPreviewChange,
+  categoryTitleFont = "primary",
+  onCategoryTitleFontChange,
   showHeroControls = true,
+  showCategoryFontControls = false,
 }: {
   heroLayout: HeroLayout;
   onHeroLayoutChange: (layout: HeroLayout) => void;
@@ -225,7 +280,10 @@ export function DevSettings({
   onPageScaleChange: (scale: PageScale) => void;
   accessibilityPreview: AccessibilityPreview;
   onAccessibilityPreviewChange: (preview: AccessibilityPreview) => void;
+  categoryTitleFont?: CategoryTitleFont;
+  onCategoryTitleFontChange?: (font: CategoryTitleFont) => void;
   showHeroControls?: boolean;
+  showCategoryFontControls?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -271,6 +329,33 @@ export function DevSettings({
                 >
                   <strong>Slideshow completo</strong>
                   <span>La imagen ocupa toda la vista.</span>
+                </button>
+              </div>
+            </section>
+          )}
+          {showCategoryFontControls && onCategoryTitleFontChange && (
+            <section className="dev-settings-section">
+              <p>Tipografía de categorías</p>
+              <div
+                className="dev-settings-options"
+                role="group"
+                aria-label="Tipografía de títulos de categorías"
+              >
+                <button
+                  type="button"
+                  aria-pressed={categoryTitleFont === "primary"}
+                  onClick={() => onCategoryTitleFontChange("primary")}
+                >
+                  <strong>Fuente principal</strong>
+                  <span>Formula 1 Display en todos los títulos.</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={categoryTitleFont === "secondary"}
+                  onClick={() => onCategoryTitleFontChange("secondary")}
+                >
+                  <strong>Fuente secundaria</strong>
+                  <span>Volkswagen Text en todos los títulos.</span>
                 </button>
               </div>
             </section>

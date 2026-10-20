@@ -74,11 +74,7 @@ export function BrandLogo({ name }: { name: BrandName }) {
   );
 }
 
-export function BrandMarquee({
-  onChoose,
-}: {
-  onChoose: (name: BrandName) => void;
-}) {
+export function BrandMarquee() {
   const trackRef = useRef<HTMLDivElement>(null);
 
   function setPlaybackRate(rate: number) {
@@ -90,11 +86,7 @@ export function BrandMarquee({
   return (
     <section className="brands" id="marcas" aria-label="Marcas de vehículos">
       <div className="container brands-inner">
-        <p>
-          Entendemos tu auto.
-          <br />
-          <strong>Nuestras marcas.</strong>
-        </p>
+        <p>Entendemos tu auto.</p>
         <div
           className="brand-marquee"
           style={{ "--brand-count": brands.length } as CSSProperties}
@@ -109,12 +101,7 @@ export function BrandMarquee({
                 aria-hidden={copy === 1 ? true : undefined}
               >
                 {brands.map((name) => (
-                  <a
-                    href="#consulta"
-                    key={name}
-                    tabIndex={copy === 1 ? -1 : 0}
-                    onClick={() => onChoose(name)}
-                  >
+                  <a href="/contacto" key={name} tabIndex={copy === 1 ? -1 : 0}>
                     <BrandLogo name={name} />
                   </a>
                 ))}

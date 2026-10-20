@@ -54,6 +54,9 @@ export default function Page() {
               <h1 className="page-display-title" id="special-orders-title">
                 Pedidos <em>especiales.</em>
               </h1>
+            </div>
+
+            <div className="special-orders-hero-aside">
               <h2>
                 ¿No encuentras el repuesto? Nosotros te ayudamos a conseguirlo.
               </h2>

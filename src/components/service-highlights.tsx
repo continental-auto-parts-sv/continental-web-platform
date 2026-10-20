@@ -8,7 +8,7 @@ const highlights: Array<{
   {
     icon: "shield",
     firstLine: "Repuestos originales",
-    secondLine: "y alternativos",
+    secondLine: "y aftermarket",
   },
   {
     icon: "delivery",

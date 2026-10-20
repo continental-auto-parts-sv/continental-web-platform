@@ -2,10 +2,11 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+
+import { SpecialOrdersCallout } from "./special-orders-callout";
 
 import "./about-experience.css";
 
@@ -178,7 +179,7 @@ export function AboutExperience() {
                 .to(
                   ".story-intro-progress-fill",
                   {
-                    scaleY: (current + 1) / introPoints.length,
+                    scaleY: current / (introPoints.length - 1),
                     duration: 0.52,
                   },
                   at + 0.12,
@@ -583,23 +584,7 @@ export function AboutExperience() {
         </div>
       </section>
 
-      <section className="story-closing">
-        <div className="story-closing-card story-copy-reveal">
-          <div className="container story-closing-inner">
-            <div className="story-closing-copy">
-              <h2>¿Buscas un repuesto para tu vehículo?</h2>
-              <p>
-                Cuéntanos la marca, el modelo, el año y la pieza que necesitas.
-                Nuestro equipo te ayudará a encontrar una opción adecuada.
-              </p>
-            </div>
-            <Link className="story-cta" href="/contacto">
-              <span>Cotizar mi repuesto</span>
-              <strong aria-hidden="true">↗</strong>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <SpecialOrdersCallout />
     </article>
   );
 }

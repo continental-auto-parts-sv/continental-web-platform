@@ -9,7 +9,6 @@ import "./home-design.css";
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { StoreCta } from "./store-cta";
-import { PartIcon } from "./part-icon";
 import { BrandMarquee } from "./brand-marquee";
 import { ServiceHighlights } from "./service-highlights";
 import {
@@ -20,86 +19,17 @@ import {
 import { PromotionFeature } from "./promotion-feature";
 import { DevSettings, useDevSettingsState } from "./dev-settings";
 import type { Promotion } from "@/lib/promotions";
-
-const categories = [
-  { name: "Motor", detail: "Potencia desde adentro.", icon: "engine" },
-  { name: "Frenos", detail: "Confianza en cada parada.", icon: "brake" },
-  { name: "Suspensión", detail: "El control que se siente.", icon: "spring" },
-  { name: "Filtros", detail: "Protección desde adentro.", icon: "filter" },
-  { name: "Lubricantes", detail: "Rendimiento en movimiento.", icon: "oil" },
-];
-
-const categoryArtworkNames: Record<string, string> = {
-  engine: "engine",
-  brake: "brake",
-  spring: "suspension",
-  filter: "filter-v2",
-  oil: "lubricant",
-};
+import {
+  getQuoteCategoryLabel,
+  useQuoteItems,
+  writeQuoteItems,
+} from "../lib/quote-cart";
 
 const wheelOverscrollThreshold = 96;
 const touchPullThreshold = 56;
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
-}
-
-// Lucide car-front and truck icons (ISC license).
-function ProductLineIcon({ type }: { type: "livianos" | "pesados" }) {
-  if (type === "pesados") {
-    return (
-      <svg aria-hidden="true" viewBox="0 0 24 24">
-        <path d="M10 17h4V5H2v12h3" />
-        <path d="M14 9h4l4 4v4h-3" />
-        <circle cx="7.5" cy="17.5" r="2.5" />
-        <circle cx="16.5" cy="17.5" r="2.5" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24">
-      <path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.65 5h-7.3A2 2 0 0 0 6.5 6.3L5 10 3 8" />
-      <path d="M7 14h.01" />
-      <path d="M17 14h.01" />
-      <rect width="18" height="8" x="3" y="10" rx="2" />
-      <path d="M5 18v2" />
-      <path d="M19 18v2" />
-    </svg>
-  );
-}
-
-function CategoryArtwork({ kind }: { kind: string }) {
-  const artworkName = categoryArtworkNames[kind];
-
-  if (!artworkName) {
-    return <PartIcon kind={kind} />;
-  }
-
-  const shouldBypassOptimizer = artworkName === "filter-v2";
-
-  return (
-    <span className="category-product-art" aria-hidden="true">
-      <Image
-        className="category-product-image category-product-image-dark"
-        src={`/images/categories/${artworkName}-dark.webp`}
-        alt=""
-        width={1024}
-        height={1024}
-        sizes="160px"
-        unoptimized={shouldBypassOptimizer}
-      />
-      <Image
-        className="category-product-image category-product-image-light"
-        src={`/images/categories/${artworkName}-light.webp`}
-        alt=""
-        width={1024}
-        height={1024}
-        sizes="160px"
-        unoptimized={shouldBypassOptimizer}
-      />
-    </span>
-  );
 }
 
 export function HomeExperience({
@@ -214,7 +144,7 @@ export function HomeExperience({
   }, []);
 
   const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
+  const quoteItems = useQuoteItems();
   const [summary, setSummary] = useState("");
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
@@ -230,18 +160,6 @@ export function HomeExperience({
     setValidationAttempted(false);
   }
 
-  function chooseCategory(name: string) {
-    setCategory(name);
-    setSummary("");
-    document.getElementById("consulta")?.scrollIntoView({
-      behavior:
-        reducedMotion ||
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
-    });
-  }
-
   function submitInquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -255,7 +173,9 @@ export function HomeExperience({
     const errors: InquiryErrors = {};
 
     if (!brand) errors.brand = "Selecciona la marca de tu vehículo.";
-    if (!category) errors.category = "Selecciona el repuesto que necesitas.";
+    if (quoteItems.length === 0) {
+      errors.parts = "Agrega al menos un repuesto desde Productos.";
+    }
     if (!model) errors.model = "Escribe el modelo de tu vehículo.";
 
     if (!year) {
@@ -280,15 +200,26 @@ export function HomeExperience({
     if (firstError) {
       setSummary("");
       requestAnimationFrame(() => {
-        form.querySelector<HTMLElement>(`[name="${firstError}"]`)?.focus();
+        const field = form.querySelector<HTMLElement>(
+          `[name="${firstError}"], [data-inquiry-field="${firstError}"]`,
+        );
+
+        field?.focus();
       });
       return;
     }
 
     const vehicleIdentity = vin ? `, chasis o VIN ${vin}` : "";
+    const requestedParts = quoteItems
+      .map((item) => {
+        const category = getQuoteCategoryLabel(item);
+
+        return category ? `${item.name} (categoría: ${category})` : item.name;
+      })
+      .join("; ");
 
     setSummary(
-      `Hola, Continental Auto Parts. Busco ${category.toLowerCase()} para mi ${brand}, modelo ${model}, año ${year}${vehicleIdentity}. ¿Me pueden ayudar a confirmar compatibilidad y disponibilidad?`,
+      `Hola, Continental Auto Parts. Quiero cotizar los siguientes repuestos: ${requestedParts}. Son para mi ${brand}, modelo ${model}, año ${year}${vehicleIdentity}. ¿Me pueden ayudar a confirmar compatibilidad y disponibilidad?`,
     );
     setCopied(false);
     setCopyError(false);
@@ -336,25 +267,19 @@ export function HomeExperience({
                   Siempre <em>listo!</em>
                 </h1>
                 <p className="hero-description">
-                  Repuestos para Volkswagen, Audi, SEAT y Porsche. Encuentra la
-                  pieza que necesitas.
+                  Repuestos de confianza para tus vehículos europeos.
                 </p>
                 <div className="hero-actions">
                   <Link className="button" href="/productos">
                     Encuentra tu repuesto <Arrow />
                   </Link>
-                  <a className="text-link light-link" href="#consulta">
+                  <Link className="text-link light-link" href="/contacto">
                     Hablemos de tu auto <span aria-hidden="true">→</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </section>
-            <BrandMarquee
-              onChoose={(name) => {
-                setBrand(name);
-                setSummary("");
-              }}
-            />
+            <BrandMarquee />
             <ServiceHighlights />
           </div>
         )}
@@ -382,8 +307,26 @@ export function HomeExperience({
                       href="/productos#livianos"
                       aria-label="Explorar Línea de Livianos"
                     >
-                      <span className="home-product-line-icon">
-                        <ProductLineIcon type="livianos" />
+                      <span
+                        className="home-product-line-logo home-product-line-logo-livianos"
+                        aria-hidden
+                      >
+                        <Image
+                          className="home-product-line-logo-light"
+                          src="/images/brands/cap-linea-liviana.png"
+                          alt=""
+                          width={515}
+                          height={515}
+                          sizes="80px"
+                        />
+                        <Image
+                          className="home-product-line-logo-dark"
+                          src="/images/brands/cap-linea-liviana-dark.png"
+                          alt=""
+                          width={515}
+                          height={515}
+                          sizes="80px"
+                        />
                       </span>
                       <span className="home-product-line-copy">
                         <strong>Línea de Livianos</strong>
@@ -396,14 +339,29 @@ export function HomeExperience({
                     </Link>
                     <Link
                       className="home-product-line home-product-line-heavy"
-                      href="/productos#pesados"
+                      href="/productos#comercial"
                       aria-label="Explorar Línea de Pesados"
                     >
-                      <span className="home-product-line-icon">
-                        <ProductLineIcon type="pesados" />
+                      <span className="home-product-line-logo" aria-hidden>
+                        <Image
+                          className="home-product-line-logo-light"
+                          src="/images/brands/cap-linea-comercial.png"
+                          alt=""
+                          width={1537}
+                          height={516}
+                          sizes="120px"
+                        />
+                        <Image
+                          className="home-product-line-logo-dark"
+                          src="/images/brands/cap-linea-comercial-dark.png"
+                          alt=""
+                          width={1537}
+                          height={516}
+                          sizes="120px"
+                        />
                       </span>
                       <span className="home-product-line-copy">
-                        <strong>Línea de Pesados</strong>
+                        <strong>Línea Comercial</strong>
                         <small>Camiones, buses y transporte</small>
                       </span>
                       <span className="home-product-line-action" aria-hidden>
@@ -413,111 +371,101 @@ export function HomeExperience({
                     </Link>
                   </nav>
                 )}
-                <div className="category-grid">
-                  {categories.map((item, index) => (
-                    <button
-                      className="category-card"
-                      key={item.name}
-                      onClick={() => chooseCategory(item.name)}
-                    >
-                      <span className="category-number">0{index + 1}</span>
-                      <CategoryArtwork kind={item.icon} />
-                      <h3>{item.name}</h3>
-                      <p>{item.detail}</p>
-                      <span className="category-bottom">
-                        Explorar <Arrow />
-                      </span>
-                    </button>
-                  ))}
-                </div>
               </div>
             </section>
             {promotion && <PromotionFeature promotion={promotion} />}
           </>
         )}
-        <section className="inquiry-section" id="consulta">
-          <div className="container inquiry-grid">
-            <div>
-              {page === "contact" ? (
-                <h1 className="page-title">Hablemos de tu auto.</h1>
-              ) : (
-                <h2>
-                  Encontremos
+        {page === "contact" ? (
+          <section className="inquiry-section" id="consulta">
+            <div className="container inquiry-grid">
+              <div>
+                <h1 className="page-title">Finaliza tu cotización.</h1>
+                <p>
+                  Revisa tus repuestos y completa los datos de tu vehículo.
                   <br />
-                  <span>lo que buscas.</span>
-                </h2>
-              )}
-              <p>
-                Dinos qué manejas y qué necesitas.
-                <br />
-                Nosotros te orientamos.
-              </p>
-            </div>
-            <form
-              className="inquiry-form"
-              noValidate
-              onSubmit={submitInquiry}
-              onChange={clearInquiryFeedback}
-            >
-              <VehicleFields
-                brand={brand}
-                category={category}
-                errors={formErrors}
-                validationAttempted={validationAttempted}
-                onBrandChange={setBrand}
-                onCategoryChange={setCategory}
-                onEdit={clearInquiryFeedback}
-              />
-              <button className="button inquiry-submit" type="submit">
-                Preparar mi consulta <Arrow />
-              </button>
-              {summary && (
-                <div className="inquiry-result" role="status">
-                  <p>{summary}</p>
-                  {whatsapp ? (
-                    <a
-                      className="text-link"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(summary)}`}
-                    >
-                      Continuar en WhatsApp <Arrow />
-                    </a>
-                  ) : (
-                    <>
-                      <button
+                  Nosotros confirmamos compatibilidad y disponibilidad.
+                </p>
+              </div>
+              <form
+                className="inquiry-form"
+                noValidate
+                onSubmit={submitInquiry}
+                onChange={clearInquiryFeedback}
+              >
+                <VehicleFields
+                  brand={brand}
+                  errors={formErrors}
+                  quoteItems={quoteItems}
+                  validationAttempted={validationAttempted}
+                  onBrandChange={setBrand}
+                  onEdit={clearInquiryFeedback}
+                  onRemoveQuoteItem={(key) => {
+                    writeQuoteItems(
+                      quoteItems.filter((item) => item.key !== key),
+                    );
+                  }}
+                />
+                <button className="button inquiry-submit" type="submit">
+                  Preparar mi consulta <Arrow />
+                </button>
+                {summary && (
+                  <div className="inquiry-result" role="status">
+                    <p>{summary}</p>
+                    {whatsapp ? (
+                      <a
                         className="text-link"
-                        type="button"
-                        onClick={async () => {
-                          try {
-                            await navigator.clipboard.writeText(summary);
-                            setCopied(true);
-                            setCopyError(false);
-                          } catch {
-                            setCopied(false);
-                            setCopyError(true);
-                          }
-                        }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(summary)}`}
                       >
-                        {copied ? "Consulta copiada ✓" : "Copiar consulta"}
-                      </button>
-                      {copyError && (
+                        Continuar en WhatsApp <Arrow />
+                      </a>
+                    ) : (
+                      <>
+                        <button
+                          className="text-link"
+                          type="button"
+                          onClick={async () => {
+                            try {
+                              await navigator.clipboard.writeText(summary);
+                              setCopied(true);
+                              setCopyError(false);
+                            } catch {
+                              setCopied(false);
+                              setCopyError(true);
+                            }
+                          }}
+                        >
+                          {copied ? "Consulta copiada ✓" : "Copiar consulta"}
+                        </button>
+                        {copyError && (
+                          <small>
+                            No se pudo copiar. Selecciona y copia el texto de tu
+                            consulta.
+                          </small>
+                        )}
                         <small>
-                          No se pudo copiar. Selecciona y copia el texto de tu
-                          consulta.
+                          El contacto directo estará disponible próximamente.
+                          Puedes guardar tu consulta.
                         </small>
-                      )}
-                      <small>
-                        El contacto directo estará disponible próximamente.
-                        Puedes guardar tu consulta.
-                      </small>
-                    </>
-                  )}
-                </div>
-              )}
-            </form>
-          </div>
-        </section>
+                      </>
+                    )}
+                  </div>
+                )}
+              </form>
+            </div>
+          </section>
+        ) : (
+          <section
+            className="section payment-methods-section"
+            id="formas-de-pago"
+          >
+            <div className="container">
+              <h2>Formas de pago.</h2>
+            </div>
+          </section>
+        )}
         {page === "home" && <StoreCta />}
       </main>
       <DevSettings

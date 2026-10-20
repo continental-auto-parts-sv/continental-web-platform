@@ -9,6 +9,31 @@ import {
 } from "@testing-library/react";
 import { HomeExperience } from "../src/components/home-experience";
 
+function stubQuoteStorage(name: string) {
+  const storage = new Map<string, string>([
+    [
+      "continental-quote-items",
+      JSON.stringify([
+        {
+          categoryPath: ["Sistema de frenos"],
+          key: `livianos:${name.toLowerCase()}`,
+          id: name.toLowerCase(),
+          name,
+          lineId: "livianos",
+          lineName: "Línea de Livianos",
+        },
+      ]),
+    ],
+  ]);
+
+  vi.stubGlobal("localStorage", {
+    getItem: (key: string) => storage.get(key) ?? null,
+    setItem: (key: string, value: string) => storage.set(key, value),
+  });
+
+  return storage;
+}
+
 afterEach(() => {
   cleanup();
   delete document.documentElement.dataset.theme;
@@ -54,6 +79,49 @@ describe("footer legal navigation", () => {
       screen.getByRole("link", { name: "Aviso legal" }).getAttribute("href"),
     ).toBe("/aviso-legal");
   });
+
+  it("links to the official social profiles", () => {
+    render(<HomeExperience hero={<div />} />);
+
+    const socialProfiles = [
+      ["Facebook", "https://www.facebook.com/continentalautopartssv"],
+      ["Instagram", "https://www.instagram.com/continentalautopartssv/?hl=es"],
+      ["WhatsApp", "https://wa.me/50378401749"],
+    ] as const;
+
+    socialProfiles.forEach(([name, href]) => {
+      const link = screen.getByRole("link", { name });
+
+      expect(link.getAttribute("href")).toBe(href);
+      expect(link.getAttribute("target")).toBe("_blank");
+      expect(link.getAttribute("rel")).toBe("noopener noreferrer");
+    });
+  });
+});
+
+describe("about navigation", () => {
+  it("opens both about links from the Nosotros control", () => {
+    render(<HomeExperience hero={<div />} />);
+
+    const trigger = screen.getByRole("button", { name: "Nosotros" });
+
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(screen.queryByRole("link", { name: "Nosotros" })).toBeNull();
+
+    fireEvent.click(trigger);
+
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+    expect(
+      screen
+        .getAllByRole("link", { name: "Quiénes somos" })
+        .some((link) => link.getAttribute("href") === "/quienes-somos"),
+    ).toBe(true);
+    expect(
+      screen
+        .getByRole("link", { name: "Trabaja con nosotros" })
+        .getAttribute("href"),
+    ).toBe("/quienes-somos/trabaja-con-nosotros");
+  });
 });
 
 describe("homepage product lines", () => {
@@ -69,13 +137,45 @@ describe("homepage product lines", () => {
       screen
         .getByRole("link", { name: "Explorar Línea de Pesados" })
         .getAttribute("href"),
-    ).toBe("/productos#pesados");
+    ).toBe("/productos#comercial");
+  });
+
+  it("replaces the homepage inquiry with the payment methods placeholder", () => {
+    render(<HomeExperience hero={<div />} />);
+
+    expect(
+      screen.getByRole("heading", { name: "Formas de pago." }),
+    ).toBeTruthy();
+    expect(
+      screen.queryByRole("button", { name: "Preparar mi consulta" }),
+    ).toBeNull();
   });
 });
 
 describe("homepage store handoff", () => {
   it("links the online store callout to its configured destination", () => {
     render(<HomeExperience hero={<div />} />);
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Aprovecha nuestras promociones.",
+      }),
+    ).toBeTruthy();
+
+    const storeBrand = screen.getByLabelText("Mercadito Continental");
+    const storeBrandSources = Array.from(
+      storeBrand.querySelectorAll("img"),
+      (image) => decodeURIComponent(image.getAttribute("src") ?? ""),
+    );
+
+    expect(storeBrandSources).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("/images/brands/mercadito-continental.png"),
+        expect.stringContaining(
+          "/images/brands/mercadito-continental-dark.png",
+        ),
+      ]),
+    );
 
     const storeLink = screen.getByRole("link", {
       name: "Visitar la tienda",
@@ -94,7 +194,7 @@ describe("homepage vehicle brands", () => {
     const miniLink = screen.getByRole("link", { name: "MINI" });
     const miniLogo = miniLink.querySelector("img");
 
-    expect(miniLink.getAttribute("href")).toBe("#consulta");
+    expect(miniLink.getAttribute("href")).toBe("/contacto");
     expect(decodeURIComponent(miniLogo?.getAttribute("src") ?? "")).toContain(
       "/images/brands/mini.png",
     );
@@ -141,9 +241,9 @@ describe("development controls", () => {
   });
 });
 
-describe("homepage inquiries", () => {
+describe("contact inquiries", () => {
   it("shows custom field errors and focuses the first invalid control", async () => {
-    render(<HomeExperience hero={<div />} />);
+    render(<HomeExperience hero={<div />} page="contact" />);
 
     fireEvent.click(
       screen.getByRole("button", { name: "Preparar mi consulta" }),
@@ -164,7 +264,7 @@ describe("homepage inquiries", () => {
   });
 
   it("opens chassis and VIN guidance from the input information button", () => {
-    render(<HomeExperience hero={<div />} />);
+    render(<HomeExperience hero={<div />} page="contact" />);
 
     fireEvent.click(
       screen.getByRole("button", {
@@ -182,16 +282,13 @@ describe("homepage inquiries", () => {
     expect(dialog.hasAttribute("open")).toBe(false);
   });
 
-  it("prefills a category, builds the inquiry, and clears stale results after edits", () => {
+  it("builds the inquiry and clears stale results after edits", () => {
+    stubQuoteStorage("Frenos");
     vi.stubEnv("NEXT_PUBLIC_WHATSAPP_NUMBER", "");
     vi.stubGlobal("matchMedia", () => ({ matches: true }));
-    Element.prototype.scrollIntoView = vi.fn();
-    render(<HomeExperience hero={<div />} />);
-    fireEvent.click(screen.getByRole("button", { name: /02 Frenos/ }));
-    expect(
-      (screen.getByRole("radio", { name: "Frenos" }) as HTMLInputElement)
-        .checked,
-    ).toBe(true);
+    render(<HomeExperience hero={<div />} page="contact" />);
+    expect(screen.getByText("Frenos")).toBeTruthy();
+    expect(screen.getByText("Categoría: Sistema de frenos")).toBeTruthy();
     fireEvent.click(screen.getByRole("radio", { name: "Audi" }));
     fireEvent.change(screen.getByLabelText("Modelo"), {
       target: { value: "A3" },
@@ -206,7 +303,7 @@ describe("homepage inquiries", () => {
       screen.getByRole("button", { name: "Preparar mi consulta" }),
     );
     expect(screen.getByRole("status").textContent).toContain(
-      "frenos para mi Audi, modelo A3, año 2020",
+      "Frenos (categoría: Sistema de frenos). Son para mi Audi, modelo A3, año 2020",
     );
     expect(screen.getByRole("status").textContent).toContain(
       "chasis o VIN WAUZZZ8V1JA000001",
@@ -221,10 +318,10 @@ describe("homepage inquiries", () => {
   });
 
   it("provides an encoded WhatsApp handoff only when configured", () => {
+    stubQuoteStorage("Motor");
     vi.stubEnv("NEXT_PUBLIC_WHATSAPP_NUMBER", "50370000000");
-    render(<HomeExperience hero={<div />} />);
+    render(<HomeExperience hero={<div />} page="contact" />);
     fireEvent.click(screen.getByRole("radio", { name: "SEAT" }));
-    fireEvent.click(screen.getByRole("radio", { name: "Motor" }));
     fireEvent.change(screen.getByLabelText("Modelo"), {
       target: { value: "León" },
     });
@@ -242,24 +339,24 @@ describe("homepage inquiries", () => {
 });
 
 describe("visual vehicle selector", () => {
-  it("allows active brand and part selections to be cleared", () => {
-    render(<HomeExperience hero={<div />} />);
+  it("allows the active brand and quoted parts to be cleared", () => {
+    const storage = stubQuoteStorage("Frenos");
+
+    render(<HomeExperience hero={<div />} page="contact" />);
     const audi = screen.getByRole("radio", { name: "Audi" });
-    const brakes = screen.getByRole("radio", { name: "Frenos" });
 
     fireEvent.click(audi);
     expect((audi as HTMLInputElement).checked).toBe(true);
     fireEvent.click(audi);
     expect((audi as HTMLInputElement).checked).toBe(false);
 
-    fireEvent.click(brakes);
-    expect((brakes as HTMLInputElement).checked).toBe(true);
-    fireEvent.click(brakes);
-    expect((brakes as HTMLInputElement).checked).toBe(false);
+    fireEvent.click(screen.getByRole("button", { name: "Quitar Frenos" }));
+    expect(screen.queryByText("Frenos")).toBeNull();
+    expect(storage.get("continental-quote-items")).toBe("[]");
   });
 
   it("changes model suggestions with the brand and clears an incompatible model", () => {
-    render(<HomeExperience hero={<div />} />);
+    render(<HomeExperience hero={<div />} page="contact" />);
     fireEvent.click(screen.getByRole("radio", { name: "Audi" }));
     const model = screen.getByLabelText("Modelo") as HTMLInputElement;
     expect(
@@ -275,9 +372,9 @@ describe("visual vehicle selector", () => {
   });
 
   it("builds an inquiry from a calendar year and clears it after a year change", () => {
-    render(<HomeExperience hero={<div />} />);
+    stubQuoteStorage("Frenos");
+    render(<HomeExperience hero={<div />} page="contact" />);
     fireEvent.click(screen.getByRole("radio", { name: "Audi" }));
-    fireEvent.click(screen.getByRole("radio", { name: "Frenos" }));
     fireEvent.change(screen.getByLabelText("Modelo"), {
       target: { value: "A3" },
     });

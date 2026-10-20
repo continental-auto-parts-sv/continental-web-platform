@@ -1,19 +1,66 @@
 .store-cta {
-  border-block: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
-  background: var(--surface-elevated);
+  --store-accent: #ff5100;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      color-mix(in srgb, var(--store-accent) 13%, transparent),
+      transparent 38rem
+    ),
+    var(--surface-elevated);
+}
+
+.store-cta::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff3f00, var(--store-accent), #ff7500);
+  content: "";
 }
 
 .store-cta-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(32px, 7vw, 112px);
+  grid-template-columns: minmax(240px, 340px) minmax(0, 1fr) auto;
+  gap: clamp(32px, 4.5vw, 72px);
   align-items: center;
-  min-height: clamp(140px, 15vw, 180px);
-  padding-block: clamp(34px, 4vw, 52px);
+  min-height: clamp(180px, 17vw, 220px);
+  padding-block: clamp(42px, 5vw, 62px);
+}
+
+.store-cta-brand {
+  display: grid;
+  width: 100%;
+  max-width: 340px;
+  align-items: center;
+}
+
+.store-cta-logo {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: auto;
+}
+
+.store-cta-logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .store-cta-logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .store-cta-logo-dark {
+  display: block;
 }
 
 .home-page .store-cta h2 {
-  max-width: 720px;
+  max-width: 520px;
   margin: 0;
   color: var(--ink);
   font-size: clamp(1.85rem, 2.8vw, 2.8rem);
@@ -32,8 +79,8 @@
   border: 1px solid transparent;
   border-radius: 999px;
   color: #fff;
-  background: var(--red);
-  box-shadow: 0 8px 20px rgb(229 36 50 / 16%);
+  background: var(--store-accent);
+  box-shadow: 0 8px 20px rgb(255 81 0 / 20%);
   font-family: "Formula 1 Display", "Volkswagen Text", system-ui, sans-serif;
   font-size: 0.96rem;
   letter-spacing: 0.01em;
@@ -46,28 +93,32 @@
 }
 
 .store-cta-link:hover {
-  box-shadow: 0 11px 26px rgb(229 36 50 / 22%);
+  box-shadow: 0 11px 26px rgb(255 81 0 / 28%);
   filter: brightness(1.04);
   transform: translateY(-2px);
 }
 
 .store-cta-link:active {
-  box-shadow: 0 5px 14px rgb(229 36 50 / 16%);
+  box-shadow: 0 5px 14px rgb(255 81 0 / 20%);
   transform: translateY(0) scale(0.97);
   transition-duration: 100ms;
 }
 
 .store-cta-link:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--red) 32%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--store-accent) 42%, transparent);
   outline-offset: 4px;
 }
 
 @media (max-width: 720px) {
   .store-cta-inner {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 22px;
     min-height: auto;
-    padding-block: 38px;
+    padding-block: 42px;
+  }
+
+  .store-cta-brand {
+    width: min(100%, 320px);
   }
 
   .home-page .store-cta h2 {

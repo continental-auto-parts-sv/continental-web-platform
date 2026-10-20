@@ -102,7 +102,7 @@ export default async function PromotionsPage() {
                   ? "Intenta de nuevo en unos minutos."
                   : "Estamos preparando las próximas promociones para tu auto."}
               </p>
-              <Link className="button" href="/#consulta">
+              <Link className="button" href="/contacto">
                 Consultar un repuesto ↗
               </Link>
             </div>

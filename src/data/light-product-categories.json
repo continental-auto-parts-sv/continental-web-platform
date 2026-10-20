@@ -1,0 +1,1235 @@
+{
+  "$schema": "./product-category-catalog.schema.json",
+  "schemaVersion": 1,
+  "lineId": "livianos",
+  "categories": [
+    {
+      "id": "sistema-de-frenos",
+      "name": "Sistema de frenos",
+      "artwork": "brake",
+      "children": [
+        { "id": "discos-de-freno", "name": "Discos de freno", "artwork": "" },
+        {
+          "id": "pastillas-de-freno",
+          "name": "Pastillas de freno",
+          "artwork": ""
+        },
+        { "id": "pinzas-de-freno", "name": "Pinzas de freno", "artwork": "" },
+        {
+          "id": "protectores-de-freno",
+          "name": "Protectores de freno",
+          "artwork": ""
+        },
+        {
+          "id": "accesorios-del-sistema-de-frenos",
+          "name": "Accesorios del sistema de frenos",
+          "artwork": ""
+        },
+        {
+          "id": "sensores-de-desgaste-de-pastillas",
+          "name": "Sensores de desgaste de pastillas",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-pinzas-de-freno",
+          "name": "Piezas de pinzas de freno",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-del-freno-de-mano",
+          "name": "Piezas del freno de mano",
+          "artwork": ""
+        },
+        {
+          "id": "tambores-de-freno",
+          "name": "Tambores de freno",
+          "artwork": ""
+        },
+        { "id": "zapatas-de-freno", "name": "Zapatas de freno", "artwork": "" },
+        {
+          "id": "cilindros-de-freno-de-rueda",
+          "name": "Cilindros de freno de rueda",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-freno-de-tambor",
+          "name": "Piezas de freno de tambor",
+          "artwork": ""
+        },
+        {
+          "id": "sensores-y-anillos-abs",
+          "name": "Sensores y anillos ABS",
+          "artwork": ""
+        },
+        {
+          "id": "cilindros-maestros-de-freno",
+          "name": "Cilindros maestros de freno",
+          "artwork": ""
+        },
+        {
+          "id": "mangueras-de-freno",
+          "name": "Mangueras de freno",
+          "artwork": ""
+        },
+        {
+          "id": "cables-del-freno-de-estacionamiento",
+          "name": "Cables del freno de estacionamiento",
+          "artwork": ""
+        },
+        {
+          "id": "conectores-de-lineas-de-freno",
+          "name": "Conectores de líneas de freno",
+          "artwork": ""
+        },
+        { "id": "servofrenos", "name": "Servofrenos", "artwork": "" },
+        {
+          "id": "reguladores-de-potencia-de-frenado",
+          "name": "Reguladores de potencia de frenado",
+          "artwork": ""
+        },
+        { "id": "lineas-de-freno", "name": "Líneas de freno", "artwork": "" },
+        {
+          "id": "bombas-de-vacio-de-freno",
+          "name": "Bombas de vacío de freno",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "filtros",
+      "name": "Filtros",
+      "artwork": "filter-v2",
+      "children": [
+        {
+          "id": "filtros-de-aceite",
+          "name": "Filtros de aceite",
+          "artwork": ""
+        },
+        { "id": "filtros-de-aire", "name": "Filtros de aire", "artwork": "" },
+        {
+          "id": "filtros-de-habitaculo",
+          "name": "Filtros de habitáculo",
+          "artwork": ""
+        },
+        {
+          "id": "filtros-de-combustible",
+          "name": "Filtros de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "juegos-de-filtros",
+          "name": "Juegos de filtros",
+          "artwork": ""
+        },
+        {
+          "id": "filtros-hidraulicos",
+          "name": "Filtros hidráulicos",
+          "artwork": ""
+        },
+        {
+          "id": "filtros-de-refrigerante",
+          "name": "Filtros de refrigerante",
+          "artwork": ""
+        },
+        {
+          "id": "filtros-de-direccion-asistida",
+          "name": "Filtros de dirección asistida",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "suspension",
+      "name": "Suspensión",
+      "artwork": "suspension",
+      "children": [
+        { "id": "amortiguadores", "name": "Amortiguadores", "artwork": "" },
+        {
+          "id": "juegos-de-suspension",
+          "name": "Juegos de suspensión",
+          "artwork": ""
+        },
+        {
+          "id": "resortes-helicoidales",
+          "name": "Resortes helicoidales",
+          "artwork": ""
+        },
+        {
+          "id": "cojinetes-y-soportes-de-amortiguador",
+          "name": "Cojinetes y soportes de amortiguador",
+          "artwork": ""
+        },
+        {
+          "id": "guardapolvos-de-amortiguador",
+          "name": "Guardapolvos de amortiguador",
+          "artwork": ""
+        },
+        {
+          "id": "cojinetes-de-rueda",
+          "name": "Cojinetes de rueda",
+          "artwork": ""
+        },
+        { "id": "cubos-de-rueda", "name": "Cubos de rueda", "artwork": "" },
+        {
+          "id": "brazos-de-control",
+          "name": "Brazos de control",
+          "artwork": ""
+        },
+        {
+          "id": "tuercas-pernos-y-esparragos-de-rueda",
+          "name": "Tuercas, pernos y espárragos de rueda",
+          "artwork": ""
+        },
+        {
+          "id": "bieletas-de-barra-estabilizadora",
+          "name": "Bieletas de barra estabilizadora",
+          "artwork": ""
+        },
+        {
+          "id": "barras-estabilizadoras",
+          "name": "Barras estabilizadoras",
+          "artwork": ""
+        },
+        {
+          "id": "asientos-de-resorte",
+          "name": "Asientos de resorte",
+          "artwork": ""
+        },
+        { "id": "rotulas", "name": "Rótulas", "artwork": "" },
+        {
+          "id": "bujes-de-suspension",
+          "name": "Bujes de suspensión",
+          "artwork": ""
+        },
+        {
+          "id": "resortes-neumaticos",
+          "name": "Resortes neumáticos",
+          "artwork": ""
+        },
+        {
+          "id": "manguetas-de-direccion",
+          "name": "Manguetas de dirección",
+          "artwork": ""
+        },
+        { "id": "ballestas", "name": "Ballestas", "artwork": "" },
+        { "id": "muñones-de-eje", "name": "Muñones de eje", "artwork": "" },
+        {
+          "id": "juegos-de-reparacion-de-suspension",
+          "name": "Juegos de reparación de suspensión",
+          "artwork": ""
+        },
+        {
+          "id": "esferas-de-suspension",
+          "name": "Esferas de suspensión",
+          "artwork": ""
+        },
+        {
+          "id": "separadores-de-rueda",
+          "name": "Separadores de rueda",
+          "artwork": ""
+        },
+        {
+          "id": "carcasas-de-cojinete-de-rueda",
+          "name": "Carcasas de cojinete de rueda",
+          "artwork": ""
+        },
+        { "id": "vigas-de-eje", "name": "Vigas de eje", "artwork": "" }
+      ]
+    },
+    {
+      "id": "direccion",
+      "name": "Dirección",
+      "artwork": "",
+      "children": [
+        {
+          "id": "terminales-de-direccion",
+          "name": "Terminales de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "conjuntos-de-barras-de-direccion",
+          "name": "Conjuntos de barras de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "cremalleras-de-direccion",
+          "name": "Cremalleras de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "bombas-de-direccion-asistida",
+          "name": "Bombas de dirección asistida",
+          "artwork": ""
+        },
+        {
+          "id": "fuelles-de-cremallera-de-direccion",
+          "name": "Fuelles de cremallera de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "brazos-de-direccion",
+          "name": "Brazos de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "mangueras-de-direccion",
+          "name": "Mangueras de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "columnas-de-direccion",
+          "name": "Columnas de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "amortiguadores-de-direccion",
+          "name": "Amortiguadores de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "depositos-de-direccion-asistida",
+          "name": "Depósitos de dirección asistida",
+          "artwork": ""
+        },
+        {
+          "id": "bloqueos-de-direccion",
+          "name": "Bloqueos de dirección",
+          "artwork": ""
+        },
+        {
+          "id": "soportes-de-cremallera-de-direccion",
+          "name": "Soportes de cremallera de dirección",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "limpiaparabrisas-y-lavaparabrisas",
+      "name": "Limpiaparabrisas y lavaparabrisas",
+      "artwork": "",
+      "children": [
+        {
+          "id": "escobillas-limpiaparabrisas",
+          "name": "Escobillas limpiaparabrisas",
+          "artwork": ""
+        },
+        {
+          "id": "motores-de-limpiaparabrisas",
+          "name": "Motores de limpiaparabrisas",
+          "artwork": ""
+        },
+        {
+          "id": "bombas-de-lavaparabrisas",
+          "name": "Bombas de lavaparabrisas",
+          "artwork": ""
+        },
+        {
+          "id": "mecanismos-de-limpiaparabrisas",
+          "name": "Mecanismos de limpiaparabrisas",
+          "artwork": ""
+        },
+        {
+          "id": "bombas-y-boquillas-lavafaros",
+          "name": "Bombas y boquillas lavafaros",
+          "artwork": ""
+        },
+        {
+          "id": "brazos-de-limpiaparabrisas",
+          "name": "Brazos de limpiaparabrisas",
+          "artwork": ""
+        },
+        {
+          "id": "boquillas-de-lavaparabrisas",
+          "name": "Boquillas de lavaparabrisas",
+          "artwork": ""
+        },
+        {
+          "id": "depositos-de-liquido-lavaparabrisas",
+          "name": "Depósitos de líquido lavaparabrisas",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "piezas-de-motor",
+      "name": "Piezas de motor",
+      "artwork": "engine",
+      "children": [
+        {
+          "id": "juegos-de-correa-de-distribucion",
+          "name": "Juegos de correa de distribución",
+          "artwork": ""
+        },
+        {
+          "id": "juntas-y-sellos-de-motor",
+          "name": "Juntas y sellos de motor",
+          "artwork": ""
+        },
+        {
+          "id": "juegos-de-cadena-de-distribucion",
+          "name": "Juegos de cadena de distribución",
+          "artwork": ""
+        },
+        {
+          "id": "cuerpos-de-aceleracion",
+          "name": "Cuerpos de aceleración",
+          "artwork": ""
+        },
+        {
+          "id": "correas-y-cadenas-de-motor",
+          "name": "Correas y cadenas de motor",
+          "artwork": ""
+        },
+        {
+          "id": "tensores-poleas-y-amortiguadores",
+          "name": "Tensores, poleas y amortiguadores",
+          "artwork": ""
+        },
+        {
+          "id": "juegos-de-correa-trapezoidal-y-multicanal",
+          "name": "Juegos de correa trapezoidal y multicanal",
+          "artwork": ""
+        },
+        { "id": "turbocompresores", "name": "Turbocompresores", "artwork": "" },
+        {
+          "id": "mangueras-de-turbocompresor",
+          "name": "Mangueras de turbocompresor",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-turbocompresor",
+          "name": "Piezas de turbocompresor",
+          "artwork": ""
+        },
+        { "id": "piezas-de-culata", "name": "Piezas de culata", "artwork": "" },
+        {
+          "id": "bloque-de-motor-y-ciguenal",
+          "name": "Bloque de motor y cigüeñal",
+          "artwork": ""
+        },
+        {
+          "id": "lubricacion-del-motor",
+          "name": "Lubricación del motor",
+          "artwork": ""
+        },
+        { "id": "sistema-egr", "name": "Sistema EGR", "artwork": "" },
+        {
+          "id": "colectores-de-admision",
+          "name": "Colectores de admisión",
+          "artwork": ""
+        },
+        {
+          "id": "mangueras-de-suministro-de-aire",
+          "name": "Mangueras de suministro de aire",
+          "artwork": ""
+        },
+        {
+          "id": "soportes-de-motor",
+          "name": "Soportes de motor",
+          "artwork": ""
+        },
+        {
+          "id": "cables-de-acelerador",
+          "name": "Cables de acelerador",
+          "artwork": ""
+        },
+        {
+          "id": "valvulas-de-control-de-ralenti",
+          "name": "Válvulas de control de ralentí",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "sistema-de-combustible",
+      "name": "Sistema de combustible",
+      "artwork": "",
+      "children": [
+        {
+          "id": "boquillas-de-inyector",
+          "name": "Boquillas de inyector",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-inyectores-y-boquillas",
+          "name": "Piezas de inyectores y boquillas",
+          "artwork": ""
+        },
+        {
+          "id": "bombas-de-combustible-y-piezas",
+          "name": "Bombas de combustible y piezas",
+          "artwork": ""
+        },
+        {
+          "id": "juntas-y-sellos-del-sistema-de-combustible",
+          "name": "Juntas y sellos del sistema de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "depositos-de-combustible",
+          "name": "Depósitos de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "bombas-de-alta-presion",
+          "name": "Bombas de alta presión",
+          "artwork": ""
+        },
+        {
+          "id": "lineas-y-mangueras-de-combustible",
+          "name": "Líneas y mangueras de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "valvulas-del-sistema-de-combustible",
+          "name": "Válvulas del sistema de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "juegos-de-reparacion-de-boquillas-de-inyector",
+          "name": "Juegos de reparación de boquillas de inyector",
+          "artwork": ""
+        },
+        {
+          "id": "reguladores-de-presion-de-combustible",
+          "name": "Reguladores de presión de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "instrumentos-y-medidores-de-combustible",
+          "name": "Instrumentos y medidores de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-carburador",
+          "name": "Piezas de carburador",
+          "artwork": ""
+        },
+        {
+          "id": "sensores-de-agua-en-combustible",
+          "name": "Sensores de agua en combustible",
+          "artwork": ""
+        },
+        {
+          "id": "juegos-de-reparacion-de-bomba-de-combustible",
+          "name": "Juegos de reparación de bomba de combustible",
+          "artwork": ""
+        },
+        {
+          "id": "bombas-de-inyeccion-de-aire-secundario",
+          "name": "Bombas de inyección de aire secundario",
+          "artwork": ""
+        },
+        {
+          "id": "depositos-de-adblue",
+          "name": "Depósitos de AdBlue",
+          "artwork": ""
+        },
+        {
+          "id": "modulos-dosificadores-de-adblue",
+          "name": "Módulos dosificadores de AdBlue",
+          "artwork": ""
+        },
+        {
+          "id": "valvulas-inyectoras-de-adblue",
+          "name": "Válvulas inyectoras de AdBlue",
+          "artwork": ""
+        },
+        {
+          "id": "modulos-de-alimentacion-de-adblue",
+          "name": "Módulos de alimentación de AdBlue",
+          "artwork": ""
+        },
+        {
+          "id": "sensores-nox-y-adblue",
+          "name": "Sensores NOx y AdBlue",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "sistema-de-escape",
+      "name": "Sistema de escape",
+      "artwork": "",
+      "children": [
+        { "id": "silenciadores", "name": "Silenciadores", "artwork": "" },
+        { "id": "tubos-de-escape", "name": "Tubos de escape", "artwork": "" },
+        {
+          "id": "convertidores-cataliticos",
+          "name": "Convertidores catalíticos",
+          "artwork": ""
+        },
+        {
+          "id": "colectores-de-escape",
+          "name": "Colectores de escape",
+          "artwork": ""
+        },
+        {
+          "id": "filtros-de-particulas-diesel-dpf",
+          "name": "Filtros de partículas diésel (DPF)",
+          "artwork": ""
+        },
+        { "id": "juntas-de-escape", "name": "Juntas de escape", "artwork": "" },
+        { "id": "sensores-lambda", "name": "Sensores lambda", "artwork": "" },
+        {
+          "id": "piezas-de-montaje-del-escape",
+          "name": "Piezas de montaje del escape",
+          "artwork": ""
+        },
+        {
+          "id": "sensores-del-sistema-de-escape",
+          "name": "Sensores del sistema de escape",
+          "artwork": ""
+        },
+        {
+          "id": "valvulas-del-sistema-de-escape",
+          "name": "Válvulas del sistema de escape",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "sistema-electrico",
+      "name": "Sistema eléctrico",
+      "artwork": "electrical-system",
+      "children": [
+        { "id": "alternadores", "name": "Alternadores", "artwork": "" },
+        {
+          "id": "poleas-libres-de-alternador",
+          "name": "Poleas libres de alternador",
+          "artwork": ""
+        },
+        { "id": "sensores", "name": "Sensores", "artwork": "" },
+        { "id": "bujias", "name": "Bujías", "artwork": "" },
+        {
+          "id": "motores-de-arranque",
+          "name": "Motores de arranque",
+          "artwork": ""
+        },
+        {
+          "id": "bujias-de-precalentamiento",
+          "name": "Bujías de precalentamiento",
+          "artwork": ""
+        },
+        {
+          "id": "bobinas-de-encendido",
+          "name": "Bobinas de encendido",
+          "artwork": ""
+        },
+        { "id": "interruptores", "name": "Interruptores", "artwork": "" },
+        { "id": "cables-de-bujia", "name": "Cables de bujía", "artwork": "" },
+        {
+          "id": "piezas-del-distribuidor-de-encendido",
+          "name": "Piezas del distribuidor de encendido",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-alternador",
+          "name": "Piezas de alternador",
+          "artwork": ""
+        },
+        {
+          "id": "reguladores-de-alternador",
+          "name": "Reguladores de alternador",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-del-motor-de-arranque",
+          "name": "Piezas del motor de arranque",
+          "artwork": ""
+        },
+        {
+          "id": "unidades-de-control",
+          "name": "Unidades de control",
+          "artwork": ""
+        },
+        {
+          "id": "valvulas-solenoides",
+          "name": "Válvulas solenoides",
+          "artwork": ""
+        },
+        {
+          "id": "interruptores-solenoides",
+          "name": "Interruptores solenoides",
+          "artwork": ""
+        },
+        { "id": "bocinas-de-aire", "name": "Bocinas de aire", "artwork": "" },
+        {
+          "id": "arneses-electricos",
+          "name": "Arneses eléctricos",
+          "artwork": ""
+        },
+        { "id": "cintas-de-airbag", "name": "Cintas de airbag", "artwork": "" }
+      ]
+    },
+    {
+      "id": "refrigeracion-del-motor",
+      "name": "Refrigeración del motor",
+      "artwork": "",
+      "children": [
+        { "id": "bombas-de-agua", "name": "Bombas de agua", "artwork": "" },
+        {
+          "id": "juntas-y-sellos-del-sistema-de-refrigeracion",
+          "name": "Juntas y sellos del sistema de refrigeración",
+          "artwork": ""
+        },
+        {
+          "id": "poleas-de-bomba-de-agua",
+          "name": "Poleas de bomba de agua",
+          "artwork": ""
+        },
+        {
+          "id": "radiadores-de-refrigeracion",
+          "name": "Radiadores de refrigeración",
+          "artwork": ""
+        },
+        {
+          "id": "mangueras-y-tubos-de-radiador",
+          "name": "Mangueras y tubos de radiador",
+          "artwork": ""
+        },
+        {
+          "id": "ventiladores-de-radiador",
+          "name": "Ventiladores de radiador",
+          "artwork": ""
+        },
+        { "id": "intercoolers", "name": "Intercoolers", "artwork": "" },
+        { "id": "termostatos", "name": "Termostatos", "artwork": "" },
+        {
+          "id": "depositos-de-expansion-de-refrigerante",
+          "name": "Depósitos de expansión de refrigerante",
+          "artwork": ""
+        },
+        { "id": "anticongelante", "name": "Anticongelante", "artwork": "" },
+        {
+          "id": "sensores-y-reles-del-sistema-de-refrigeracion",
+          "name": "Sensores y relés del sistema de refrigeración",
+          "artwork": ""
+        },
+        {
+          "id": "soportes-de-radiador",
+          "name": "Soportes de radiador",
+          "artwork": ""
+        },
+        {
+          "id": "enfriadores-y-tuberias-de-aceite",
+          "name": "Enfriadores y tuberías de aceite",
+          "artwork": ""
+        },
+        {
+          "id": "bridas-de-refrigerante",
+          "name": "Bridas de refrigerante",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "calefaccion-y-ventilacion",
+      "name": "Calefacción y ventilación",
+      "artwork": "",
+      "children": [
+        {
+          "id": "compresores-de-aire-acondicionado",
+          "name": "Compresores de aire acondicionado",
+          "artwork": ""
+        },
+        {
+          "id": "condensadores-de-aire-acondicionado",
+          "name": "Condensadores de aire acondicionado",
+          "artwork": ""
+        },
+        {
+          "id": "secadores-de-aire-acondicionado",
+          "name": "Secadores de aire acondicionado",
+          "artwork": ""
+        },
+        {
+          "id": "motores-del-ventilador-interior",
+          "name": "Motores del ventilador interior",
+          "artwork": ""
+        },
+        {
+          "id": "intercambiadores-de-calor",
+          "name": "Intercambiadores de calor",
+          "artwork": ""
+        },
+        {
+          "id": "mangueras-de-calefaccion",
+          "name": "Mangueras de calefacción",
+          "artwork": ""
+        },
+        {
+          "id": "calefactores-de-estacionamiento",
+          "name": "Calefactores de estacionamiento",
+          "artwork": ""
+        },
+        { "id": "evaporadores", "name": "Evaporadores", "artwork": "" },
+        {
+          "id": "mangueras-y-tuberias-de-aire-acondicionado",
+          "name": "Mangueras y tuberías de aire acondicionado",
+          "artwork": ""
+        },
+        {
+          "id": "reles-de-aire-acondicionado",
+          "name": "Relés de aire acondicionado",
+          "artwork": ""
+        },
+        {
+          "id": "interruptores-y-actuadores-de-aire-acondicionado",
+          "name": "Interruptores y actuadores de aire acondicionado",
+          "artwork": ""
+        },
+        {
+          "id": "sensores-de-temperatura-exterior-e-interior",
+          "name": "Sensores de temperatura exterior e interior",
+          "artwork": ""
+        },
+        {
+          "id": "unidades-de-control-y-valvulas-de-aire-acondicionado",
+          "name": "Unidades de control y válvulas de aire acondicionado",
+          "artwork": ""
+        },
+        {
+          "id": "unidades-de-control-y-valvulas-de-calefaccion",
+          "name": "Unidades de control y válvulas de calefacción",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "transmision-y-embrague",
+      "name": "Transmisión y embrague",
+      "artwork": "transmission",
+      "children": [
+        {
+          "id": "juegos-de-embrague",
+          "name": "Juegos de embrague",
+          "artwork": ""
+        },
+        { "id": "semiejes", "name": "Semiejes", "artwork": "" },
+        {
+          "id": "volantes-de-motor",
+          "name": "Volantes de motor",
+          "artwork": ""
+        },
+        {
+          "id": "juntas-homocineticas",
+          "name": "Juntas homocinéticas",
+          "artwork": ""
+        },
+        {
+          "id": "guardapolvos-de-junta-homocinetica",
+          "name": "Guardapolvos de junta homocinética",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-individuales-de-embrague",
+          "name": "Piezas individuales de embrague",
+          "artwork": ""
+        },
+        {
+          "id": "juegos-de-cambio-de-aceite-de-transmision",
+          "name": "Juegos de cambio de aceite de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "juntas-universales-y-flexibles",
+          "name": "Juntas universales y flexibles",
+          "artwork": ""
+        },
+        {
+          "id": "juntas-y-sellos-de-transmision",
+          "name": "Juntas y sellos de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "ejes-de-transmision",
+          "name": "Ejes de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "cojinetes-centrales-del-eje-de-transmision",
+          "name": "Cojinetes centrales del eje de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "cilindros-maestros-de-embrague",
+          "name": "Cilindros maestros de embrague",
+          "artwork": ""
+        },
+        {
+          "id": "varillajes-y-juegos-de-reparacion-del-selector",
+          "name": "Varillajes y juegos de reparación del selector",
+          "artwork": ""
+        },
+        {
+          "id": "soportes-de-transmision",
+          "name": "Soportes de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "enfriadores-de-aceite-de-transmision",
+          "name": "Enfriadores de aceite de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "tripodes-de-semieje",
+          "name": "Trípodes de semieje",
+          "artwork": ""
+        },
+        {
+          "id": "pernos-y-tuercas-de-semieje",
+          "name": "Pernos y tuercas de semieje",
+          "artwork": ""
+        },
+        {
+          "id": "carcasas-de-transmision",
+          "name": "Carcasas de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "cojinetes-piloto-de-embrague",
+          "name": "Cojinetes piloto de embrague",
+          "artwork": ""
+        },
+        {
+          "id": "ejes-de-tacometro",
+          "name": "Ejes de tacómetro",
+          "artwork": ""
+        },
+        {
+          "id": "carteres-de-aceite-de-transmision-automatica",
+          "name": "Cárteres de aceite de transmisión automática",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-diferencial",
+          "name": "Piezas de diferencial",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "carroceria-e-interior",
+      "name": "Carrocería e interior",
+      "artwork": "",
+      "children": [
+        {
+          "id": "manijas-y-cerraduras-de-puerta",
+          "name": "Manijas y cerraduras de puerta",
+          "artwork": ""
+        },
+        { "id": "elevavidrios", "name": "Elevavidrios", "artwork": "" },
+        { "id": "resortes-de-gas", "name": "Resortes de gas", "artwork": "" },
+        {
+          "id": "piezas-de-parachoques",
+          "name": "Piezas de parachoques",
+          "artwork": ""
+        },
+        { "id": "guardafangos", "name": "Guardafangos", "artwork": "" },
+        { "id": "espejos", "name": "Espejos", "artwork": "" },
+        { "id": "salpicaderas", "name": "Salpicaderas", "artwork": "" },
+        {
+          "id": "piezas-interiores",
+          "name": "Piezas interiores",
+          "artwork": ""
+        },
+        { "id": "estribos", "name": "Estribos", "artwork": "" },
+        {
+          "id": "parrillas-delanteras",
+          "name": "Parrillas delanteras",
+          "artwork": ""
+        },
+        { "id": "piezas-de-puerta", "name": "Piezas de puerta", "artwork": "" },
+        { "id": "capo-y-piezas", "name": "Capó y piezas", "artwork": "" },
+        {
+          "id": "bastidores-de-soporte-del-motor",
+          "name": "Bastidores de soporte del motor",
+          "artwork": ""
+        },
+        {
+          "id": "motor-de-apertura-del-porton-trasero",
+          "name": "Motor de apertura del portón trasero",
+          "artwork": ""
+        },
+        {
+          "id": "molduras-y-tiras-protectoras",
+          "name": "Molduras y tiras protectoras",
+          "artwork": ""
+        },
+        { "id": "paneles-de-piso", "name": "Paneles de piso", "artwork": "" },
+        {
+          "id": "sellos-de-ventana",
+          "name": "Sellos de ventana",
+          "artwork": ""
+        },
+        {
+          "id": "tapas-de-remolque-del-parachoques",
+          "name": "Tapas de remolque del parachoques",
+          "artwork": ""
+        },
+        { "id": "portaplacas", "name": "Portaplacas", "artwork": "" },
+        {
+          "id": "cubiertas-de-motor",
+          "name": "Cubiertas de motor",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-ajuste-de-asiento",
+          "name": "Piezas de ajuste de asiento",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "iluminacion",
+      "name": "Iluminación",
+      "artwork": "",
+      "children": [
+        { "id": "luces-traseras", "name": "Luces traseras", "artwork": "" },
+        { "id": "faros-delanteros", "name": "Faros delanteros", "artwork": "" },
+        {
+          "id": "piezas-de-faros-delanteros",
+          "name": "Piezas de faros delanteros",
+          "artwork": ""
+        },
+        {
+          "id": "piezas-de-luces-traseras",
+          "name": "Piezas de luces traseras",
+          "artwork": ""
+        },
+        { "id": "bombillos", "name": "Bombillos", "artwork": "" },
+        {
+          "id": "luces-direccionales",
+          "name": "Luces direccionales",
+          "artwork": ""
+        },
+        {
+          "id": "interruptores-de-iluminacion",
+          "name": "Interruptores de iluminación",
+          "artwork": ""
+        },
+        {
+          "id": "luces-antiniebla-delanteras",
+          "name": "Luces antiniebla delanteras",
+          "artwork": ""
+        },
+        {
+          "id": "luces-antiniebla-traseras",
+          "name": "Luces antiniebla traseras",
+          "artwork": ""
+        },
+        { "id": "luces-de-placa", "name": "Luces de placa", "artwork": "" },
+        { "id": "luces-de-reversa", "name": "Luces de reversa", "artwork": "" },
+        {
+          "id": "luces-led-de-placa",
+          "name": "Luces LED de placa",
+          "artwork": ""
+        },
+        {
+          "id": "luces-de-circulacion-diurna",
+          "name": "Luces de circulación diurna",
+          "artwork": ""
+        },
+        { "id": "luces-de-freno", "name": "Luces de freno", "artwork": "" },
+        {
+          "id": "iluminacion-led-exterior",
+          "name": "Iluminación LED exterior",
+          "artwork": ""
+        },
+        {
+          "id": "iluminacion-led-interior",
+          "name": "Iluminación LED interior",
+          "artwork": ""
+        },
+        {
+          "id": "canceladores-de-advertencia-can-bus",
+          "name": "Canceladores de advertencia CAN-bus",
+          "artwork": ""
+        },
+        {
+          "id": "balastros-de-xenon",
+          "name": "Balastros de xenón",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "aceites-y-fluidos",
+      "name": "Aceites y fluidos",
+      "artwork": "lubricant",
+      "children": [
+        { "id": "aceite-de-motor", "name": "Aceite de motor", "artwork": "" },
+        { "id": "detallado", "name": "Detallado", "artwork": "" },
+        {
+          "id": "aceite-de-transmision",
+          "name": "Aceite de transmisión",
+          "artwork": ""
+        },
+        {
+          "id": "aceite-hidraulico",
+          "name": "Aceite hidráulico",
+          "artwork": ""
+        },
+        { "id": "lubricantes", "name": "Lubricantes", "artwork": "" },
+        {
+          "id": "liquido-de-frenos",
+          "name": "Líquido de frenos",
+          "artwork": ""
+        },
+        {
+          "id": "liquido-de-direccion-asistida",
+          "name": "Líquido de dirección asistida",
+          "artwork": ""
+        },
+        { "id": "refrigerante", "name": "Refrigerante", "artwork": "" },
+        {
+          "id": "aditivos-de-combustible",
+          "name": "Aditivos de combustible",
+          "artwork": ""
+        },
+        { "id": "adblue", "name": "AdBlue", "artwork": "" },
+        {
+          "id": "aditivos-de-aceite",
+          "name": "Aditivos de aceite",
+          "artwork": ""
+        },
+        {
+          "id": "adhesivos-y-selladores",
+          "name": "Adhesivos y selladores",
+          "artwork": ""
+        },
+        {
+          "id": "liquido-lavaparabrisas",
+          "name": "Líquido lavaparabrisas",
+          "artwork": ""
+        }
+      ]
+    },
+    {
+      "id": "accesorios-y-equipo",
+      "name": "Accesorios y equipo",
+      "artwork": "accessories",
+      "children": [
+        {
+          "id": "alfombras-para-automovil",
+          "name": "Alfombras para automóvil",
+          "artwork": ""
+        },
+        {
+          "id": "alfombras-para-maletero",
+          "name": "Alfombras para maletero",
+          "artwork": ""
+        },
+        {
+          "id": "comodidad-y-proteccion-interior",
+          "name": "Comodidad y protección interior",
+          "artwork": ""
+        },
+        {
+          "id": "accesorios-de-seguridad-para-automovil",
+          "name": "Accesorios de seguridad para automóvil",
+          "artwork": ""
+        },
+        {
+          "id": "accesorios-de-audio-para-automovil",
+          "name": "Accesorios de audio para automóvil",
+          "artwork": ""
+        },
+        {
+          "id": "bidones-de-combustible",
+          "name": "Bidones de combustible",
+          "artwork": ""
+        },
+        { "id": "bidones-de-agua", "name": "Bidones de agua", "artwork": "" },
+        {
+          "id": "refrigeradores-y-hieleras-para-automovil",
+          "name": "Refrigeradores y hieleras para automóvil",
+          "artwork": ""
+        },
+        { "id": "bombas-de-aire", "name": "Bombas de aire", "artwork": "" },
+        {
+          "id": "compresores-de-aire",
+          "name": "Compresores de aire",
+          "artwork": ""
+        },
+        {
+          "id": "accesorios-de-viaje-para-mascotas",
+          "name": "Accesorios de viaje para mascotas",
+          "artwork": ""
+        },
+        {
+          "id": "perillas-de-cambio",
+          "name": "Perillas de cambio",
+          "artwork": ""
+        },
+        { "id": "bolsas-de-viaje", "name": "Bolsas de viaje", "artwork": "" },
+        {
+          "id": "correas-de-sujecion-de-carga",
+          "name": "Correas de sujeción de carga",
+          "artwork": ""
+        },
+        {
+          "id": "accesorios-para-telefono",
+          "name": "Accesorios para teléfono",
+          "artwork": ""
+        },
+        {
+          "id": "iluminacion-adicional",
+          "name": "Iluminación adicional",
+          "artwork": ""
+        },
+        {
+          "id": "enganches-y-kits-de-cableado",
+          "name": "Enganches y kits de cableado",
+          "artwork": ""
+        },
+        {
+          "id": "cuerdas-de-remolque",
+          "name": "Cuerdas de remolque",
+          "artwork": ""
+        },
+        {
+          "id": "productos-de-invierno",
+          "name": "Productos de invierno",
+          "artwork": ""
+        },
+        {
+          "id": "cadenas-y-fundas-para-nieve",
+          "name": "Cadenas y fundas para nieve",
+          "artwork": ""
+        },
+        {
+          "id": "cables-de-arranque",
+          "name": "Cables de arranque",
+          "artwork": ""
+        },
+        {
+          "id": "sensores-universales-de-estacionamiento",
+          "name": "Sensores universales de estacionamiento",
+          "artwork": ""
+        },
+        {
+          "id": "camaras-de-reversa",
+          "name": "Cámaras de reversa",
+          "artwork": ""
+        },
+        {
+          "id": "barras-de-techo-y-accesorios",
+          "name": "Barras de techo y accesorios",
+          "artwork": ""
+        },
+        { "id": "portabicicletas", "name": "Portabicicletas", "artwork": "" },
+        { "id": "cubiertas", "name": "Cubiertas", "artwork": "" },
+        { "id": "tapacubos", "name": "Tapacubos", "artwork": "" }
+      ]
+    },
+    {
+      "id": "herramientas",
+      "name": "Herramientas",
+      "artwork": "",
+      "quoteEnabled": false,
+      "children": []
+    }
+  ]
+}

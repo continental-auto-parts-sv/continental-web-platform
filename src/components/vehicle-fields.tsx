@@ -1,9 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 
+import {
+  buildQuoteHref,
+  getQuoteCategoryLabel,
+  type QuoteItem,
+} from "../lib/quote-cart";
 import { BrandLogo, brands } from "./brand-marquee";
-import { PartIcon } from "./part-icon";
 
 const models: Record<string, string[]> = {
   Volkswagen: [
@@ -20,35 +25,26 @@ const models: Record<string, string[]> = {
   Porsche: ["911", "718", "Cayenne", "Macan", "Panamera", "Taycan"],
 };
 
-const parts = [
-  ["Motor", "engine"],
-  ["Frenos", "brake"],
-  ["Suspensión", "spring"],
-  ["Filtros", "filter"],
-  ["Lubricantes", "oil"],
-  ["Otro repuesto", "other"],
-];
-
-export type InquiryField = "brand" | "category" | "model" | "year" | "vin";
+export type InquiryField = "brand" | "parts" | "model" | "year" | "vin";
 
 export type InquiryErrors = Partial<Record<InquiryField, string>>;
 
 export function VehicleFields({
   brand,
-  category,
   errors,
+  quoteItems,
   validationAttempted,
   onBrandChange,
-  onCategoryChange,
   onEdit,
+  onRemoveQuoteItem,
 }: {
   brand: string;
-  category: string;
   errors: InquiryErrors;
+  quoteItems: QuoteItem[];
   validationAttempted: boolean;
   onBrandChange: (brand: string) => void;
-  onCategoryChange: (category: string) => void;
   onEdit: () => void;
+  onRemoveQuoteItem: (key: string) => void;
 }) {
   const currentYear = new Date().getFullYear() + 1;
   const [model, setModel] = useState("");
@@ -128,45 +124,60 @@ export function VehicleFields({
         )}
       </fieldset>
       <fieldset
-        className="visual-fieldset"
-        data-invalid={Boolean(errors.category)}
+        className="visual-fieldset quote-items-fieldset"
+        data-inquiry-field="parts"
+        data-invalid={Boolean(errors.parts)}
         data-valid={
-          validationAttempted && Boolean(category) && !errors.category
+          validationAttempted && quoteItems.length > 0 && !errors.parts
         }
-        aria-describedby={errors.category ? "category-error" : undefined}
+        aria-describedby={errors.parts ? "parts-error" : undefined}
+        tabIndex={-1}
       >
         <legend>
-          <span>02</span> Repuesto
+          <span>02</span> Repuestos para cotizar
           <span className="validation-check" aria-hidden="true" />
         </legend>
-        <div className="part-options">
-          {parts.map(([name, icon]) => (
-            <label className="choice-card part-choice" key={name}>
-              <input
-                type="radio"
-                name="category"
-                value={name}
-                required
-                checked={category === name}
-                onClick={() => {
-                  if (category === name) {
-                    onCategoryChange("");
+        {quoteItems.length > 0 ? (
+          <ul className="quote-items-list">
+            {quoteItems.map((item) => (
+              <li key={item.key}>
+                <span>
+                  <strong>{item.name}</strong>
+                  <small>{item.lineName}</small>
+                  {getQuoteCategoryLabel(item) && (
+                    <small>Categoría: {getQuoteCategoryLabel(item)}</small>
+                  )}
+                </span>
+                <button
+                  type="button"
+                  aria-label={`Quitar ${item.name}`}
+                  onClick={() => {
+                    onRemoveQuoteItem(item.key);
                     onEdit();
-                  }
-                }}
-                onChange={() => {
-                  onCategoryChange(name);
-                  onEdit();
-                }}
-              />
-              <PartIcon kind={icon} />
-              <span>{name}</span>
-            </label>
-          ))}
-        </div>
-        {errors.category && (
-          <p className="form-field-error" id="category-error">
-            {errors.category}
+                  }}
+                >
+                  Quitar
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="quote-items-empty">
+            <p>Aún no has agregado repuestos a tu cotización.</p>
+            <Link href="/productos">Explorar productos</Link>
+          </div>
+        )}
+        {quoteItems.length > 0 && (
+          <Link
+            className="quote-items-add"
+            href={buildQuoteHref("/productos", quoteItems)}
+          >
+            + Agregar otro repuesto
+          </Link>
+        )}
+        {errors.parts && (
+          <p className="form-field-error" id="parts-error">
+            {errors.parts}
           </p>
         )}
       </fieldset>
