@@ -9,6 +9,7 @@ import {
   type QuoteItem,
 } from "../lib/quote-cart";
 import { BrandLogo, brands } from "./brand-marquee";
+import { VehicleYearPicker } from "./vehicle-year-picker";
 
 const models: Record<string, string[]> = {
   Volkswagen: [
@@ -46,13 +47,9 @@ export function VehicleFields({
   onEdit: () => void;
   onRemoveQuoteItem: (key: string) => void;
 }) {
-  const currentYear = new Date().getFullYear() + 1;
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [vin, setVin] = useState("");
-  const [decade, setDecade] = useState(Math.floor(currentYear / 12) * 12);
-  const calendar = useRef<HTMLDetailsElement>(null);
-  const yearInput = useRef<HTMLInputElement>(null);
   const vinHelpDialog = useRef<HTMLDialogElement>(null);
 
   function openVinHelp() {
@@ -228,97 +225,15 @@ export function VehicleFields({
           <label htmlFor="vehicle-year" className="field-label">
             <span>04</span> Año
           </label>
-          <div className="year-input-wrap">
-            <input
-              ref={yearInput}
-              id="vehicle-year"
-              aria-label="Año"
-              aria-invalid={Boolean(errors.year)}
-              aria-describedby={errors.year ? "year-error" : undefined}
-              name="year"
-              type="number"
-              min="1950"
-              max={currentYear}
-              placeholder="Ej. 2020"
-              required
-              value={year}
-              onChange={(event) => {
-                setYear(event.target.value);
-                onEdit();
-              }}
-            />
-            <details
-              className="year-picker"
-              ref={calendar}
-              onKeyDown={(event) => {
-                if (event.key === "Escape" && calendar.current) {
-                  calendar.current.open = false;
-                  yearInput.current?.focus();
-                }
-              }}
-            >
-              <summary aria-label="Abrir calendario de años">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  aria-hidden="true"
-                >
-                  <rect x="3" y="5" width="18" height="16" rx="2" />
-                  <path d="M7 2v6m10-6v6M3 11h18M7 15h2m3 0h2m3 0h2M7 18h2m3 0h2" />
-                </svg>
-              </summary>
-              <div
-                className="year-calendar"
-                role="group"
-                aria-label="Seleccionar año"
-              >
-                <div className="calendar-heading">
-                  <button
-                    type="button"
-                    aria-label="Años anteriores"
-                    disabled={decade <= 1950}
-                    onClick={() => setDecade(decade - 12)}
-                  >
-                    ←
-                  </button>
-                  <strong>
-                    {Math.max(1950, decade)}–
-                    {Math.min(currentYear, decade + 11)}
-                  </strong>
-                  <button
-                    type="button"
-                    aria-label="Años siguientes"
-                    disabled={decade + 12 > currentYear}
-                    onClick={() => setDecade(decade + 12)}
-                  >
-                    →
-                  </button>
-                </div>
-                <div className="year-grid">
-                  {Array.from({ length: 12 }, (_, index) => decade + index)
-                    .filter((value) => value >= 1950 && value <= currentYear)
-                    .map((value) => (
-                      <button
-                        type="button"
-                        key={value}
-                        aria-pressed={year === String(value)}
-                        onClick={() => {
-                          setYear(String(value));
-                          onEdit();
-                          if (calendar.current) calendar.current.open = false;
-                          yearInput.current?.focus();
-                        }}
-                      >
-                        {value}
-                      </button>
-                    ))}
-                </div>
-              </div>
-            </details>
-            <span className="validation-check" aria-hidden="true" />
-          </div>
+          <VehicleYearPicker
+            describedBy={errors.year ? "year-error" : undefined}
+            invalid={Boolean(errors.year)}
+            onChange={(nextYear) => {
+              setYear(nextYear);
+              onEdit();
+            }}
+            value={year}
+          />
           {errors.year && (
             <small className="form-field-error" id="year-error">
               {errors.year}

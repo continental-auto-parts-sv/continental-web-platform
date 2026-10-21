@@ -42,9 +42,6 @@ export default async function PromotionPage({
                 .
               </p>
             )}
-            <Link className="button" href="/contacto">
-              Consultar compatibilidad ↗
-            </Link>
           </div>
         </div>
       </section>

@@ -138,6 +138,67 @@ describe("products catalog", () => {
     expect(showAll.textContent).toContain("Ver menos");
   });
 
+  it("keeps the category reading order when expanding the carousel", () => {
+    render(<ProductsExperience />);
+
+    const lightCategories = screen.getByRole("region", {
+      name: "Categorías de Línea de Livianos",
+    });
+    const categoryHeadings = within(lightCategories).getAllByRole("heading");
+    const categoryNames = categoryHeadings.map((heading) =>
+      heading.textContent?.trim(),
+    );
+    const firstCard = categoryHeadings[0].closest<HTMLElement>(
+      ".products-category-card",
+    );
+    const fifthCard = categoryHeadings[4].closest<HTMLElement>(
+      ".products-category-card",
+    );
+    const sixthCard = categoryHeadings[5].closest<HTMLElement>(
+      ".products-category-card",
+    );
+    const eleventhCard = categoryHeadings[10].closest<HTMLElement>(
+      ".products-category-card",
+    );
+    const twelfthCard = categoryHeadings[11].closest<HTMLElement>(
+      ".products-category-card",
+    );
+    const finalCard = categoryHeadings
+      .at(-1)
+      ?.closest<HTMLElement>(".products-category-card");
+
+    expect(firstCard?.style.getPropertyValue("--category-row-desktop")).toBe(
+      "1",
+    );
+    expect(fifthCard?.style.getPropertyValue("--category-row-desktop")).toBe(
+      "1",
+    );
+    expect(sixthCard?.style.getPropertyValue("--category-row-desktop")).toBe(
+      "2",
+    );
+    expect(eleventhCard?.style.getPropertyValue("--category-row-desktop")).toBe(
+      "1",
+    );
+    expect(twelfthCard?.style.getPropertyValue("--category-row-desktop")).toBe(
+      "2",
+    );
+    expect(finalCard?.style.getPropertyValue("--category-row-desktop")).toBe(
+      "1",
+    );
+
+    fireEvent.click(
+      screen.getAllByRole("button", {
+        name: /Ver todos/,
+      })[0],
+    );
+
+    expect(
+      within(lightCategories)
+        .getAllByRole("heading")
+        .map((heading) => heading.textContent?.trim()),
+    ).toEqual(categoryNames);
+  });
+
   it("searches every catalog level and restores level zero when cleared", () => {
     render(<ProductsExperience />);
 

@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+} from "react";
 
 import lightCategoryCatalogJson from "../data/light-product-categories.json";
 import {
@@ -48,6 +54,48 @@ type CategoryEntry = {
   category: ProductCategory;
   path: ProductCategory[];
 };
+
+type CategoryGridStyle = CSSProperties & {
+  "--category-column-desktop": number;
+  "--category-column-mobile": number;
+  "--category-column-tablet": number;
+  "--category-row-desktop": number;
+  "--category-row-mobile": number;
+  "--category-row-tablet": number;
+};
+
+function getCategoryGridPosition(index: number, columnsPerPage: number) {
+  const cardsPerPage = columnsPerPage * 2;
+
+  if (index < cardsPerPage) {
+    return {
+      column: (index % columnsPerPage) + 1,
+      row: Math.floor(index / columnsPerPage) + 1,
+    };
+  }
+
+  const overflowIndex = index - cardsPerPage;
+
+  return {
+    column: columnsPerPage + Math.floor(overflowIndex / 2) + 1,
+    row: (overflowIndex % 2) + 1,
+  };
+}
+
+function getCategoryGridStyle(index: number): CategoryGridStyle {
+  const desktop = getCategoryGridPosition(index, 5);
+  const tablet = getCategoryGridPosition(index, 3);
+  const mobile = getCategoryGridPosition(index, 2);
+
+  return {
+    "--category-column-desktop": desktop.column,
+    "--category-column-mobile": mobile.column,
+    "--category-column-tablet": tablet.column,
+    "--category-row-desktop": desktop.row,
+    "--category-row-mobile": mobile.row,
+    "--category-row-tablet": tablet.row,
+  };
+}
 
 function flattenCategoryEntries(
   categories: ProductCategory[],
@@ -250,11 +298,13 @@ function CategoryArtwork({ category }: { category: ProductCategory }) {
 
 export function ProductCategoryCard({
   category,
+  gridStyle,
   isQuoted = false,
   onSelect,
   onQuote,
 }: {
   category: ProductCategory;
+  gridStyle?: CSSProperties;
   isQuoted?: boolean;
   onSelect?: (category: ProductCategory) => void;
   onQuote?: (category: ProductCategory) => void;
@@ -270,7 +320,10 @@ export function ProductCategoryCard({
 
   if (isLeafCategory && !category.quoteEnabled) {
     return (
-      <article className={`${cardClassName} products-category-card-static`}>
+      <article
+        className={`${cardClassName} products-category-card-static`}
+        style={gridStyle}
+      >
         <CategoryArtwork category={category} />
         <div>
           <h3>{category.name}</h3>
@@ -310,6 +363,7 @@ export function ProductCategoryCard({
         <button
           className={`${cardClassName} products-category-card-quote-button`}
           type="button"
+          style={gridStyle}
           aria-label={`${category.name}. ${
             isQuoted ? "Agregado a cotización" : "Cotizar repuesto"
           }`}
@@ -323,7 +377,7 @@ export function ProductCategoryCard({
     }
 
     return (
-      <Link className={cardClassName} href={category.href}>
+      <Link className={cardClassName} href={category.href} style={gridStyle}>
         {content}
       </Link>
     );
@@ -333,6 +387,7 @@ export function ProductCategoryCard({
     <button
       className={`${cardClassName} products-category-card-button`}
       type="button"
+      style={gridStyle}
       onClick={() => onSelect?.(category)}
     >
       <CategoryArtwork category={category} />
@@ -738,9 +793,10 @@ function ProductLineSection({
           aria-label={categoryLabel}
           aria-roledescription={isExpanded ? undefined : "carrusel"}
         >
-          {visibleEntries.map(({ category, path }) => (
+          {visibleEntries.map(({ category, path }, index) => (
             <ProductCategoryCard
               category={category}
+              gridStyle={getCategoryGridStyle(index)}
               isQuoted={quoteItems.some(
                 (item) => item.key === `${line.id}:${category.id}`,
               )}

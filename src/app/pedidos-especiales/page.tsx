@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { PromotionShell } from "../../components/promotion-shell";
+import { SpecialOrderRequestModal } from "../../components/special-order-request-modal";
 
 import "./special-orders.css";
 
@@ -57,13 +57,11 @@ export default function Page() {
             </div>
 
             <div className="special-orders-hero-aside">
-              <h2>
-                ¿No encuentras el repuesto? Nosotros te ayudamos a conseguirlo.
-              </h2>
+              <h2>¿No encuentras el repuesto?</h2>
               <p>
-                Revisamos opciones para piezas de mantenimiento, específicas o
-                difíciles de encontrar, aunque no estén disponibles en nuestro
-                inventario.
+                Nosotros revisamos opciones para piezas de mantenimiento,
+                específicas o difíciles de encontrar, aunque no estén
+                disponibles en nuestro inventario.
               </p>
               <a className="special-orders-jump" href="#como-funciona">
                 Ver cómo funciona <span aria-hidden="true">↓</span>
@@ -92,8 +90,9 @@ export default function Page() {
                 <div>
                   <h3>Compártenos los datos</h3>
                   <p>
-                    Marca, modelo y año. Si la tienes, agrega una fotografía o
-                    el número de pieza.
+                    Indícanos la marca, el modelo, el año y el VIN o número de
+                    chasis. También puedes agregar una fotografía o el número de
+                    pieza.
                   </p>
                 </div>
               </article>
@@ -128,43 +127,14 @@ export default function Page() {
         </section>
 
         <section
-          className="special-orders-timing"
-          aria-labelledby="special-orders-timing-title"
-        >
-          <div className="container special-orders-timing-panel">
-            <div
-              className="special-orders-time"
-              aria-label="10 a 15 días hábiles"
-            >
-              <strong>10–15</strong>
-              <span>días hábiles</span>
-            </div>
-            <div className="special-orders-timing-copy">
-              <h2 id="special-orders-timing-title">¿Cuánto tarda en llegar?</h2>
-              <p>
-                Este es el plazo habitual. Según el origen de la pieza y la
-                disponibilidad del fabricante, algunos pedidos pueden tardar
-                hasta <strong>30 días hábiles</strong>.
-              </p>
-              <p>
-                Te confirmaremos el tiempo estimado antes de la compra y daremos
-                seguimiento hasta la entrega.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section
           className="special-orders-closing"
           aria-labelledby="special-orders-closing-title"
         >
           <div className="container special-orders-closing-inner">
             <h2 id="special-orders-closing-title">
-              Por pequeña o difícil que sea, revisemos cómo conseguirla.
+              No hay pedido pequeño si es importante para ti.
             </h2>
-            <Link className="button" href="/contacto">
-              Consultar mi pedido especial <span aria-hidden="true">↗</span>
-            </Link>
+            <SpecialOrderRequestModal />
           </div>
         </section>
       </article>
