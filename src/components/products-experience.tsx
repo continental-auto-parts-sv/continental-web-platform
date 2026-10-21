@@ -31,6 +31,8 @@ import { StoreCta } from "./store-cta";
 import "./home-design.css";
 import "./products-experience.css";
 
+const usesStaticImageLoader = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
+
 type ProductLine = {
   id: "livianos" | "comercial";
   title: string;
@@ -280,7 +282,7 @@ function CategoryArtwork({ category }: { category: ProductCategory }) {
         height={1024}
         sizes="(max-width: 760px) 45vw, 190px"
         loading={shouldBypassOptimizer ? "eager" : "lazy"}
-        unoptimized={shouldBypassOptimizer}
+        unoptimized={shouldBypassOptimizer && !usesStaticImageLoader}
       />
       <Image
         className="products-category-image products-category-image-light"
@@ -290,7 +292,7 @@ function CategoryArtwork({ category }: { category: ProductCategory }) {
         height={1024}
         sizes="(max-width: 760px) 45vw, 190px"
         loading={shouldBypassOptimizer ? "eager" : "lazy"}
-        unoptimized={shouldBypassOptimizer}
+        unoptimized={shouldBypassOptimizer && !usesStaticImageLoader}
       />
     </span>
   );
@@ -609,7 +611,7 @@ function ProductLineSection({
                   width={515}
                   height={515}
                   sizes="(max-width: 760px) 52px, 72px"
-                  unoptimized
+                  unoptimized={!usesStaticImageLoader}
                 />
                 <Image
                   className="products-line-logo products-line-logo-dark"
@@ -618,7 +620,7 @@ function ProductLineSection({
                   width={515}
                   height={515}
                   sizes="(max-width: 760px) 52px, 72px"
-                  unoptimized
+                  unoptimized={!usesStaticImageLoader}
                 />
               </>
             ) : (
@@ -630,7 +632,7 @@ function ProductLineSection({
                   width={1537}
                   height={516}
                   sizes="(max-width: 760px) 104px, 142px"
-                  unoptimized
+                  unoptimized={!usesStaticImageLoader}
                 />
                 <Image
                   className="products-line-logo products-line-logo-commercial products-line-logo-dark"
@@ -639,7 +641,7 @@ function ProductLineSection({
                   width={1537}
                   height={516}
                   sizes="(max-width: 760px) 104px, 142px"
-                  unoptimized
+                  unoptimized={!usesStaticImageLoader}
                 />
               </>
             )}

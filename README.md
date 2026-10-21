@@ -63,7 +63,20 @@ Never place a secret in a variable whose name begins with `NEXT_PUBLIC_`.
 4. Manually verify the preview, then merge.
 5. Vercel deploys `main` to production through its native GitHub integration.
 
-GitHub Actions intentionally does not deploy the site. Connect this repository to a company-owned Vercel project and set `main` as its production branch.
+GitHub Actions does not deploy the production site. Connect this repository to a
+company-owned Vercel project and set `main` as its production branch.
+
+### Development preview
+
+Every push to `development` builds a static export and deploys it to GitHub Pages:
+
+<https://continental-auto-parts-sv.github.io/continental-web-platform/>
+
+In the repository settings, select **Settings → Pages → Build and deployment →
+GitHub Actions** once to enable the workflow. The preview is a static snapshot:
+Sanity changes appear after the next deployment, and server-only Next.js features
+and response headers are not available. The production build remains configured for
+Vercel.
 
 The `Protect main` ruleset can document the intended workflow, but GitHub Free does not enforce organization rulesets on private repositories. Until that changes, the pull-request workflow must be followed manually.
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { type CSSProperties, useRef } from "react";
 
 export const brands = [
@@ -101,9 +102,13 @@ export function BrandMarquee() {
                 aria-hidden={copy === 1 ? true : undefined}
               >
                 {brands.map((name) => (
-                  <a href="/contacto" key={name} tabIndex={copy === 1 ? -1 : 0}>
+                  <Link
+                    href="/contacto"
+                    key={name}
+                    tabIndex={copy === 1 ? -1 : 0}
+                  >
                     <BrandLogo name={name} />
-                  </a>
+                  </Link>
                 ))}
               </div>
             ))}

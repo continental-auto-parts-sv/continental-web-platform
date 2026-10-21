@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const isGitHubPagesBuild = process.env.GITHUB_PAGES === "true";
+const githubPagesBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
@@ -12,14 +15,26 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: securityHeaders,
-      },
-    ];
-  },
+  ...(isGitHubPagesBuild
+    ? {
+        output: "export" as const,
+        basePath: githubPagesBasePath,
+        trailingSlash: true,
+        images: {
+          loader: "custom" as const,
+          loaderFile: "./src/lib/image-loader.ts",
+        },
+      }
+    : {
+        async headers() {
+          return [
+            {
+              source: "/(.*)",
+              headers: securityHeaders,
+            },
+          ];
+        },
+      }),
 };
 
 export default nextConfig;

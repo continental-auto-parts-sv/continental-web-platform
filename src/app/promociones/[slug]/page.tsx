@@ -5,6 +5,12 @@ import { PromotionArtwork } from "@/components/promotion-feature";
 import { PromotionShell } from "@/components/promotion-shell";
 import { getPromotionContent } from "@/lib/promotion-content";
 
+export async function generateStaticParams() {
+  const { promotions } = await getPromotionContent();
+
+  return promotions.map(({ slug }) => ({ slug }));
+}
+
 export default async function PromotionPage({
   params,
 }: {
