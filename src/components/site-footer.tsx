@@ -24,8 +24,8 @@ export function SiteFooter({ topHref = "#contenido" }: { topHref?: string }) {
                 <path d="M8 9h8M8 13h5" />
               </svg>
               <span>
-                <strong>Hablemos de tu auto</strong>
-                <small>Cuéntanos qué repuesto necesitas</small>
+                <strong>Canales de atención</strong>
+                <small>Conoce cómo comunicarte con nosotros</small>
               </span>
               <span aria-hidden="true">↗</span>
             </Link>

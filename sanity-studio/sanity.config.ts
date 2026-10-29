@@ -3,11 +3,10 @@ import { structureTool } from "sanity/structure";
 
 import { schemaTypes } from "./schema-types";
 
-// Studio is prepared for later setup; the website runs without these variables.
 export default defineConfig({
   name: "continental",
   title: "Continental Auto Parts",
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || "setup-required",
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || "9pkob7ka",
   dataset: process.env.SANITY_STUDIO_DATASET || "production",
   plugins: [
     structureTool({
@@ -24,6 +23,17 @@ export default defineConfig({
                   .documentId("promotionSettings"),
               ),
             S.documentTypeListItem("promotion").title("Promociones"),
+            S.divider(),
+            S.listItem()
+              .title("Blog")
+              .child(
+                S.list()
+                  .title("Blog")
+                  .items([
+                    S.documentTypeListItem("post").title("Artículos"),
+                    S.documentTypeListItem("blogCategory").title("Categorías"),
+                  ]),
+              ),
           ]),
     }),
   ],

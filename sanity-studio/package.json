@@ -3,12 +3,15 @@
   "private": true,
   "scripts": {
     "dev": "sanity dev",
-    "build": "sanity build"
+    "build": "sanity build",
+    "typegen": "sanity schemas extract --force && sanity typegen generate",
+    "migrate:content-model": "sanity exec scripts/migrate-content-model.mjs --with-user-token"
   },
   "dependencies": {
-    "sanity": "6.16.0",
-    "styled-components": "6.5.3",
+    "@sanity/icons": "^5.2.3",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "sanity": "6.16.0",
+    "styled-components": "6.5.3"
   }
 }

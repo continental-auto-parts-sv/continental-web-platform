@@ -79,7 +79,7 @@ describe("product category catalog", () => {
       id: "tensores",
       href: "/productos/tensores",
     });
-    expect(catalog.categories[0].href).toBe("/contacto");
+    expect(catalog.categories[0].href).toBe("/cotizar-repuestos");
   });
 
   it("uses the same card component to select a recursive JSON level", () => {

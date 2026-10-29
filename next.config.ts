@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const isGitHubPagesBuild = process.env.GITHUB_PAGES === "true";
 const githubPagesBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const sanityImagePattern = {
+  protocol: "https" as const,
+  hostname: "cdn.sanity.io",
+  pathname: "/images/**",
+};
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -23,9 +28,13 @@ const nextConfig: NextConfig = {
         images: {
           loader: "custom" as const,
           loaderFile: "./src/lib/image-loader.ts",
+          remotePatterns: [sanityImagePattern],
         },
       }
     : {
+        images: {
+          remotePatterns: [sanityImagePattern],
+        },
         async headers() {
           return [
             {

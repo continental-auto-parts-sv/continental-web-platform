@@ -1,5 +1,7 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -25,11 +27,14 @@ import { DevSettings, useDevSettingsState } from "./dev-settings";
 import { PartIcon } from "./part-icon";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { SpecialOrderRequestModal } from "./special-order-request-modal";
 import { SpecialOrdersCallout } from "./special-orders-callout";
 import { StoreCta } from "./store-cta";
 
 import "./home-design.css";
 import "./products-experience.css";
+
+gsap.registerPlugin(useGSAP);
 
 const usesStaticImageLoader = Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
 
@@ -113,6 +118,42 @@ function flattenCategoryEntries(
   });
 }
 
+function withOtherCategory(categories: ProductCategory[]): ProductCategory[] {
+  const categoriesWithNestedFallbacks = categories.map((category) => ({
+    ...category,
+    children:
+      category.children.length > 0
+        ? withOtherCategory(category.children)
+        : category.children,
+  }));
+
+  return [
+    ...categoriesWithNestedFallbacks,
+    {
+      id: "otro",
+      name: "Otro",
+      description: "",
+      href: "/cotizar-repuestos",
+      quoteEnabled: true,
+      children: [],
+    },
+  ];
+}
+
+function getQuoteItemKey(lineId: ProductLine["id"], path: ProductCategory[]) {
+  const category = path.at(-1);
+
+  if (!category) {
+    return lineId;
+  }
+
+  if (category.id !== "otro" || path.length === 1) {
+    return `${lineId}:${category.id}`;
+  }
+
+  return `${lineId}:${path.map((pathCategory) => pathCategory.id).join(":")}`;
+}
+
 const lightCategoryCatalog = parseProductCategoryCatalog(
   lightCategoryCatalogJson,
 );
@@ -176,7 +217,7 @@ const productLines: ProductLine[] = [
     id: "livianos",
     title: "Línea de Livianos",
     description: "Repuestos para automóviles, SUV y vehículos de uso diario.",
-    categories: lightCategoryCatalog.categories,
+    categories: withOtherCategory(lightCategoryCatalog.categories),
     brands: [
       {
         name: "Bosch",
@@ -211,7 +252,7 @@ const productLines: ProductLine[] = [
     id: "comercial",
     title: "Línea Comercial",
     description: "Repuestos para camiones, buses y transporte pesado.",
-    categories: commercialCategoryCatalog.categories,
+    categories: withOtherCategory(commercialCategoryCatalog.categories),
     brands: [
       {
         name: "WABCO",
@@ -301,20 +342,27 @@ function CategoryArtwork({ category }: { category: ProductCategory }) {
 export function ProductCategoryCard({
   category,
   gridStyle,
+  hideQuoteAction = false,
   isQuoted = false,
   onSelect,
   onQuote,
 }: {
   category: ProductCategory;
   gridStyle?: CSSProperties;
+  hideQuoteAction?: boolean;
   isQuoted?: boolean;
   onSelect?: (category: ProductCategory) => void;
-  onQuote?: (category: ProductCategory) => void;
+  onQuote?: (
+    category: ProductCategory,
+    sourceElement: HTMLButtonElement,
+  ) => void;
 }) {
   const isLeafCategory = category.children.length === 0;
+  const usesCategoryAppearance =
+    isLeafCategory && hideQuoteAction && Boolean(onQuote);
   const cardClassName = `products-category-card${
     category.artwork || category.icon ? "" : " products-category-card-empty-art"
-  }${isLeafCategory ? " products-category-card-leaf" : ""}${
+  }${isLeafCategory && !usesCategoryAppearance ? " products-category-card-leaf" : ""}${
     category.id === "limpiaparabrisas-y-lavaparabrisas"
       ? " products-category-card-long-title"
       : ""
@@ -332,6 +380,38 @@ export function ProductCategoryCard({
           <p>{category.description}</p>
         </div>
       </article>
+    );
+  }
+
+  if (usesCategoryAppearance && onQuote) {
+    return (
+      <button
+        className={`${cardClassName} products-category-card-button products-category-card-quote-button`}
+        type="button"
+        style={gridStyle}
+        aria-label={`${category.name}${
+          isQuoted ? ". Agregado a cotización" : ""
+        }`}
+        aria-pressed={isQuoted}
+        data-quoted={isQuoted}
+        onClick={(event) => onQuote(category, event.currentTarget)}
+      >
+        <CategoryArtwork category={category} />
+        <span className="products-category-copy">
+          <span
+            className="products-category-title"
+            role="heading"
+            aria-level={3}
+          >
+            {category.name}
+          </span>
+          {category.description && (
+            <span className="products-category-description">
+              {category.description}
+            </span>
+          )}
+        </span>
+      </button>
     );
   }
 
@@ -371,7 +451,7 @@ export function ProductCategoryCard({
           }`}
           aria-pressed={isQuoted}
           data-quoted={isQuoted}
-          onClick={() => onQuote(category)}
+          onClick={(event) => onQuote(category, event.currentTarget)}
         >
           {content}
         </button>
@@ -413,7 +493,7 @@ function ProductLineSection({
   quoteItems,
 }: {
   line: ProductLine;
-  onQuote: (item: QuoteItem) => void;
+  onQuote: (item: QuoteItem, sourceElement?: HTMLButtonElement) => void;
   quoteItems: QuoteItem[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -447,21 +527,25 @@ function ProductLineSection({
   const quoteCategory = (
     category: ProductCategory,
     path: ProductCategory[],
+    sourceElement?: HTMLButtonElement,
   ) => {
     const parentCategoryPath = path
       .slice(0, -1)
       .map((pathCategory) => pathCategory.name);
 
-    onQuote({
-      artwork: category.artwork,
-      categoryPath:
-        parentCategoryPath.length > 0 ? parentCategoryPath : [category.name],
-      key: `${line.id}:${category.id}`,
-      id: category.id,
-      name: category.name,
-      lineId: line.id,
-      lineName: line.title,
-    });
+    onQuote(
+      {
+        artwork: category.artwork,
+        categoryPath:
+          parentCategoryPath.length > 0 ? parentCategoryPath : [category.name],
+        key: getQuoteItemKey(line.id, path),
+        id: category.id,
+        name: category.name,
+        lineId: line.id,
+        lineName: line.title,
+      },
+      sourceElement,
+    );
   };
 
   useEffect(() => {
@@ -799,14 +883,20 @@ function ProductLineSection({
             <ProductCategoryCard
               category={category}
               gridStyle={getCategoryGridStyle(index)}
+              hideQuoteAction={
+                line.id === "livianos" &&
+                categoryPath.length === 0 &&
+                category.id === "otro"
+              }
               isQuoted={quoteItems.some(
-                (item) => item.key === `${line.id}:${category.id}`,
+                (item) => item.key === getQuoteItemKey(line.id, path),
               )}
               key={path.map((pathCategory) => pathCategory.id).join("/")}
               onSelect={() => navigateToCategory(path)}
               onQuote={
                 category.children.length === 0 && category.quoteEnabled
-                  ? (selectedCategory) => quoteCategory(selectedCategory, path)
+                  ? (selectedCategory, sourceElement) =>
+                      quoteCategory(selectedCategory, path, sourceElement)
                   : undefined
               }
             />
@@ -846,6 +936,14 @@ function ProductLineSection({
 
 export function ProductsExperience() {
   const quoteItems = useQuoteItems();
+  const pageRef = useRef<HTMLDivElement>(null);
+  const quoteLinkRef = useRef<HTMLAnchorElement>(null);
+  const quoteFlightLayerRef = useRef<HTMLDivElement>(null);
+  const animateQuoteToBagRef = useRef<
+    (sourceElement: HTMLButtonElement) => void
+  >(() => undefined);
+  const [commercialCategory, setCommercialCategory] =
+    useState<QuoteItem | null>(null);
   const {
     accessibilityPreview,
     categoryTitleFont,
@@ -860,10 +958,133 @@ export function ProductsExperience() {
     setPageScale,
   } = useDevSettingsState();
 
-  const toggleQuoteItem = (item: QuoteItem) => {
+  useGSAP(
+    (_context, contextSafe) => {
+      if (!contextSafe) {
+        return;
+      }
+
+      animateQuoteToBagRef.current = contextSafe(
+        (sourceElement: HTMLButtonElement) => {
+          const quoteLink = quoteLinkRef.current;
+          const flightLayer = quoteFlightLayerRef.current;
+          const prefersReducedMotion =
+            pageRef.current?.dataset.reducedMotion === "true" ||
+            window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+          if (!quoteLink || !flightLayer || prefersReducedMotion) {
+            return;
+          }
+
+          const sourceBounds = sourceElement.getBoundingClientRect();
+          const targetBounds = quoteLink.getBoundingClientRect();
+
+          if (
+            sourceBounds.width === 0 ||
+            sourceBounds.height === 0 ||
+            targetBounds.width === 0 ||
+            targetBounds.height === 0
+          ) {
+            return;
+          }
+
+          const flyerSize = Math.min(
+            56,
+            Math.max(42, sourceBounds.width * 0.24),
+          );
+          const startX =
+            sourceBounds.left + sourceBounds.width / 2 - flyerSize / 2;
+          const startY =
+            sourceBounds.top + sourceBounds.height / 3 - flyerSize / 2;
+          const targetX =
+            targetBounds.left + targetBounds.width / 2 - flyerSize / 2;
+          const targetY =
+            targetBounds.top + targetBounds.height / 2 - flyerSize / 2;
+          const flyer = document.createElement("span");
+          const artwork = sourceElement.querySelector<HTMLElement>(
+            ".products-category-art, .products-category-icon",
+          );
+
+          flyer.className = "products-quote-flyer";
+          flyer.setAttribute("aria-hidden", "true");
+
+          if (artwork) {
+            flyer.append(artwork.cloneNode(true));
+          } else {
+            flyer.classList.add("products-quote-flyer-fallback");
+            flyer.textContent = "+";
+          }
+
+          flightLayer.append(flyer);
+
+          gsap.set(flyer, {
+            autoAlpha: 0,
+            height: flyerSize,
+            left: startX,
+            scale: 0.88,
+            top: startY,
+            width: flyerSize,
+          });
+
+          gsap
+            .timeline({
+              onComplete: () => flyer.remove(),
+            })
+            .to(flyer, {
+              autoAlpha: 1,
+              duration: 0.1,
+              ease: "power1.out",
+              scale: 1,
+            })
+            .to(
+              flyer,
+              {
+                autoAlpha: 0.72,
+                duration: 0.46,
+                ease: "power2.in",
+                scale: 0.28,
+                x: targetX - startX,
+                y: targetY - startY,
+              },
+              0.05,
+            )
+            .to(
+              quoteLink,
+              {
+                duration: 0.12,
+                ease: "power2.out",
+                scale: 1.12,
+              },
+              0.42,
+            )
+            .to(quoteLink, {
+              clearProps: "transform",
+              duration: 0.2,
+              ease: "back.out(2)",
+              scale: 1,
+            });
+        },
+      );
+
+      return () => {
+        animateQuoteToBagRef.current = () => undefined;
+        quoteFlightLayerRef.current?.replaceChildren();
+      };
+    },
+    { scope: pageRef },
+  );
+
+  const toggleQuoteItem = (
+    item: QuoteItem,
+    sourceElement?: HTMLButtonElement,
+  ) => {
     const isAlreadyQuoted = quoteItems.some(
       (quoteItem) => quoteItem.key === item.key,
     );
+
+    if (!isAlreadyQuoted && sourceElement) {
+      animateQuoteToBagRef.current(sourceElement);
+    }
 
     writeQuoteItems(
       isAlreadyQuoted
@@ -875,6 +1096,7 @@ export function ProductsExperience() {
   return (
     <div
       className="home-page products-page"
+      ref={pageRef}
       data-category-title-font={categoryTitleFont}
       data-page-scale={pageScale}
       data-reduced-motion={reducedMotion}
@@ -884,7 +1106,12 @@ export function ProductsExperience() {
       <a className="skip-link" href="#contenido">
         Saltar al contenido
       </a>
-      <SiteHeader />
+      <SiteHeader quoteLinkRef={quoteLinkRef} />
+      <div
+        className="products-quote-flight-layer"
+        ref={quoteFlightLayerRef}
+        aria-hidden="true"
+      />
       <main id="contenido">
         <section className="products-hero" aria-labelledby="products-title">
           <div className="container products-hero-card">
@@ -937,9 +1164,18 @@ export function ProductsExperience() {
           <ProductLineSection
             line={productLines[1]}
             quoteItems={quoteItems}
-            onQuote={toggleQuoteItem}
+            onQuote={setCommercialCategory}
           />
         </div>
+
+        {commercialCategory && (
+          <SpecialOrderRequestModal
+            autoOpen
+            initialPart={commercialCategory.name}
+            mode="commercial"
+            onClose={() => setCommercialCategory(null)}
+          />
+        )}
 
         {/*<section*/}
         {/*  className="products-final-cta"*/}
@@ -955,7 +1191,7 @@ export function ProductsExperience() {
         {/*        la marca, el modelo, el año o el VIN, te ayudamos a encontrar la*/}
         {/*        opción adecuada.*/}
         {/*      </p>*/}
-        {/*      <Link className="button" href="/contacto">*/}
+        {/*      <Link className="button" href="/cotizar-repuestos">*/}
         {/*        Hablemos de tu vehículo <span aria-hidden="true">↗</span>*/}
         {/*      </Link>*/}
         {/*    </div>*/}

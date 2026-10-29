@@ -1,3 +1,5 @@
+import "server-only";
+
 import {
   activePromotions,
   demoPromotions,
@@ -10,7 +12,17 @@ const query = `{
     && (!defined(endsAt) || dateTime(endsAt) > now())]
     | order(_createdAt desc) {
       _id, "slug": slug.current, title, description, badge,
-      category, icon, terms, active, startsAt, endsAt
+      category, terms, shopifyUrl, active, startsAt, endsAt,
+      coverImage {
+        ...,
+        asset-> {
+          _id,
+          metadata {
+            dimensions,
+            lqip
+          }
+        }
+      }
     },
   "featuredId": *[_id == "promotionSettings"][0].featuredPromotion._ref
 }`;

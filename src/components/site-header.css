@@ -513,6 +513,10 @@ body.wallpaper-viewer-exiting .home-page main > :not(.hero) {
     margin-left: auto;
   }
 
+  .header-quote-overview {
+    display: none;
+  }
+
   .theme-toggle {
     width: 44px;
     height: 44px;

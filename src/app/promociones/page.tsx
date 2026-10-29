@@ -64,14 +64,8 @@ export default async function PromotionsPage() {
                       aria-label={`Ver promoción: ${promotion.title}`}
                     >
                       <PromotionArtwork
-                        photoSrc={
-                          isFeatured
-                            ? "/images/promotions/featured-brake-service.webp"
-                            : undefined
-                        }
                         promotion={promotion}
                         showFooter={false}
-                        showLabel={false}
                       />
                       <div className="promotion-card-copy">
                         <p className="eyebrow">
@@ -102,7 +96,7 @@ export default async function PromotionsPage() {
                   ? "Intenta de nuevo en unos minutos."
                   : "Estamos preparando las próximas promociones para tu auto."}
               </p>
-              <Link className="button" href="/contacto">
+              <Link className="button" href="/cotizar-repuestos">
                 Consultar un repuesto ↗
               </Link>
             </div>

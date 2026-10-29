@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import {
+  useEffect,
   useRef,
   useState,
   type ChangeEvent,
@@ -9,18 +11,25 @@ import {
 } from "react";
 
 import { MAX_VEHICLE_YEAR, VehicleYearPicker } from "./vehicle-year-picker";
+import {
+  ContactMethodField,
+  parseContactMethod,
+  validateContact,
+} from "./contact-method-field";
+
+import "../app/pedidos-especiales/special-orders.css";
 
 const MAX_PHOTO_SIZE = 8 * 1024 * 1024;
 const PHOTO_EXTENSIONS = [".jpeg", ".jpg", ".png", ".webp"];
 
 type PhotoState = {
   error?: string;
-  name?: string;
+  names?: string[];
 };
 
 type SpecialOrderField =
   | "name"
-  | "phone"
+  | "contact"
   | "brand"
   | "model"
   | "year"
@@ -31,28 +40,44 @@ type SpecialOrderField =
 
 type SpecialOrderErrors = Partial<Record<SpecialOrderField, string>>;
 
-function validatePhoto(file: File | undefined): PhotoState {
-  if (!file) {
+function validatePhotos(files: File[]): PhotoState {
+  if (files.length === 0) {
     return {};
   }
 
-  const normalizedName = file.name.toLowerCase();
-  const hasSupportedExtension = PHOTO_EXTENSIONS.some((extension) =>
-    normalizedName.endsWith(extension),
-  );
+  const hasUnsupportedPhoto = files.some((file) => {
+    const normalizedName = file.name.toLowerCase();
+    const hasSupportedExtension = PHOTO_EXTENSIONS.some((extension) =>
+      normalizedName.endsWith(extension),
+    );
 
-  if (!file.type.startsWith("image/") || !hasSupportedExtension) {
-    return { error: "La fotografía debe ser JPG, PNG o WebP." };
+    return !file.type.startsWith("image/") || !hasSupportedExtension;
+  });
+
+  if (hasUnsupportedPhoto) {
+    return { error: "Todas las fotografías deben ser JPG, PNG o WebP." };
   }
 
-  if (file.size > MAX_PHOTO_SIZE) {
-    return { error: "La fotografía no puede pesar más de 8 MB." };
+  const hasOversizedPhoto = files.some((file) => file.size > MAX_PHOTO_SIZE);
+
+  if (hasOversizedPhoto) {
+    return { error: "Cada fotografía puede pesar como máximo 8 MB." };
   }
 
-  return { name: file.name };
+  return { names: files.map((file) => file.name) };
 }
 
-export function SpecialOrderRequestModal() {
+export function SpecialOrderRequestModal({
+  autoOpen = false,
+  initialPart = "",
+  mode = "special-order",
+  onClose,
+}: {
+  autoOpen?: boolean;
+  initialPart?: string;
+  mode?: "commercial" | "special-order";
+  onClose?: () => void;
+}) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const dialogCardRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +88,27 @@ export function SpecialOrderRequestModal() {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
   const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "");
+  const isCommercialRequest = mode === "commercial";
+
+  useEffect(() => {
+    if (!autoOpen) {
+      return;
+    }
+
+    const dialog = dialogRef.current;
+
+    if (!dialog) {
+      return;
+    }
+
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+
+    firstInputRef.current?.focus({ preventScroll: true });
+  }, [autoOpen]);
 
   function openDialog() {
     const dialog = dialogRef.current;
@@ -96,6 +142,8 @@ export function SpecialOrderRequestModal() {
     } else {
       dialog.removeAttribute("open");
     }
+
+    onClose?.();
   }
 
   function clearFeedback() {
@@ -106,7 +154,7 @@ export function SpecialOrderRequestModal() {
   }
 
   function handlePhotoChange(event: ChangeEvent<HTMLInputElement>) {
-    const nextPhotoState = validatePhoto(event.target.files?.[0]);
+    const nextPhotoState = validatePhotos(Array.from(event.target.files ?? []));
 
     setPhotoState(nextPhotoState);
     setFormErrors(nextPhotoState.error ? { photo: nextPhotoState.error } : {});
@@ -125,10 +173,11 @@ export function SpecialOrderRequestModal() {
     event.preventDefault();
     const form = event.currentTarget;
     const photoInput = form.elements.namedItem("photo") as HTMLInputElement;
-    const nextPhotoState = validatePhoto(photoInput.files?.[0]);
+    const nextPhotoState = validatePhotos(Array.from(photoInput.files ?? []));
     const data = new FormData(form);
     const name = String(data.get("name") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
+    const contactMethod = parseContactMethod(data.get("contactMethod"));
+    const contact = String(data.get("contact") ?? "").trim();
     const brand = String(data.get("brand") ?? "").trim();
     const model = String(data.get("model") ?? "").trim();
     const year = String(data.get("year") ?? "").trim();
@@ -144,11 +193,10 @@ export function SpecialOrderRequestModal() {
       errors.name = "Escribe tu nombre.";
     }
 
-    if (!phone) {
-      errors.phone = "Escribe tu número de contacto.";
-    } else if (!/^[0-9+() -]{8,20}$/.test(phone)) {
-      errors.phone =
-        "Usa entre 8 y 20 caracteres: números, espacios, +, ( ) o guiones.";
+    const contactError = validateContact(contactMethod, contact);
+
+    if (contactError) {
+      errors.contact = contactError;
     }
 
     if (!brand) {
@@ -177,11 +225,15 @@ export function SpecialOrderRequestModal() {
     }
 
     if (!part) {
-      errors.part = "Escribe el repuesto que necesitas.";
+      errors.part = isCommercialRequest
+        ? "Selecciona la categoría que necesitas."
+        : "Escribe el repuesto que necesitas.";
     }
 
     if (!description) {
-      errors.description = "Describe el repuesto que necesitas.";
+      errors.description = isCommercialRequest
+        ? "Escribe el nombre del repuesto o una descripción."
+        : "Describe el repuesto que necesitas.";
     } else if (description.length < 10) {
       errors.description = "La descripción debe tener al menos 10 caracteres.";
     }
@@ -207,12 +259,25 @@ export function SpecialOrderRequestModal() {
       return;
     }
 
-    const photoNote = nextPhotoState.name
-      ? ` Fotografía seleccionada: ${nextPhotoState.name}; la adjuntaré manualmente.`
-      : "";
+    const photoNames = nextPhotoState.names ?? [];
+    const photoNote =
+      photoNames.length > 0
+        ? ` Fotografías seleccionadas: ${photoNames.join(", ")}; las adjuntaré manualmente.`
+        : "";
+
+    const requestIntroduction = isCommercialRequest
+      ? "Quiero cotizar un repuesto de Línea Comercial"
+      : "Quiero consultar un pedido especial";
+    const requestDetails = isCommercialRequest
+      ? `Categoría: ${part}. Repuesto o descripción: ${description}.`
+      : `Repuesto: ${part}. Descripción: ${description}.`;
+    const contactPreference =
+      contactMethod === "email"
+        ? `Mi correo de contacto es ${contact}.`
+        : `Mi número de contacto es ${contact}.`;
 
     setSummary(
-      `Hola, soy ${name}. Quiero consultar un pedido especial para un ${brand} ${model}, año ${year}, VIN o chasis ${vin}. Repuesto: ${part}. Descripción: ${description}. Mi número de contacto es ${phone}.${photoNote}`,
+      `Hola, soy ${name}. ${requestIntroduction} para un ${brand} ${model}, año ${year}, VIN o chasis ${vin}. ${requestDetails} ${contactPreference}${photoNote}`,
     );
     setCopied(false);
     setCopyError(false);
@@ -220,38 +285,74 @@ export function SpecialOrderRequestModal() {
 
   return (
     <>
-      <button
-        className="button special-order-open"
-        type="button"
-        aria-haspopup="dialog"
-        onClick={openDialog}
-      >
-        Consultar mi pedido especial <span aria-hidden="true">↗</span>
-      </button>
+      {!autoOpen && (
+        <button
+          className="button special-order-open"
+          type="button"
+          aria-haspopup="dialog"
+          onClick={openDialog}
+        >
+          Consultar mi pedido especial <span aria-hidden="true">↗</span>
+        </button>
+      )}
 
       <dialog
         className="special-order-dialog"
         ref={dialogRef}
         aria-labelledby="special-order-dialog-title"
         aria-modal="true"
-        onCancel={closeDialog}
+        onCancel={(event) => {
+          event.preventDefault();
+          closeDialog();
+        }}
         onClick={handleBackdropClick}
       >
         <div className="special-order-dialog-card" ref={dialogCardRef}>
           <header className="special-order-dialog-header">
             <div>
+              {isCommercialRequest && (
+                <div
+                  className="special-order-commercial-brand"
+                  role="img"
+                  aria-label="Línea Comercial"
+                >
+                  <Image
+                    className="special-order-commercial-logo special-order-commercial-logo-light"
+                    src="/images/brands/cap-linea-comercial.png"
+                    alt=""
+                    width={1537}
+                    height={516}
+                    sizes="(max-width: 640px) 210px, 280px"
+                  />
+                  <Image
+                    className="special-order-commercial-logo special-order-commercial-logo-dark"
+                    src="/images/brands/cap-linea-comercial-dark.png"
+                    alt=""
+                    width={1537}
+                    height={516}
+                    sizes="(max-width: 640px) 210px, 280px"
+                  />
+                </div>
+              )}
               <h2 id="special-order-dialog-title">
-                Cuéntanos qué repuesto necesitas.
+                {isCommercialRequest
+                  ? "Cotización de Línea Comercial."
+                  : "Cuéntanos qué repuesto necesitas."}
               </h2>
               <p>
-                Completa los datos para que nuestro equipo pueda revisar las
-                opciones disponibles.
+                {isCommercialRequest
+                  ? "Completa los datos para que nuestro equipo pueda cotizar la categoría seleccionada."
+                  : "Completa los datos para que nuestro equipo pueda revisar las opciones disponibles."}
               </p>
             </div>
             <button
               className="special-order-dialog-close"
               type="button"
-              aria-label="Cerrar formulario de pedido especial"
+              aria-label={
+                isCommercialRequest
+                  ? "Cerrar formulario de Línea Comercial"
+                  : "Cerrar formulario de pedido especial"
+              }
               onClick={closeDialog}
             >
               <span aria-hidden="true">×</span>
@@ -300,34 +401,12 @@ export function SpecialOrderRequestModal() {
                 )}
               </label>
 
-              <label data-invalid={formErrors.phone ? "true" : undefined}>
-                <span>Número de contacto</span>
-                <input
-                  aria-label="Número de contacto"
-                  aria-describedby={
-                    formErrors.phone ? "special-order-phone-error" : undefined
-                  }
-                  aria-invalid={Boolean(formErrors.phone)}
-                  autoComplete="tel"
-                  inputMode="tel"
-                  maxLength={20}
-                  minLength={8}
-                  name="phone"
-                  pattern="[0-9+() -]{8,20}"
-                  placeholder="+503 0000 0000"
-                  required
-                  type="tel"
-                />
-                {formErrors.phone && (
-                  <small
-                    className="special-order-form-error"
-                    id="special-order-phone-error"
-                    role="alert"
-                  >
-                    {formErrors.phone}
-                  </small>
-                )}
-              </label>
+              <ContactMethodField
+                error={formErrors.contact}
+                idPrefix="special-order"
+                onEdit={clearFeedback}
+                variant="special-order"
+              />
 
               <label data-invalid={formErrors.brand ? "true" : undefined}>
                 <span>Marca</span>
@@ -439,9 +518,9 @@ export function SpecialOrderRequestModal() {
                 className="special-order-field-full"
                 data-invalid={formErrors.part ? "true" : undefined}
               >
-                <span>Repuesto</span>
+                <span>{isCommercialRequest ? "Categoría" : "Repuesto"}</span>
                 <input
-                  aria-label="Repuesto"
+                  aria-label={isCommercialRequest ? "Categoría" : "Repuesto"}
                   aria-describedby={
                     formErrors.part ? "special-order-part-error" : undefined
                   }
@@ -449,7 +528,12 @@ export function SpecialOrderRequestModal() {
                   autoComplete="off"
                   maxLength={140}
                   name="part"
-                  placeholder="Escribe el nombre del repuesto"
+                  defaultValue={initialPart}
+                  placeholder={
+                    isCommercialRequest
+                      ? "Categoría seleccionada"
+                      : "Escribe el nombre del repuesto"
+                  }
                   required
                   type="text"
                 />
@@ -480,7 +564,11 @@ export function SpecialOrderRequestModal() {
                   maxLength={1200}
                   minLength={10}
                   name="description"
-                  placeholder="Describe la pieza, sus características o cualquier detalle que nos ayude a identificarla."
+                  placeholder={
+                    isCommercialRequest
+                      ? "Escribe el nombre del repuesto o una descripción que nos ayude a identificarlo."
+                      : "Describe la pieza, sus características o cualquier detalle que nos ayude a identificarla."
+                  }
                   required
                   rows={4}
                 />
@@ -507,7 +595,8 @@ export function SpecialOrderRequestModal() {
                       : "special-order-photo-guidance"
                   }
                   aria-invalid={Boolean(formErrors.photo)}
-                  aria-label="Fotografía del repuesto, opcional"
+                  aria-label="Fotografías del repuesto, opcionales"
+                  multiple
                   name="photo"
                   onChange={handlePhotoChange}
                   type="file"
@@ -517,14 +606,19 @@ export function SpecialOrderRequestModal() {
                 </span>
                 <span className="special-order-upload-copy">
                   <strong>
-                    {photoState.name ?? "Fotografía del repuesto"}
+                    {photoState.names?.length === 1
+                      ? photoState.names[0]
+                      : photoState.names?.length
+                        ? `${photoState.names.length} fotografías seleccionadas`
+                        : "Fotografías del repuesto"}
                   </strong>
                   <small id="special-order-photo-guidance">
-                    Opcional · JPG, PNG o WebP · máximo 8 MB
+                    Opcional · varios ángulos · JPG, PNG o WebP · máximo 8 MB
+                    cada una
                   </small>
                 </span>
                 <span className="special-order-upload-action">
-                  Seleccionar imagen
+                  Seleccionar imágenes
                 </span>
               </label>
 
@@ -597,9 +691,9 @@ export function SpecialOrderRequestModal() {
                     </small>
                   </>
                 )}
-                {photoState.name && (
+                {photoState.names && photoState.names.length > 0 && (
                   <small>
-                    Recuerda adjuntar la fotografía manualmente al enviar el
+                    Recuerda adjuntar las fotografías manualmente al enviar el
                     mensaje.
                   </small>
                 )}

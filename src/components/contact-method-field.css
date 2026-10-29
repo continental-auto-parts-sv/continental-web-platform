@@ -1,0 +1,145 @@
+.contact-method-field {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.contact-method-field-inquiry {
+  align-self: start;
+}
+
+.contact-method-step {
+  flex: 0 0 auto;
+  color: #85858b;
+  font-size: 0.75rem;
+}
+
+.contact-method-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px;
+  padding-left: 8px;
+  border-left: 1px solid var(--border);
+  transform: translateY(-50%);
+}
+
+.contact-method-toggle label {
+  position: relative;
+  cursor: pointer;
+}
+
+.contact-method-field .contact-method-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  opacity: 0;
+}
+
+.home-page .inquiry-form .contact-method-toggle input,
+.special-order-form-grid .contact-method-toggle input {
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+}
+
+.contact-method-toggle span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0;
+  border-radius: 8px;
+  color: var(--muted);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.contact-method-toggle input:checked + span {
+  background: color-mix(in srgb, var(--red) 9%, transparent);
+  color: var(--red);
+  box-shadow: none;
+}
+
+.contact-method-toggle svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.contact-method-toggle input:focus-visible + span {
+  outline: 3px solid rgb(229 36 50 / 24%);
+  outline-offset: 2px;
+}
+
+.contact-method-input {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.contact-method-label {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  white-space: nowrap;
+}
+
+.contact-method-field-inquiry .contact-method-label {
+  display: flex;
+  margin-bottom: 9px;
+  font-size: 1.05rem;
+}
+
+.contact-method-field-inquiry .contact-method-input {
+  gap: 0;
+}
+
+.contact-method-input-wrap {
+  position: relative;
+  display: block;
+}
+
+.contact-method-input-wrap > input {
+  padding-right: 92px;
+  font-weight: 400;
+}
+
+.contact-method-field[data-invalid="true"] .contact-method-input input {
+  border-color: var(--red);
+  box-shadow: inset 0 0 0 1px var(--red);
+}
+
+.contact-method-error {
+  display: block;
+  margin-top: 8px;
+}
+
+@media (max-width: 520px) {
+  .contact-method-toggle span {
+    width: 28px;
+    height: 28px;
+  }
+
+  .contact-method-input-wrap > input {
+    padding-right: 86px;
+  }
+}

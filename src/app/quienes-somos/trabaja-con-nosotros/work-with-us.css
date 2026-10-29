@@ -4,37 +4,12 @@
 }
 
 .careers-hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 82% 20%, rgb(229 36 50 / 16%), transparent 30rem),
-    #101113;
+  background: #101113;
   color: #fff;
 }
 
-.careers-hero::after {
-  position: absolute;
-  z-index: -1;
-  right: -7%;
-  bottom: -48%;
-  width: min(48vw, 650px);
-  aspect-ratio: 1;
-  border: 1px solid rgb(255 255 255 / 9%);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 70px rgb(255 255 255 / 2%),
-    0 0 0 140px rgb(255 255 255 / 2%);
-  content: "";
-}
-
 .careers-hero-layout {
-  padding-block: clamp(88px, 10vw, 144px) clamp(76px, 9vw, 124px);
-}
-
-.careers-hero .eyebrow {
-  margin-bottom: 24px;
-  color: #f04b56;
+  padding-block: clamp(64px, 7vw, 96px) clamp(60px, 6vw, 84px);
 }
 
 .home-page .careers-hero h1 {
@@ -73,19 +48,6 @@
 .careers-aside {
   position: sticky;
   top: 116px;
-}
-
-.careers-step {
-  display: grid;
-  width: 48px;
-  aspect-ratio: 1;
-  place-items: center;
-  margin-bottom: 28px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--red);
-  font-family: "Formula 1 Display", "Volkswagen Text", system-ui, sans-serif;
-  font-size: 0.82rem;
 }
 
 .home-page .careers-aside h2 {
@@ -368,12 +330,6 @@
 }
 
 @media (max-width: 600px) {
-  .careers-hero::after {
-    right: -24%;
-    bottom: -18%;
-    width: 85vw;
-  }
-
   .careers-form {
     padding: 24px 18px;
     border-radius: 22px;

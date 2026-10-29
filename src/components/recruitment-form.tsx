@@ -133,14 +133,19 @@ export function RecruitmentForm() {
           <span>Área de interés</span>
           <select defaultValue="" name="area" required>
             <option disabled value="">
-              Selecciona un área
+              Seleccione
             </option>
-            <option value="ventas">Ventas y atención al cliente</option>
-            <option value="bodega">Bodega y logística</option>
-            <option value="compras">Compras e importaciones</option>
-            <option value="administracion">Administración</option>
-            <option value="marketing">Marketing</option>
-            <option value="otra">Otra área</option>
+            <option value="auxiliar-bodega">Auxiliar de bodega</option>
+            <option value="auxiliar-bodega-automotriz">
+              Auxiliar de bodega automotriz
+            </option>
+            <option value="cajera">Cajera</option>
+            <option value="encargada-limpieza">Encargada de limpieza</option>
+            <option value="motociclista">Motociclista</option>
+            <option value="otros">Otros</option>
+            <option value="promotora-ventas">Promotora de ventas</option>
+            <option value="sub-gerente">Sub Gerente</option>
+            <option value="vendedor">Vendedor</option>
           </select>
         </label>
 

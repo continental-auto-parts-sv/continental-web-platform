@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { type CSSProperties, useRef } from "react";
+import { type CSSProperties } from "react";
 
 export const brands = [
   "Volkswagen",
@@ -18,6 +17,7 @@ export type BrandName = (typeof brands)[number];
 
 type Logo = {
   src: string;
+  darkSrc?: string;
   width: number;
   height: number;
 };
@@ -50,6 +50,7 @@ const officialLogos: Partial<Record<BrandName, Logo>> = {
   },
   MINI: {
     src: "/images/brands/mini.png",
+    darkSrc: "/images/brands/mini-dark.png",
     width: 3840,
     height: 2160,
   },
@@ -61,12 +62,29 @@ export function BrandLogo({ name }: { name: BrandName }) {
   return (
     <span className={`brand brand-${name.toLowerCase()}`}>
       {logo ? (
-        <Image
-          {...logo}
-          alt={name}
-          sizes="120px"
-          className="vehicle-brand-logo"
-        />
+        <>
+          <Image
+            src={logo.src}
+            width={logo.width}
+            height={logo.height}
+            alt={name}
+            sizes="120px"
+            className={`vehicle-brand-logo${
+              logo.darkSrc ? " vehicle-brand-logo-light" : ""
+            }`}
+          />
+          {logo.darkSrc ? (
+            <Image
+              src={logo.darkSrc}
+              width={logo.width}
+              height={logo.height}
+              alt=""
+              aria-hidden="true"
+              sizes="120px"
+              className="vehicle-brand-logo vehicle-brand-logo-dark"
+            />
+          ) : null}
+        </>
       ) : (
         // No official SEAT artwork was supplied; keep its name as plain text.
         name
@@ -76,14 +94,6 @@ export function BrandLogo({ name }: { name: BrandName }) {
 }
 
 export function BrandMarquee() {
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  function setPlaybackRate(rate: number) {
-    trackRef.current?.getAnimations().forEach((animation) => {
-      animation.updatePlaybackRate(rate);
-    });
-  }
-
   return (
     <section className="brands" id="marcas" aria-label="Marcas de vehículos">
       <div className="container brands-inner">
@@ -91,10 +101,8 @@ export function BrandMarquee() {
         <div
           className="brand-marquee"
           style={{ "--brand-count": brands.length } as CSSProperties}
-          onMouseEnter={() => setPlaybackRate(0)}
-          onMouseLeave={() => setPlaybackRate(1)}
         >
-          <div className="brand-track" ref={trackRef}>
+          <div className="brand-track">
             {[0, 1].map((copy) => (
               <div
                 className="brand-group"
@@ -102,13 +110,7 @@ export function BrandMarquee() {
                 aria-hidden={copy === 1 ? true : undefined}
               >
                 {brands.map((name) => (
-                  <Link
-                    href="/contacto"
-                    key={name}
-                    tabIndex={copy === 1 ? -1 : 0}
-                  >
-                    <BrandLogo name={name} />
-                  </Link>
+                  <BrandLogo name={name} key={name} />
                 ))}
               </div>
             ))}

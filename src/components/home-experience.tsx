@@ -18,6 +18,7 @@ import {
 } from "./vehicle-fields";
 import { PromotionFeature } from "./promotion-feature";
 import { DevSettings, useDevSettingsState } from "./dev-settings";
+import { parseContactMethod, validateContact } from "./contact-method-field";
 import type { Promotion } from "@/lib/promotions";
 import {
   getQuoteCategoryLabel,
@@ -38,7 +39,7 @@ export function HomeExperience({
   page = "home",
 }: {
   hero?: ReactNode;
-  page?: "home" | "products" | "contact";
+  page?: "home" | "products" | "quote";
   promotion?: Promotion;
 }) {
   const [showTopbar, setShowTopbar] = useState(false);
@@ -164,11 +165,14 @@ export function HomeExperience({
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
+    const name = String(data.get("name") ?? "").trim();
     const model = String(data.get("model") ?? "").trim();
     const year = String(data.get("year") ?? "").trim();
     const vin = String(data.get("vin") ?? "")
       .trim()
       .toUpperCase();
+    const contactMethod = parseContactMethod(data.get("contactMethod"));
+    const contact = String(data.get("contact") ?? "").trim();
     const currentYear = new Date().getFullYear() + 1;
     const errors: InquiryErrors = {};
 
@@ -176,6 +180,7 @@ export function HomeExperience({
     if (quoteItems.length === 0) {
       errors.parts = "Agrega al menos un repuesto desde Productos.";
     }
+    if (!name) errors.name = "Escribe tu nombre.";
     if (!model) errors.model = "Escribe el modelo de tu vehículo.";
 
     if (!year) {
@@ -191,6 +196,12 @@ export function HomeExperience({
     if (vin && (vin.length < 5 || !/^[A-Z0-9 -]+$/.test(vin))) {
       errors.vin =
         "Usa al menos 5 caracteres: letras, números, espacios o guiones.";
+    }
+
+    const contactError = validateContact(contactMethod, contact);
+
+    if (contactError) {
+      errors.contact = contactError;
     }
 
     const firstError = Object.keys(errors)[0] as InquiryField | undefined;
@@ -217,9 +228,13 @@ export function HomeExperience({
         return category ? `${item.name} (categoría: ${category})` : item.name;
       })
       .join("; ");
+    const contactPreference =
+      contactMethod === "email"
+        ? `Mi correo de contacto es ${contact}.`
+        : `Mi número de contacto es ${contact}.`;
 
     setSummary(
-      `Hola, Continental Auto Parts. Quiero cotizar los siguientes repuestos: ${requestedParts}. Son para mi ${brand}, modelo ${model}, año ${year}${vehicleIdentity}. ¿Me pueden ayudar a confirmar compatibilidad y disponibilidad?`,
+      `Hola, soy ${name}. Quiero cotizar los siguientes repuestos con Continental Auto Parts: ${requestedParts}. Son para mi ${brand}, modelo ${model}, año ${year}${vehicleIdentity}. ${contactPreference} ¿Me pueden ayudar a confirmar compatibilidad y disponibilidad?`,
     );
     setCopied(false);
     setCopyError(false);
@@ -283,7 +298,7 @@ export function HomeExperience({
             <ServiceHighlights />
           </div>
         )}
-        {page !== "contact" && (
+        {page !== "quote" && (
           <>
             <section className="section categories" id="categorias">
               <div className="container">
@@ -376,7 +391,7 @@ export function HomeExperience({
             {promotion && <PromotionFeature promotion={promotion} />}
           </>
         )}
-        {page === "contact" ? (
+        {page === "quote" ? (
           <section className="inquiry-section" id="consulta">
             <div className="container inquiry-grid">
               <div>

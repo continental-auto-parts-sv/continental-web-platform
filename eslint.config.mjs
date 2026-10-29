@@ -10,6 +10,7 @@ export default defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "src/sanity/sanity.types.ts",
     "sanity-studio/dist/**",
     "sanity-studio/.sanity/**",
   ]),

@@ -47,7 +47,7 @@ function parseCategory(value: unknown): ProductCategory | null {
     description: stringOrEmpty(value.description),
     artwork: optionalString(value.artwork),
     icon: optionalString(value.icon),
-    href: optionalString(value.href) ?? "/contacto",
+    href: optionalString(value.href) ?? "/cotizar-repuestos",
     quoteEnabled: value.quoteEnabled !== false,
     children: parseCategories(value.children),
   };

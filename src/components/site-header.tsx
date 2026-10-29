@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,7 +27,11 @@ const quoteOverviewAddedDurationMs = 3000;
 const quoteOverviewHoverCloseMs = 1000;
 const quoteOverviewPointerGraceMs = 300;
 
-export function SiteHeader() {
+export function SiteHeader({
+  quoteLinkRef,
+}: {
+  quoteLinkRef?: RefObject<HTMLAnchorElement | null>;
+} = {}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
   const [quoteOverviewOpen, setQuoteOverviewOpen] = useState(false);
@@ -265,7 +275,8 @@ export function SiteHeader() {
           >
             <Link
               className="button small header-cta"
-              href={buildQuoteHref("/contacto", quoteItems)}
+              href={buildQuoteHref("/cotizar-repuestos", quoteItems)}
+              ref={quoteLinkRef}
               aria-label={
                 quoteItems.length > 0
                   ? `${quoteActionLabel}, ${quoteItems.length} ${

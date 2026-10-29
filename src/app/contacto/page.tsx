@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 
-import { HomeExperience } from "@/components/home-experience";
+import { ContactExperience } from "@/components/contact-experience";
+import { PromotionShell } from "@/components/promotion-shell";
 
-export const metadata: Metadata = { title: "Contacto" };
+export const metadata: Metadata = {
+  title: "Contacto",
+  description:
+    "Conoce los canales oficiales de Continental Auto Parts y comunícate con nuestro equipo en El Salvador.",
+};
 
 export default function Page() {
-  return <HomeExperience page="contact" />;
+  return (
+    <PromotionShell>
+      <ContactExperience />
+    </PromotionShell>
+  );
 }

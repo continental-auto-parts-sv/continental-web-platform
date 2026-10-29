@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const MAX_VEHICLE_YEAR = new Date().getFullYear() + 1;
 
@@ -21,12 +21,32 @@ export function VehicleYearPicker({
   onChange,
   value,
 }: VehicleYearPickerProps) {
+  const field = useRef<HTMLDivElement>(null);
   const picker = useRef<HTMLDetailsElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const suppressNextFocusOpen = useRef(false);
   const [yearPage, setYearPage] = useState(
     Math.floor(MAX_VEHICLE_YEAR / 12) * 12,
   );
+
+  useEffect(() => {
+    function handlePointerDown(event: PointerEvent) {
+      if (
+        !picker.current?.open ||
+        field.current?.contains(event.target as Node)
+      ) {
+        return;
+      }
+
+      picker.current.open = false;
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, []);
 
   function closePicker() {
     if (picker.current) {
@@ -47,7 +67,7 @@ export function VehicleYearPicker({
   }
 
   return (
-    <div className="year-input-wrap">
+    <div className="year-input-wrap" ref={field}>
       <input
         ref={input}
         aria-describedby={describedBy}

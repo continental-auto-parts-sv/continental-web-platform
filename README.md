@@ -73,10 +73,11 @@ Every push to `development` builds a static export and deploys it to GitHub Page
 <https://continental-auto-parts-sv.github.io/continental-web-platform/>
 
 In the repository settings, select **Settings → Pages → Build and deployment →
-GitHub Actions** once to enable the workflow. The preview is a static snapshot:
-Sanity changes appear after the next deployment, and server-only Next.js features
-and response headers are not available. The production build remains configured for
-Vercel.
+GitHub Actions** once to enable the workflow. Then open **Settings → Environments →
+github-pages** and allow the `development` branch under **Deployment branches and
+tags**. The preview is a static snapshot: Sanity changes appear after the next
+deployment, and server-only Next.js features and response headers are not available.
+The production build remains configured for Vercel.
 
 The `Protect main` ruleset can document the intended workflow, but GitHub Free does not enforce organization rulesets on private repositories. Until that changes, the pull-request workflow must be followed manually.
 
@@ -107,7 +108,7 @@ Brand and category shortcuts prefill the inquiry builder. Set
 `NEXT_PUBLIC_WHATSAPP_NUMBER` to the verified business number (international format,
 digits only) to enable the WhatsApp handoff. Until configured, visitors can copy their
 prepared inquiry; no message is sent and no form data is stored. Live inventory is not connected. Promotions currently use clearly labeled sample data;
-Sanity account setup is deferred.
+Sanity project `9pkob7ka` is connected to the `production` dataset.
 
 The original hero asset is stored locally at `public/images/audi-hero.webp` and
 served through Next.js image optimization.
@@ -123,20 +124,26 @@ Without a Sanity project ID, three labeled examples are served from
 `src/lib/promotions.ts`. Once configured, an empty CMS stays empty and a CMS error
 shows an unavailable state; fictional discounts never replace live content.
 
-Sanity setup is intentionally deferred. When ready:
+Sanity Studio is configured in `sanity-studio/` and remains a standalone package
+inside this repository. To work with CMS content:
 
-1. Create the project/dataset and set the public Sanity variables in `.env.local`.
-2. Set `SANITY_STUDIO_PROJECT_ID` and `SANITY_STUDIO_DATASET` to the same values
-   in `sanity-studio/.env` or the shell environment used by Studio.
-3. Run `npm install --prefix sanity-studio`, then `npm run dev --prefix sanity-studio`.
-   Create, activate, and publish promotions.
-4. Open **Promoción de portada**, select one promotion, and publish.
+1. Run `npm run dev --prefix sanity-studio` to open the Studio locally.
+2. Create and publish promotions or blog articles.
+3. Open **Promoción de portada**, select one active promotion, and publish it.
+4. After schema or query changes, run `npm run typegen --prefix sanity-studio`.
 
 For a private dataset, configure a read-only `SANITY_API_TOKEN` on the Next.js
 server. The token is used only for server-side requests. The website queries the
 [published perspective](https://www.sanity.io/docs/http-reference/query) on each
-request so activation and scheduling apply without rebuilding. No remote CMS
-project or documents were created as part of the local demo.
+request so activation and scheduling apply without rebuilding.
+
+## Blog
+
+`/blog` lists published `post` documents from Sanity and `/blog/[slug]` renders
+Portable Text article content. Articles support a title, slug, summary, category,
+accessible cover image, publication date, and rich text body. Future-dated and
+unpublished documents are excluded. Until the first article is published, the blog
+shows a deliberate empty state rather than fictional content.
 
 Brand movement uses a slow, seamless CSS transform loop, pauses on hover or keyboard
 focus, has a pause control, and respects reduced-motion preferences. The inquiry
@@ -144,8 +151,8 @@ builder supports visual brand/part selection, editable model suggestions, and a
 year calendar with manual entry.
 
 Studio is an isolated package in `sanity-studio/`; its dependencies are intentionally
-not installed with the website. Review and update those dependencies when setting
-up the CMS. The site uses the Sanity HTTP API and needs no Studio runtime.
+separate from the website dependencies. The website uses `next-sanity` and does not
+require the Studio runtime in production.
 
 ## Official brand resources
 

@@ -7,8 +7,13 @@ import { getPromotionContent } from "@/lib/promotion-content";
 
 export async function generateStaticParams() {
   const { promotions } = await getPromotionContent();
+  const params = promotions.map(({ slug }) => ({ slug }));
 
-  return promotions.map(({ slug }) => ({ slug }));
+  if (params.length > 0 || process.env.GITHUB_PAGES !== "true") {
+    return params;
+  }
+
+  return [{ slug: "_empty" }];
 }
 
 export default async function PromotionPage({
@@ -22,32 +27,71 @@ export default async function PromotionPage({
 
   if (!promotion) notFound();
 
+  const formattedEndDate = promotion.endsAt
+    ? new Intl.DateTimeFormat("es-SV", {
+        dateStyle: "long",
+        timeZone: "America/El_Salvador",
+      }).format(new Date(promotion.endsAt))
+    : null;
+
   return (
     <PromotionShell>
-      <section className="container promotion-detail">
-        <Link className="text-link" href="/promociones">
-          ← Todas las promociones
-        </Link>
-        <div className="promotion-detail-grid">
-          <PromotionArtwork promotion={promotion} />
-          <div>
-            <p className="eyebrow">
-              {promotion.category} / {promotion.demo ? "EJEMPLO" : "PROMOCIÓN"}
-            </p>
-            <h1>{promotion.title}</h1>
-            <p className="promotion-description">{promotion.description}</p>
-            <h2>Condiciones</h2>
-            <p className="promotion-terms">{promotion.terms}</p>
-            {promotion.endsAt && (
-              <p>
-                Válida hasta{" "}
-                {new Intl.DateTimeFormat("es-SV", {
-                  dateStyle: "long",
-                  timeZone: "America/El_Salvador",
-                }).format(new Date(promotion.endsAt))}
-                .
+      <section className="promotion-detail">
+        <div className="container">
+          <Link className="promotion-detail-back" href="/promociones">
+            <span aria-hidden="true">←</span>
+            Todas las promociones
+          </Link>
+
+          <div className="promotion-detail-grid">
+            <div className="promotion-detail-media">
+              <PromotionArtwork promotion={promotion} showFooter={false} />
+            </div>
+
+            <div className="promotion-detail-copy">
+              <p className="eyebrow promotion-detail-eyebrow">
+                <span>{promotion.category}</span>
+                <span aria-hidden="true">/</span>
+                <span>{promotion.demo ? "Ejemplo" : "Promoción"}</span>
               </p>
-            )}
+
+              <h1>{promotion.title}</h1>
+              <p className="promotion-description">{promotion.description}</p>
+
+              {promotion.shopifyUrl && (
+                <div className="promotion-detail-actions">
+                  <a
+                    className="button"
+                    href={promotion.shopifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Comprar en Mercadito
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              )}
+
+              <aside
+                className="promotion-detail-conditions"
+                aria-labelledby="promotion-conditions-title"
+              >
+                <p className="promotion-detail-conditions-label">
+                  Detalles de la oferta
+                </p>
+                <h2 id="promotion-conditions-title">Condiciones</h2>
+                <p className="promotion-terms">{promotion.terms}</p>
+
+                {formattedEndDate && (
+                  <div className="promotion-detail-validity">
+                    <span>Vigencia</span>
+                    <time dateTime={promotion.endsAt}>
+                      Hasta el {formattedEndDate}
+                    </time>
+                  </div>
+                )}
+              </aside>
+            </div>
           </div>
         </div>
       </section>

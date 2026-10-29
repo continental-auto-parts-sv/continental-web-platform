@@ -45,14 +45,16 @@ describe("special orders page", () => {
     expect(screen.getByLabelText("Repuesto")).toBeTruthy();
     expect(screen.getByLabelText("Descripción")).toBeTruthy();
     expect(
-      screen.getByLabelText("Fotografía del repuesto, opcional"),
+      screen.getByLabelText("Fotografías del repuesto, opcionales"),
     ).toBeTruthy();
     expect(
       screen.getByLabelText("VIN o chasis").getAttribute("placeholder"),
     ).toBe("Ej. WVWZZZ1KZBW000001");
     expect(screen.getByLabelText("Modelo")).toBeTruthy();
     expect(screen.getByLabelText("Año")).toBeTruthy();
-    expect(screen.getByLabelText("Número de contacto")).toBeTruthy();
+    expect(screen.getByLabelText("Teléfono de contacto")).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "Teléfono" })).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "Correo" })).toBeTruthy();
     expect(screen.getByLabelText("Nombre")).toBeTruthy();
 
     const yearInput = screen.getByLabelText("Año");
@@ -61,6 +63,12 @@ describe("special orders page", () => {
       .closest("details");
 
     fireEvent.focus(yearInput);
+
+    expect(yearPicker?.hasAttribute("open")).toBe(true);
+    fireEvent.pointerDown(screen.getByLabelText("Nombre"));
+
+    expect(yearPicker?.hasAttribute("open")).toBe(false);
+    fireEvent.click(screen.getByLabelText("Abrir calendario de años"));
 
     expect(yearPicker?.hasAttribute("open")).toBe(true);
     fireEvent.click(
@@ -85,8 +93,9 @@ describe("special orders page", () => {
     fireEvent.change(screen.getByLabelText("Nombre"), {
       target: { value: "Ana López" },
     });
-    fireEvent.change(screen.getByLabelText("Número de contacto"), {
-      target: { value: "7000 0000" },
+    fireEvent.click(screen.getByRole("radio", { name: "Correo" }));
+    fireEvent.change(screen.getByLabelText("Correo electrónico de contacto"), {
+      target: { value: "ana@example.com" },
     });
     fireEvent.change(screen.getByLabelText("Marca"), {
       target: { value: "Volkswagen" },
@@ -106,6 +115,21 @@ describe("special orders page", () => {
     fireEvent.change(screen.getByLabelText("Descripción"), {
       target: { value: "Necesito el módulo completo con su bomba." },
     });
+    const frontPhoto = new File(["front"], "frente.jpg", {
+      type: "image/jpeg",
+    });
+    const sidePhoto = new File(["side"], "lateral.png", {
+      type: "image/png",
+    });
+
+    fireEvent.change(
+      screen.getByLabelText("Fotografías del repuesto, opcionales"),
+      {
+        target: { files: [frontPhoto, sidePhoto] },
+      },
+    );
+
+    expect(screen.getByText("2 fotografías seleccionadas")).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Preparar consulta" }));
 
     const whatsappLink = screen.getByRole("link", {
@@ -119,6 +143,8 @@ describe("special orders page", () => {
     expect(message).toContain("Volkswagen Golf GTI, año 2020");
     expect(message).toContain("VIN o chasis WAUZZZ1KZAW000001");
     expect(message).toContain("Repuesto: Módulo ABS");
+    expect(message).toContain("Mi correo de contacto es ana@example.com.");
+    expect(message).toContain("frente.jpg, lateral.png");
   });
 
   it("shows application validation instead of browser validation", async () => {

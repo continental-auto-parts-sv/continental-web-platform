@@ -201,6 +201,7 @@ relación de aspecto. Procedencia:
 | `mercedes.png`               | `02 Logos Marcas Autos/Mercedes-Logo.png`                                                 |
 | `bmw.png`                    | `02 Logos Marcas Autos/BMW-Logo.png`                                                      |
 | `mini.png`                   | `02 Logos Marcas Autos/MINI-logo.png`                                                     |
+| `mini-dark.png`              | Derivado gris claro de `mini.png` para fondos oscuros; conserva forma, proporción y alfa  |
 | `cap-linea-comercial.png`    | `06 Logo Linea Comercial/LOGO-LINEACOMERCIAL-PNG.png`                                    |
 | `cap-linea-comercial-dark.png` | `06 Logo Linea Comercial/LOGO-LINEACOMERCIAL-VERSION-BLANCO.png`                       |
 | `cap-linea-liviana.png`      | `07 Logo Linea Liviana/LOGO-LINEA-LIVIANA.png`                                           |

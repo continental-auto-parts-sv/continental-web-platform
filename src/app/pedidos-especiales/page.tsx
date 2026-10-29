@@ -52,7 +52,7 @@ export default function Page() {
           <div className="container special-orders-hero-layout">
             <div className="special-orders-hero-copy">
               <h1 className="page-display-title" id="special-orders-title">
-                Pedidos <em>especiales.</em>
+                Pedidos <em>especiales</em>
               </h1>
             </div>
 
@@ -132,7 +132,10 @@ export default function Page() {
         >
           <div className="container special-orders-closing-inner">
             <h2 id="special-orders-closing-title">
-              No hay pedido pequeño si es importante para ti.
+              No hay pedido pequeño{" "}
+              <span className="special-orders-closing-line">
+                si es importante para ti.
+              </span>
             </h2>
             <SpecialOrderRequestModal />
           </div>

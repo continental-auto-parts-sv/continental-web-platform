@@ -20,7 +20,7 @@ function fillRequiredFields() {
     target: { value: "+503 7000 0000" },
   });
   fireEvent.change(screen.getByLabelText("Área de interés"), {
-    target: { value: "ventas" },
+    target: { value: "vendedor" },
   });
   fireEvent.change(
     screen.getByLabelText("¿Por qué quieres trabajar con nosotros?"),
@@ -35,6 +35,25 @@ function fillRequiredFields() {
 }
 
 describe("recruitment form", () => {
+  it("shows the available areas of interest", () => {
+    render(<RecruitmentForm />);
+
+    expect(
+      screen.getAllByRole("option").map((option) => option.textContent),
+    ).toEqual([
+      "Seleccione",
+      "Auxiliar de bodega",
+      "Auxiliar de bodega automotriz",
+      "Cajera",
+      "Encargada de limpieza",
+      "Motociclista",
+      "Otros",
+      "Promotora de ventas",
+      "Sub Gerente",
+      "Vendedor",
+    ]);
+  });
+
   it("rejects files that are not PDFs", () => {
     render(<RecruitmentForm />);
 

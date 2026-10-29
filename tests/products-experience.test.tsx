@@ -67,7 +67,7 @@ describe("products catalog", () => {
       name: "Categorías de Línea de Livianos",
     });
 
-    expect(within(lightCategories).getAllByRole("heading")).toHaveLength(17);
+    expect(within(lightCategories).getAllByRole("heading")).toHaveLength(18);
     expect(
       within(lightCategories).getByRole("heading", {
         name: "Sistema de frenos",
@@ -84,12 +84,15 @@ describe("products catalog", () => {
       }),
     ).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Herramientas" })).toBeTruthy();
+    expect(
+      within(lightCategories).getByRole("heading", { name: "Otro" }),
+    ).toBeTruthy();
     const commercialCategories = screen.getByRole("region", {
       name: "Categorías de Línea Comercial",
     });
 
     expect(within(commercialCategories).getAllByRole("heading")).toHaveLength(
-      8,
+      9,
     );
     expect(
       within(commercialCategories).getByRole("heading", { name: "Motor" }),
@@ -103,6 +106,9 @@ describe("products catalog", () => {
       within(commercialCategories).getByRole("heading", {
         name: "Sistema hidráulico",
       }),
+    ).toBeTruthy();
+    expect(
+      within(commercialCategories).getByRole("heading", { name: "Otro" }),
     ).toBeTruthy();
     expect(
       within(commercialCategories).queryByRole("heading", {
@@ -183,7 +189,7 @@ describe("products catalog", () => {
       "2",
     );
     expect(finalCard?.style.getPropertyValue("--category-row-desktop")).toBe(
-      "1",
+      "2",
     );
 
     fireEvent.click(
@@ -231,7 +237,7 @@ describe("products catalog", () => {
 
     fireEvent.change(search, { target: { value: "" } });
 
-    expect(within(lightCategories).getAllByRole("heading")).toHaveLength(17);
+    expect(within(lightCategories).getAllByRole("heading")).toHaveLength(18);
     expect(
       screen.queryByRole("list", { name: "Sugerencias de categorías" }),
     ).toBeNull();
@@ -291,10 +297,15 @@ describe("products catalog", () => {
       name: "Subcategorías de Sistema de frenos",
     });
 
-    expect(within(subcategoryGrid).getAllByRole("button")).toHaveLength(21);
+    expect(within(subcategoryGrid).getAllByRole("button")).toHaveLength(22);
     expect(
       within(subcategoryGrid).getByRole("button", {
         name: /Discos de freno/,
+      }),
+    ).toBeTruthy();
+    expect(
+      within(subcategoryGrid).getByRole("button", {
+        name: "Otro. Cotizar repuesto",
       }),
     ).toBeTruthy();
     expect(screen.queryByRole("dialog")).toBeNull();
@@ -331,7 +342,7 @@ describe("products catalog", () => {
         name: "Categorías de Línea de Livianos",
       }),
     ).toBeTruthy();
-    expect(within(subcategoryGrid).getAllByRole("heading")).toHaveLength(17);
+    expect(within(subcategoryGrid).getAllByRole("heading")).toHaveLength(18);
   });
 
   it("uses motor artwork in the commercial product line", () => {
@@ -410,7 +421,7 @@ describe("products catalog", () => {
 
     expect(
       lightCategories?.querySelectorAll(".products-category-art-empty"),
-    ).toHaveLength(9);
+    ).toHaveLength(10);
     expect(
       lightCategories?.querySelectorAll(".products-category-art img"),
     ).toHaveLength(16);
@@ -433,7 +444,7 @@ describe("products catalog", () => {
     );
   });
 
-  it("quotes commercial categories directly without subcategories", () => {
+  it("opens a dedicated form for commercial categories", async () => {
     const storage = new Map<string, string>();
 
     vi.stubGlobal("localStorage", {
@@ -453,13 +464,64 @@ describe("products catalog", () => {
       }),
     );
 
-    expect(storage.get("continental-quote-items")).toContain('"name":"Motor"');
-    expect(storage.get("continental-quote-items")).toContain(
-      '"categoryPath":["Motor"]',
+    const dialog = await screen.findByRole("dialog");
+
+    expect(dialog.hasAttribute("open")).toBe(true);
+    expect(
+      screen.getByRole("heading", {
+        name: "Cotización de Línea Comercial.",
+      }),
+    ).toBeTruthy();
+    expect((screen.getByLabelText("Categoría") as HTMLInputElement).value).toBe(
+      "Motor",
+    );
+    expect(screen.queryByLabelText("Repuesto")).toBeNull();
+    expect(screen.getByLabelText("Nombre")).toBeTruthy();
+    expect(screen.getByLabelText("Teléfono de contacto")).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "Teléfono" })).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "Correo" })).toBeTruthy();
+    expect(screen.getByLabelText("Marca")).toBeTruthy();
+    expect(screen.getByLabelText("Modelo")).toBeTruthy();
+    expect(screen.getByLabelText("Año")).toBeTruthy();
+    expect(screen.getByLabelText("VIN o chasis")).toBeTruthy();
+    expect(
+      screen.getByLabelText("Descripción").getAttribute("placeholder"),
+    ).toBe(
+      "Escribe el nombre del repuesto o una descripción que nos ayude a identificarlo.",
     );
     expect(
-      within(commercialCategories).getByRole("button", {
-        name: "Motor. Agregado a cotización",
+      screen.getByLabelText("Fotografías del repuesto, opcionales"),
+    ).toBeTruthy();
+    expect(screen.getByRole("img", { name: "Línea Comercial" })).toBeTruthy();
+    expect(storage.get("continental-quote-items")).toBeUndefined();
+  });
+
+  it("adds the light-line Otro category without a visible quote action", () => {
+    const storage = new Map<string, string>();
+
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => storage.get(key) ?? null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+    });
+
+    render(<ProductsExperience />);
+
+    const lightCategories = screen.getByRole("region", {
+      name: "Categorías de Línea de Livianos",
+    });
+    const otherCategory = within(lightCategories).getByRole("button", {
+      name: "Otro",
+    });
+
+    expect(otherCategory.textContent).toBe("Otro");
+    fireEvent.click(otherCategory);
+
+    expect(storage.get("continental-quote-items")).toContain(
+      '"key":"livianos:otro"',
+    );
+    expect(
+      within(lightCategories).getByRole("button", {
+        name: "Otro. Agregado a cotización",
       }),
     ).toBeTruthy();
   });
@@ -485,7 +547,7 @@ describe("products catalog", () => {
       screen
         .getByRole("link", { name: /Cotizar repuesto/ })
         .getAttribute("href"),
-    ).toContain("/contacto?cotizacion=");
+    ).toContain("/cotizar-repuestos?cotizacion=");
     expect(storage.get("continental-quote-items")).toContain("Discos de freno");
     expect(storage.get("continental-quote-items")).toContain(
       '"categoryPath":["Sistema de frenos"]',
@@ -499,6 +561,88 @@ describe("products catalog", () => {
 
     expect(screen.queryByText("1 repuesto agregado")).toBeNull();
     expect(storage.get("continental-quote-items")).toBe("[]");
+  });
+
+  it("creates a flyer toward the navbar bag when adding a category", () => {
+    const storage = new Map<string, string>();
+
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => storage.get(key) ?? null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+    });
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+      bottom: 140,
+      height: 120,
+      left: 20,
+      right: 180,
+      top: 20,
+      width: 160,
+      x: 20,
+      y: 20,
+      toJSON: () => ({}),
+    });
+
+    const { container } = render(<ProductsExperience />);
+
+    openLightBrakeSystem();
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Discos de freno. Cotizar repuesto",
+      }),
+    );
+
+    expect(container.querySelector(".products-quote-flyer")).toBeTruthy();
+    expect(storage.get("continental-quote-items")).toContain("Discos de freno");
+  });
+
+  it("keeps Otro selections distinct across subcategories", () => {
+    const storage = new Map<string, string>();
+
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => storage.get(key) ?? null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+    });
+
+    render(<ProductsExperience />);
+    openLightBrakeSystem();
+    let subcategoryGrid = screen.getByRole("region", {
+      name: "Subcategorías de Sistema de frenos",
+    });
+
+    fireEvent.click(
+      within(subcategoryGrid).getByRole("button", {
+        name: "Otro. Cotizar repuesto",
+      }),
+    );
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Quitar filtro Sistema de frenos",
+      }),
+    );
+
+    const lightCategories = screen.getByRole("region", {
+      name: "Categorías de Línea de Livianos",
+    });
+
+    fireEvent.click(
+      within(lightCategories).getByRole("button", { name: "Filtros" }),
+    );
+    subcategoryGrid = screen.getByRole("region", {
+      name: "Subcategorías de Filtros",
+    });
+    fireEvent.click(
+      within(subcategoryGrid).getByRole("button", {
+        name: "Otro. Cotizar repuesto",
+      }),
+    );
+
+    expect(screen.getByText("2 repuestos agregados")).toBeTruthy();
+    expect(storage.get("continental-quote-items")).toContain(
+      '"key":"livianos:sistema-de-frenos:otro"',
+    );
+    expect(storage.get("continental-quote-items")).toContain(
+      '"key":"livianos:filtros:otro"',
+    );
   });
 
   it("hides the navbar quote overview three seconds after adding an item", () => {
@@ -735,6 +879,6 @@ describe("products catalog", () => {
     expect(categoryGrid?.classList.contains("is-compact")).toBe(true);
     expect(
       categoryGrid?.querySelectorAll(".products-category-card"),
-    ).toHaveLength(8);
+    ).toHaveLength(9);
   });
 });

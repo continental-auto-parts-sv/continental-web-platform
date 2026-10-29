@@ -252,6 +252,34 @@
   min-width: 0;
 }
 
+.special-order-commercial-brand {
+  position: relative;
+  width: min(280px, 66vw);
+  aspect-ratio: 1537 / 516;
+  margin-bottom: 20px;
+}
+
+.special-order-commercial-logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.special-order-commercial-logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .special-order-commercial-logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .special-order-commercial-logo-dark {
+  display: block;
+}
+
 .home-page .special-order-dialog-header h2 {
   max-width: 650px;
   margin: 0 0 10px;
@@ -315,11 +343,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+  align-items: start;
 }
 
 .special-order-form-grid > label:not(.special-order-upload),
 .special-order-year-field {
   display: grid;
+  align-content: start;
   gap: 8px;
   min-width: 0;
   color: var(--ink);
@@ -588,19 +618,42 @@
 
   .special-orders-closing-inner {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 22px;
     min-height: auto;
     padding-block: 38px;
   }
 
   .home-page .special-orders-closing h2 {
-    max-width: 18ch;
-    font-size: clamp(1.7rem, 7.4vw, 2.2rem);
+    width: 100%;
+    max-width: 19ch;
+    min-width: 0;
+    font-size: clamp(1.45rem, 6.6vw, 1.85rem);
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
   }
 
-  .special-orders-closing .button {
-    width: fit-content;
+  .special-orders-closing-line {
+    display: block;
+  }
+
+  .home-page .special-orders-closing .button {
+    width: 100%;
     max-width: 100%;
+    min-width: 0;
+    min-height: 50px;
+    gap: 10px;
+    padding: 13px 14px;
+    font-size: clamp(0.78rem, 3.7vw, 0.9rem);
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .home-page .special-orders-closing .button span {
+    flex: 0 0 auto;
+    font-size: 1.15rem;
+    line-height: 1;
   }
 
   .special-order-dialog {

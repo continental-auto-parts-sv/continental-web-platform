@@ -34,6 +34,15 @@ function stubQuoteStorage(name: string) {
   return storage;
 }
 
+function fillPhoneContact(value = "7000 0000") {
+  fireEvent.change(screen.getByLabelText("Nombre"), {
+    target: { value: "Ana López" },
+  });
+  fireEvent.change(screen.getByLabelText("Teléfono de contacto"), {
+    target: { value },
+  });
+}
+
 afterEach(() => {
   cleanup();
   delete document.documentElement.dataset.theme;
@@ -188,16 +197,19 @@ describe("homepage store handoff", () => {
 });
 
 describe("homepage vehicle brands", () => {
-  it("includes the official MINI logo in the brands overview", () => {
+  it("shows the official MINI logo without linking to the quote form", () => {
     render(<HomeExperience hero={<div />} />);
 
-    const miniLink = screen.getByRole("link", { name: "MINI" });
-    const miniLogo = miniLink.querySelector("img");
+    const miniLogos = screen.getAllByRole("img", { name: "MINI" });
 
-    expect(miniLink.getAttribute("href")).toBe("/contacto");
-    expect(decodeURIComponent(miniLogo?.getAttribute("src") ?? "")).toContain(
-      "/images/brands/mini.png",
-    );
+    expect(screen.queryByRole("link", { name: "MINI" })).toBeNull();
+    expect(
+      miniLogos.some((logo) =>
+        decodeURIComponent(logo.getAttribute("src") ?? "").includes(
+          "/images/brands/mini.png",
+        ),
+      ),
+    ).toBe(true);
   });
 });
 
@@ -243,7 +255,7 @@ describe("development controls", () => {
 
 describe("contact inquiries", () => {
   it("shows custom field errors and focuses the first invalid control", async () => {
-    render(<HomeExperience hero={<div />} page="contact" />);
+    render(<HomeExperience hero={<div />} page="quote" />);
 
     fireEvent.click(
       screen.getByRole("button", { name: "Preparar mi consulta" }),
@@ -264,7 +276,7 @@ describe("contact inquiries", () => {
   });
 
   it("opens chassis and VIN guidance from the input information button", () => {
-    render(<HomeExperience hero={<div />} page="contact" />);
+    render(<HomeExperience hero={<div />} page="quote" />);
 
     fireEvent.click(
       screen.getByRole("button", {
@@ -286,7 +298,7 @@ describe("contact inquiries", () => {
     stubQuoteStorage("Frenos");
     vi.stubEnv("NEXT_PUBLIC_WHATSAPP_NUMBER", "");
     vi.stubGlobal("matchMedia", () => ({ matches: true }));
-    render(<HomeExperience hero={<div />} page="contact" />);
+    render(<HomeExperience hero={<div />} page="quote" />);
     expect(screen.getByText("Frenos")).toBeTruthy();
     expect(screen.getByText("Categoría: Sistema de frenos")).toBeTruthy();
     fireEvent.click(screen.getByRole("radio", { name: "Audi" }));
@@ -299,6 +311,13 @@ describe("contact inquiries", () => {
     fireEvent.change(screen.getByLabelText("Chasis o VIN"), {
       target: { value: "wauzzz8v1ja000001" },
     });
+    fireEvent.change(screen.getByLabelText("Nombre"), {
+      target: { value: "Ana López" },
+    });
+    fireEvent.click(screen.getByRole("radio", { name: "Correo" }));
+    fireEvent.change(screen.getByLabelText("Correo electrónico de contacto"), {
+      target: { value: "ana@example.com" },
+    });
     fireEvent.click(
       screen.getByRole("button", { name: "Preparar mi consulta" }),
     );
@@ -307,6 +326,12 @@ describe("contact inquiries", () => {
     );
     expect(screen.getByRole("status").textContent).toContain(
       "chasis o VIN WAUZZZ8V1JA000001",
+    );
+    expect(screen.getByRole("status").textContent).toContain(
+      "Hola, soy Ana López.",
+    );
+    expect(screen.getByRole("status").textContent).toContain(
+      "Mi correo de contacto es ana@example.com.",
     );
     expect(
       screen.queryByRole("link", { name: /Continuar en WhatsApp/ }),
@@ -320,7 +345,7 @@ describe("contact inquiries", () => {
   it("provides an encoded WhatsApp handoff only when configured", () => {
     stubQuoteStorage("Motor");
     vi.stubEnv("NEXT_PUBLIC_WHATSAPP_NUMBER", "50370000000");
-    render(<HomeExperience hero={<div />} page="contact" />);
+    render(<HomeExperience hero={<div />} page="quote" />);
     fireEvent.click(screen.getByRole("radio", { name: "SEAT" }));
     fireEvent.change(screen.getByLabelText("Modelo"), {
       target: { value: "León" },
@@ -328,6 +353,7 @@ describe("contact inquiries", () => {
     fireEvent.change(screen.getByLabelText("Año"), {
       target: { value: "2021" },
     });
+    fillPhoneContact();
     fireEvent.click(
       screen.getByRole("button", { name: "Preparar mi consulta" }),
     );
@@ -342,7 +368,7 @@ describe("visual vehicle selector", () => {
   it("allows the active brand and quoted parts to be cleared", () => {
     const storage = stubQuoteStorage("Frenos");
 
-    render(<HomeExperience hero={<div />} page="contact" />);
+    render(<HomeExperience hero={<div />} page="quote" />);
     const audi = screen.getByRole("radio", { name: "Audi" });
 
     fireEvent.click(audi);
@@ -356,7 +382,7 @@ describe("visual vehicle selector", () => {
   });
 
   it("changes model suggestions with the brand and clears an incompatible model", () => {
-    render(<HomeExperience hero={<div />} page="contact" />);
+    render(<HomeExperience hero={<div />} page="quote" />);
     fireEvent.click(screen.getByRole("radio", { name: "Audi" }));
     const model = screen.getByLabelText("Modelo") as HTMLInputElement;
     expect(
@@ -373,7 +399,7 @@ describe("visual vehicle selector", () => {
 
   it("builds an inquiry from a calendar year and clears it after a year change", () => {
     stubQuoteStorage("Frenos");
-    render(<HomeExperience hero={<div />} page="contact" />);
+    render(<HomeExperience hero={<div />} page="quote" />);
     fireEvent.click(screen.getByRole("radio", { name: "Audi" }));
     fireEvent.change(screen.getByLabelText("Modelo"), {
       target: { value: "A3" },
@@ -383,6 +409,7 @@ describe("visual vehicle selector", () => {
     expect((screen.getByLabelText("Año") as HTMLInputElement).value).toBe(
       "2020",
     );
+    fillPhoneContact();
     fireEvent.click(
       screen.getByRole("button", { name: "Preparar mi consulta" }),
     );

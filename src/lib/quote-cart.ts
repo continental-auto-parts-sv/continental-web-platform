@@ -76,7 +76,12 @@ export function parseQuoteItems(value: string | null): QuoteItem[] {
   try {
     const parsed = JSON.parse(value) as unknown;
 
-    return Array.isArray(parsed) ? parsed.filter(isQuoteItem) : [];
+    return Array.isArray(parsed)
+      ? parsed.filter(
+          (item): item is QuoteItem =>
+            isQuoteItem(item) && item.lineId !== "comercial",
+        )
+      : [];
   } catch {
     return [];
   }

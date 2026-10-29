@@ -9,6 +9,7 @@ import {
   type QuoteItem,
 } from "../lib/quote-cart";
 import { BrandLogo, brands } from "./brand-marquee";
+import { ContactMethodField } from "./contact-method-field";
 import { VehicleYearPicker } from "./vehicle-year-picker";
 
 const models: Record<string, string[]> = {
@@ -26,7 +27,8 @@ const models: Record<string, string[]> = {
   Porsche: ["911", "718", "Cayenne", "Macan", "Panamera", "Taycan"],
 };
 
-export type InquiryField = "brand" | "parts" | "model" | "year" | "vin";
+export type InquiryField =
+  "brand" | "parts" | "name" | "model" | "year" | "vin" | "contact";
 
 export type InquiryErrors = Partial<Record<InquiryField, string>>;
 
@@ -47,6 +49,7 @@ export function VehicleFields({
   onEdit: () => void;
   onRemoveQuoteItem: (key: string) => void;
 }) {
+  const [contactName, setContactName] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [vin, setVin] = useState("");
@@ -181,11 +184,53 @@ export function VehicleFields({
       <div className="form-grid vehicle-details">
         <label
           className="form-control"
+          data-invalid={Boolean(errors.name)}
+          data-valid={
+            validationAttempted && Boolean(contactName) && !errors.name
+          }
+        >
+          <span className="field-label">
+            <span>03</span> Nombre
+          </span>
+          <span className="form-input-wrap">
+            <input
+              aria-describedby={errors.name ? "inquiry-name-error" : undefined}
+              aria-invalid={Boolean(errors.name)}
+              aria-label="Nombre"
+              autoComplete="name"
+              maxLength={120}
+              name="name"
+              onChange={(event) => {
+                setContactName(event.target.value);
+                onEdit();
+              }}
+              placeholder="Tu nombre completo"
+              required
+              type="text"
+              value={contactName}
+            />
+            <span className="validation-check" aria-hidden="true" />
+          </span>
+          {errors.name && (
+            <small className="form-field-error" id="inquiry-name-error">
+              {errors.name}
+            </small>
+          )}
+        </label>
+        <ContactMethodField
+          error={errors.contact}
+          idPrefix="inquiry"
+          onEdit={onEdit}
+          step="04"
+          variant="inquiry"
+        />
+        <label
+          className="form-control"
           data-invalid={Boolean(errors.model)}
           data-valid={validationAttempted && Boolean(model) && !errors.model}
         >
           <span className="field-label">
-            <span>03</span> Modelo
+            <span>05</span> Modelo
           </span>
           <span className="form-input-wrap">
             <input
@@ -223,7 +268,7 @@ export function VehicleFields({
           data-valid={validationAttempted && Boolean(year) && !errors.year}
         >
           <label htmlFor="vehicle-year" className="field-label">
-            <span>04</span> Año
+            <span>06</span> Año
           </label>
           <VehicleYearPicker
             describedBy={errors.year ? "year-error" : undefined}
@@ -246,7 +291,7 @@ export function VehicleFields({
           data-valid={validationAttempted && Boolean(vin) && !errors.vin}
         >
           <span className="field-label">
-            <span>05</span> Chasis o VIN <small>(opcional)</small>
+            <span>07</span> Chasis o VIN <small>(opcional)</small>
           </span>
           <span className="vin-input-wrap">
             <input
